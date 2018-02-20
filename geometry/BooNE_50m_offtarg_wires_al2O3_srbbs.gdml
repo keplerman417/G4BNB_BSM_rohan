@@ -1,0 +1,1846 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+  <define/>
+
+  <materials>
+    <isotope N="12" Z="6" name="C120x1088d50">
+      <atom unit="g/mole" value="12"/>
+    </isotope>
+    <isotope N="13" Z="6" name="C130x1089ff0">
+      <atom unit="g/mole" value="13.0034"/>
+    </isotope>
+    <element name="Carbon0x108a470">
+      <fraction n="0.9893" ref="C120x1088d50"/>
+      <fraction n="0.0107" ref="C130x1089ff0"/>
+    </element>
+    <isotope N="54" Z="26" name="Fe540x108ba80">
+      <atom unit="g/mole" value="53.9396"/>
+    </isotope>
+    <isotope N="56" Z="26" name="Fe560x108d330">
+      <atom unit="g/mole" value="55.9349"/>
+    </isotope>
+    <isotope N="57" Z="26" name="Fe570x108a830">
+      <atom unit="g/mole" value="56.9354"/>
+    </isotope>
+    <isotope N="58" Z="26" name="Fe580x108d4b0">
+      <atom unit="g/mole" value="57.9333"/>
+    </isotope>
+    <element name="Iron0x108cfa0">
+      <fraction n="0.05845" ref="Fe540x108ba80"/>
+      <fraction n="0.91754" ref="Fe560x108d330"/>
+      <fraction n="0.02119" ref="Fe570x108a830"/>
+      <fraction n="0.00282" ref="Fe580x108d4b0"/>
+    </element>
+    <isotope N="55" Z="25" name="Mn550x1099850">
+      <atom unit="g/mole" value="54.938"/>
+    </isotope>
+    <element name="Manganese0x1099fc0">
+      <fraction n="1" ref="Mn550x1099850"/>
+    </element>
+    <isotope N="31" Z="15" name="P310x1099950">
+      <atom unit="g/mole" value="30.9738"/>
+    </isotope>
+    <element name="Phosphorus0x109a280">
+      <fraction n="1" ref="P310x1099950"/>
+    </element>
+    <isotope N="32" Z="16" name="S320x109a480">
+      <atom unit="g/mole" value="31.9721"/>
+    </isotope>
+    <isotope N="33" Z="16" name="S330x109a4c0">
+      <atom unit="g/mole" value="32.9715"/>
+    </isotope>
+    <isotope N="34" Z="16" name="S340x109a530">
+      <atom unit="g/mole" value="33.9679"/>
+    </isotope>
+    <isotope N="36" Z="16" name="S360x109a5a0">
+      <atom unit="g/mole" value="35.9671"/>
+    </isotope>
+    <element name="Sulfur0x10906e0">
+      <fraction n="0.9493" ref="S320x109a480"/>
+      <fraction n="0.0076" ref="S330x109a4c0"/>
+      <fraction n="0.0429" ref="S340x109a530"/>
+      <fraction n="0.0002" ref="S360x109a5a0"/>
+    </element>
+    <material name="STEEL0x1099e60" state="solid">
+      <MEE unit="eV" value="284.606166303833"/>
+      <D unit="g/cm3" value="7.86"/>
+      <fraction n="0.003" ref="Carbon0x108a470"/>
+      <fraction n="0.9886" ref="Iron0x108cfa0"/>
+      <fraction n="0.0075" ref="Manganese0x1099fc0"/>
+      <fraction n="0.0004" ref="Phosphorus0x109a280"/>
+      <fraction n="0.0005" ref="Sulfur0x10906e0"/>
+    </material>
+    <isotope N="16" Z="8" name="O160x107d9a0">
+      <atom unit="g/mole" value="15.9949"/>
+    </isotope>
+    <isotope N="17" Z="8" name="O170x107d9e0">
+      <atom unit="g/mole" value="16.9991"/>
+    </isotope>
+    <isotope N="18" Z="8" name="O180x108f300">
+      <atom unit="g/mole" value="17.9992"/>
+    </isotope>
+    <element name="Oxygen0x1091160">
+      <fraction n="0.99757" ref="O160x107d9a0"/>
+      <fraction n="0.00038" ref="O170x107d9e0"/>
+      <fraction n="0.00205" ref="O180x108f300"/>
+    </element>
+    <isotope N="28" Z="14" name="Si280x1092ec0">
+      <atom unit="g/mole" value="27.9769"/>
+    </isotope>
+    <isotope N="29" Z="14" name="Si290x1095070">
+      <atom unit="g/mole" value="28.9765"/>
+    </isotope>
+    <isotope N="30" Z="14" name="Si300x10950e0">
+      <atom unit="g/mole" value="29.9738"/>
+    </isotope>
+    <element name="Silicon0x1094ef0">
+      <fraction n="0.922296077703922" ref="Si280x1092ec0"/>
+      <fraction n="0.0468319531680468" ref="Si290x1095070"/>
+      <fraction n="0.0308719691280309" ref="Si300x10950e0"/>
+    </element>
+    <isotope N="40" Z="20" name="Ca400x10956e0">
+      <atom unit="g/mole" value="39.9626"/>
+    </isotope>
+    <isotope N="42" Z="20" name="Ca420x1095750">
+      <atom unit="g/mole" value="41.9586"/>
+    </isotope>
+    <isotope N="43" Z="20" name="Ca430x10957c0">
+      <atom unit="g/mole" value="42.9588"/>
+    </isotope>
+    <isotope N="44" Z="20" name="Ca440x1095830">
+      <atom unit="g/mole" value="43.9555"/>
+    </isotope>
+    <isotope N="46" Z="20" name="Ca460x10958a0">
+      <atom unit="g/mole" value="45.9537"/>
+    </isotope>
+    <isotope N="48" Z="20" name="Ca480x1095910">
+      <atom unit="g/mole" value="47.9525"/>
+    </isotope>
+    <element name="Calcium0x1095390">
+      <fraction n="0.96941" ref="Ca400x10956e0"/>
+      <fraction n="0.00647" ref="Ca420x1095750"/>
+      <fraction n="0.00135" ref="Ca430x10957c0"/>
+      <fraction n="0.02086" ref="Ca440x1095830"/>
+      <fraction n="4e-05" ref="Ca460x10958a0"/>
+      <fraction n="0.00187" ref="Ca480x1095910"/>
+    </element>
+    <isotope N="23" Z="11" name="Na230x1095560">
+      <atom unit="g/mole" value="22.9898"/>
+    </isotope>
+    <element name="Sodium0x1095950">
+      <fraction n="1" ref="Na230x1095560"/>
+    </element>
+    <isotope N="27" Z="13" name="Al270x108b060">
+      <atom unit="g/mole" value="26.9815"/>
+    </isotope>
+    <element name="Aluminum0x108c530">
+      <fraction n="1" ref="Al270x108b060"/>
+    </element>
+    <material name="Concrete0x1094d10" state="solid">
+      <MEE unit="eV" value="129.122461495946"/>
+      <D unit="g/cm3" value="2.1500001"/>
+      <fraction n="0.52" ref="Oxygen0x1091160"/>
+      <fraction n="0.325" ref="Silicon0x1094ef0"/>
+      <fraction n="0.06" ref="Calcium0x1095390"/>
+      <fraction n="0.015" ref="Sodium0x1095950"/>
+      <fraction n="0.04" ref="Iron0x108cfa0"/>
+      <fraction n="0.04" ref="Aluminum0x108c530"/>
+    </material>
+    <isotope N="14" Z="7" name="N140x108afd0">
+      <atom unit="g/mole" value="14.0031"/>
+    </isotope>
+    <isotope N="15" Z="7" name="N150x1089690">
+      <atom unit="g/mole" value="15.0001"/>
+    </isotope>
+    <element name="Nitrogen0x108b0d0">
+      <fraction n="0.99632" ref="N140x108afd0"/>
+      <fraction n="0.00368" ref="N150x1089690"/>
+    </element>
+    <isotope N="36" Z="18" name="Ar360x1091810">
+      <atom unit="g/mole" value="35.9675"/>
+    </isotope>
+    <isotope N="38" Z="18" name="Ar380x1091880">
+      <atom unit="g/mole" value="37.9627"/>
+    </isotope>
+    <isotope N="40" Z="18" name="Ar400x10918f0">
+      <atom unit="g/mole" value="39.9624"/>
+    </isotope>
+    <element name="Argon0x10913b0">
+      <fraction n="0.003365" ref="Ar360x1091810"/>
+      <fraction n="0.000632" ref="Ar380x1091880"/>
+      <fraction n="0.996003" ref="Ar400x10918f0"/>
+    </element>
+    <material name="AIRMATERIAL0x1090fb0" state="gas">
+      <MEE unit="eV" value="85.6688596164699"/>
+      <D unit="g/cm3" value="0.00120479"/>
+      <fraction n="0.755267" ref="Nitrogen0x108b0d0"/>
+      <fraction n="0.231781" ref="Oxygen0x1091160"/>
+      <fraction n="0.012827" ref="Argon0x10913b0"/>
+      <fraction n="0.000125" ref="Carbon0x108a470"/>
+    </material>
+    <material Z="13" name="ALUMINIUM0x108c690" state="solid">
+      <MEE unit="eV" value="166"/>
+      <D unit="g/cm3" value="2.7"/>
+      <atom unit="g/mole" value="26.981539"/>
+    </material>
+    <isotope N="1" Z="1" name="10x10927a0">
+      <atom unit="g/mole" value="1.00782503081372"/>
+    </isotope>
+    <isotope N="2" Z="1" name="20x1092810">
+      <atom unit="g/mole" value="2.01410199966617"/>
+    </isotope>
+    <element name="VACUUM0x1091a70">
+      <fraction n="0.999885" ref="10x10927a0"/>
+      <fraction n="0.000115" ref="20x1092810"/>
+    </element>
+    <material name="VACUUM0x1092420" state="gas">
+      <T unit="K" value="2.73"/>
+      <P unit="pascal" value="3e-18"/>
+      <MEE unit="eV" value="19.2"/>
+      <D unit="g/cm3" value="1e-25"/>
+      <fraction n="1" ref="VACUUM0x1091a70"/>
+    </material>
+    <isotope N="3" Z="2" name="He30x1088740">
+      <atom unit="g/mole" value="3.01692961808401"/>
+    </isotope>
+    <isotope N="4" Z="2" name="He40x1073b10">
+      <atom unit="g/mole" value="4.00264393551385"/>
+    </isotope>
+    <element name="Helium0x10887e0">
+      <fraction n="1.36999949310019e-06" ref="He30x1088740"/>
+      <fraction n="0.999998630000507" ref="He40x1073b10"/>
+    </element>
+    <material name="AL2O30x109c120" state="solid">
+      <MEE unit="eV" value="41.8"/>
+      <D unit="g/cm3" value="15.999"/>
+      <fraction n="1" ref="Helium0x10887e0"/>
+    </material>
+    <isotope N="180" Z="74" name="W1800x108e0e0">
+      <atom unit="g/mole" value="179.947"/>
+    </isotope>
+    <isotope N="182" Z="74" name="W1820x108cf60">
+      <atom unit="g/mole" value="181.948"/>
+    </isotope>
+    <isotope N="183" Z="74" name="W1830x108e9a0">
+      <atom unit="g/mole" value="182.95"/>
+    </isotope>
+    <isotope N="184" Z="74" name="W1840x108ea10">
+      <atom unit="g/mole" value="183.951"/>
+    </isotope>
+    <isotope N="186" Z="74" name="W1860x108ea80">
+      <atom unit="g/mole" value="185.954"/>
+    </isotope>
+    <element name="Tungsten0x108e4d0">
+      <fraction n="0.0012" ref="W1800x108e0e0"/>
+      <fraction n="0.265" ref="W1820x108cf60"/>
+      <fraction n="0.1431" ref="W1830x108e9a0"/>
+      <fraction n="0.3064" ref="W1840x108ea10"/>
+      <fraction n="0.2843" ref="W1860x108ea80"/>
+    </element>
+    <material name="TUNGSTEN0x108e760" state="solid">
+      <MEE unit="eV" value="727"/>
+      <D unit="g/cm3" value="19.299999"/>
+      <fraction n="1" ref="Tungsten0x108e4d0"/>
+    </material>
+    <material Z="4" name="BERILLIUM0x1089c80" state="solid">
+      <MEE unit="eV" value="63.7"/>
+      <D unit="g/cm3" value="1.848"/>
+      <atom unit="g/mole" value="9.012182"/>
+    </material>
+    <isotope N="46" Z="22" name="Ti460x1092e30">
+      <atom unit="g/mole" value="45.9526"/>
+    </isotope>
+    <isotope N="47" Z="22" name="Ti470x107d930">
+      <atom unit="g/mole" value="46.9518"/>
+    </isotope>
+    <isotope N="48" Z="22" name="Ti480x1093320">
+      <atom unit="g/mole" value="47.9479"/>
+    </isotope>
+    <isotope N="49" Z="22" name="Ti490x1093390">
+      <atom unit="g/mole" value="48.9479"/>
+    </isotope>
+    <isotope N="50" Z="22" name="Ti500x1093400">
+      <atom unit="g/mole" value="49.9448"/>
+    </isotope>
+    <element name="Titanium0x1092f30">
+      <fraction n="0.0825" ref="Ti460x1092e30"/>
+      <fraction n="0.0744" ref="Ti470x107d930"/>
+      <fraction n="0.7372" ref="Ti480x1093320"/>
+      <fraction n="0.0541" ref="Ti490x1093390"/>
+      <fraction n="0.0518" ref="Ti500x1093400"/>
+    </element>
+    <material name="Titanium0x1093170" state="solid">
+      <MEE unit="eV" value="233"/>
+      <D unit="g/cm3" value="4.54"/>
+      <fraction n="1" ref="Titanium0x1092f30"/>
+    </material>
+    <isotope N="24" Z="12" name="Mg240x109ba50">
+      <atom unit="g/mole" value="23.985"/>
+    </isotope>
+    <isotope N="25" Z="12" name="Mg250x109ad60">
+      <atom unit="g/mole" value="24.9858"/>
+    </isotope>
+    <isotope N="26" Z="12" name="Mg260x109bed0">
+      <atom unit="g/mole" value="25.9826"/>
+    </isotope>
+    <element name="Magnesium0x109bac0">
+      <fraction n="0.7899" ref="Mg240x109ba50"/>
+      <fraction n="0.1" ref="Mg250x109ad60"/>
+      <fraction n="0.1101" ref="Mg260x109bed0"/>
+    </element>
+    <material name="DOLOMITE0x109ac60" state="solid">
+      <MEE unit="eV" value="115.538227277381"/>
+      <D unit="g/cm3" value="2.24"/>
+      <fraction n="0.217342" ref="Calcium0x1095390"/>
+      <fraction n="0.131805" ref="Magnesium0x109bac0"/>
+      <fraction n="0.130267" ref="Carbon0x108a470"/>
+      <fraction n="0.520586" ref="Oxygen0x1091160"/>
+    </material>
+  </materials>
+
+  <solids>
+    <box lunit="mm" name="FBL10x109df70" x="3047.9998" y="3047.9998" z="2641.6"/>
+    <box lunit="mm" name="FBCO0x109e170" x="3047.9998" y="3047.9998" z="914.40002"/>
+    <box lunit="mm" name="FBLU0x109e370" x="3047.9998" y="3047.9998" z="50.8"/>
+    <box lunit="mm" name="FBLD0x109e570" x="3047.9998" y="3047.9998" z="6.35"/>
+    <box lunit="mm" name="FBL20x109e770" x="3047.9998" y="3047.9998" z="660.4"/>
+    <box lunit="mm" name="FABV0x109dd70" x="3147.9998" y="3147.9998" z="4621.2"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="ARBBS0x10b9430" rmax="914.40002" rmin="0" startphi="0" z="10.32254"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="HOL10x10a0930" rmax="914.40002" rmin="0" startphi="0" z="585.60002"/>
+    <box lunit="mm" name="FABC0x109dba0" x="4319.1998" y="4319.1998" z="5792.4"/>
+    <box lunit="mm" name="IAST0x109ed70" x="3047.9998" y="3047.9998" z="304.8"/>
+    <box lunit="mm" name="NAHO0x109f770" x="1930.4" y="380.99998" z="101.599998"/>
+    <box lunit="mm" name="NAV10x109f970" x="380.99998" y="825.50004" z="101.599998"/>
+    <box lunit="mm" name="NAV20x109fb70" x="380.99998" y="825.50004" z="101.599998"/>
+    <box lunit="mm" name="NBLM0x109ef70" x="3047.9998" y="3047.9998" z="304.8"/>
+    <box lunit="mm" name="IACO0x109fd70" x="3047.9998" y="3047.9998" z="914.40002"/>
+    <box lunit="mm" name="IFLL0x109f170" x="1016" y="444.5" z="4140.2"/>
+    <box lunit="mm" name="IFLI0x109f370" x="939.8" y="419.1" z="1828.8"/>
+    <box lunit="mm" name="IFLS0x109f570" x="946.15" y="406.4" z="508"/>
+    <box lunit="mm" name="IABV0x109eb70" x="3098.8" y="5943.6" z="4191"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="HOL20x10a0ba0" rmax="914.4" rmin="0" startphi="0" z="635.6"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="HOL30x10a0e10" rmax="914.4" rmin="0" startphi="0" z="635.6"/>
+    <box lunit="mm" name="IABC0x109e970" x="4318" y="6553.2" z="5462.2004"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DKDV0x10ad830" rmax="914.40002" rmin="0" startphi="0" z="3906.39992"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DKTI0x10a01e0" rmax="914.40002" rmin="0" startphi="0" z="19531.9996"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="LMCV0x10c4510" rmax="934.40002" rmin="914.40002" startphi="0" z="14000"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DKTN0x109ff70" rmax="1500" rmin="0" startphi="0" z="19531.9996"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DKTD0x10adc40" rmax="914.40002" rmin="0" startphi="0" z="3758.91992"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DKI10x10a06c0" rmax="914.40002" rmin="0" startphi="0" z="18794.5996"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DKO10x10a0450" rmax="1500" rmin="0" startphi="0" z="18794.5996"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TMWA0x10aa460" rmax="41.275" rmin="6.35" startphi="0" z="0.254"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TMWFI0x10aaa80" rmax="15.875" rmin="0" startphi="0" z="2.032"/>
+    <box lunit="mm" name="TMWFO0x10aa8c0" x="88.9" y="88.9" z="2.032"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TMWW0x10aacd0" rmax="0.03815" rmin="0" startphi="0" z="73.025"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="PIPE0x10aa000" rmax="70" rmin="0" startphi="0" z="2638.895"/>
+    <polycone aunit="deg" deltaphi="360" lunit="mm" name="HRN10x10a58a0" startphi="0">
+      <zplane rmax="300" rmin="70" z="35"/>
+      <zplane rmax="300" rmin="22" z="86.000004"/>
+      <zplane rmax="300" rmin="22" z="655"/>
+      <zplane rmax="300" rmin="22" z="800"/>
+      <zplane rmax="300" rmin="33" z="876.99997"/>
+      <zplane rmax="300" rmin="50.4" z="1000"/>
+      <zplane rmax="300" rmin="65.4" z="1106"/>
+      <zplane rmax="300" rmin="65.4" z="1303.9999"/>
+      <zplane rmax="300" rmin="22" z="1606.0001"/>
+      <zplane rmax="297.90001" rmin="24.000001" z="1663.9999"/>
+      <zplane rmax="281.39999" rmin="40.999999" z="1731.4999"/>
+      <zplane rmax="250.30001" rmin="71.700001" z="1768.5001"/>
+      <zplane rmax="208.5" rmin="113.5" z="1792.5999"/>
+      <zplane rmax="161.6" rmin="159.5" z="1800"/>
+    </polycone>
+    <polycone aunit="deg" deltaphi="360" lunit="mm" name="HWL10x10a3070" startphi="0">
+      <zplane rmax="325.40001" rmin="22" z="0"/>
+      <zplane rmax="325.40001" rmin="19" z="86.000004"/>
+      <zplane rmax="325.40001" rmin="19" z="655"/>
+      <zplane rmax="325.40001" rmin="19" z="800"/>
+      <zplane rmax="325.40001" rmin="30" z="876.99997"/>
+      <zplane rmax="325.40001" rmin="47.399998" z="1000"/>
+      <zplane rmax="325.40001" rmin="62.399998" z="1106"/>
+      <zplane rmax="325.40001" rmin="62.399998" z="1303.9999"/>
+      <zplane rmax="325.40001" rmin="19" z="1606.0001"/>
+      <zplane rmax="300.8" rmin="21.199999" z="1686.7"/>
+      <zplane rmax="284" rmin="38" z="1733"/>
+      <zplane rmax="252.3" rmin="69.699998" z="1770.8"/>
+      <zplane rmax="209.59999" rmin="112.4" z="1795.3999"/>
+      <zplane rmax="166" rmin="156" z="1803.9999"/>
+    </polycone>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TARG0x10a7b00" rmax="4.7624999" rmin="0" startphi="0" z="711.20002"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="WIND0x10a7d60" rmax="19.05" rmin="0" startphi="0" z="0.762"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="VWIN0x10a7f50" rmax="70" rmin="0" startphi="0" z="0.03048"/>
+    <tube aunit="deg" deltaphi="113.32379837" lunit="mm" name="USLA0x10a8820" rmax="13.6398" rmin="12.065" startphi="33.338100815" z="9.525"/>
+    <tube aunit="deg" deltaphi="113.32379837" lunit="mm" name="USLB0x10a8aa0" rmax="13.6398" rmin="12.065" startphi="153.338100815" z="9.525"/>
+    <tube aunit="deg" deltaphi="113.32379837" lunit="mm" name="USLC0x10a8d20" rmax="13.6398" rmin="12.065" startphi="-86.661899185" z="9.525"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="USLI0x10a8180" rmax="13.6398" rmin="12.065" startphi="0" z="77.7748"/>
+    <tube aunit="deg" deltaphi="261.088999" lunit="mm" name="USLM0x10a8350" rmax="13.6398" rmin="12.065" startphi="-130.5444995" z="28.575"/>
+    <tube aunit="deg" deltaphi="353.32379837" lunit="mm" name="USLE0x10a85a0" rmax="13.6398" rmin="12.065" startphi="-86.661899185" z="11.1252"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TCTI0x10a9c10" rmax="14.617701" rmin="13.6779" startphi="0" z="790.448"/>
+    <box lunit="mm" name="TCFI0x10a9e40" x="1.57480002" y="8.8265002" z="88.900004"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DSLO0x10a9030" rmax="14.605" rmin="12.065" startphi="0" z="1.5748"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="DSLI0x10a9260" rmax="13.6525" rmin="12.065" startphi="0" z="9.779"/>
+    <tube aunit="deg" deltaphi="113.32379837" lunit="mm" name="DSLA0x10a9430" rmax="13.6525" rmin="12.065" startphi="33.338100815" z="9.2715"/>
+    <tube aunit="deg" deltaphi="113.32379837" lunit="mm" name="DSLB0x10a9680" rmax="13.6525" rmin="12.065" startphi="153.338100815" z="9.2715"/>
+    <tube aunit="deg" deltaphi="113.32379837" lunit="mm" name="DSLC0x10a9900" rmax="13.6525" rmin="12.065" startphi="-86.661899185" z="9.2715"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="HWIN10x10b81d0" rmax="330.4666" rmin="0" startphi="0" z="0.254"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="HWIN20x10b83d0" rmax="558.8" rmin="330.4666" startphi="0" z="19.05"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TBAB10x10b88b0" rmax="73.025" rmin="13.8049" startphi="0" z="50.8"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TBAB20x10b8ab0" rmax="40.1" rmin="14.617701" startphi="0" z="46"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="TBBL0x10b8e80" rmax="73.015" rmin="12.7" startphi="0" z="12.7"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="HDSK0x10b99d0" rmax="900" rmin="0" startphi="0" z="2"/>
+    <box lunit="mm" name="PICV0x10a2040" x="1370.80018" y="2030.8002" z="6140"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="PIRD0x10a2240" rmax="70" rmin="0" startphi="0" z="979.9999"/>
+    <polycone aunit="deg" deltaphi="360" lunit="mm" name="PIFD0x10a24b0" startphi="0">
+      <zplane rmax="300" rmin="0" z="0"/>
+      <zplane rmax="355" rmin="0" z="2133.6"/>
+    </polycone>
+    <box lunit="mm" name="PILE0x10a1e40" x="3930.8002" y="4590.8002" z="9553.5998"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="MMWW0x10aaf40" rmax="0.03815" rmin="0" startphi="0" z="82.54"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="PIP20x10aa230" rmax="70" rmin="0" startphi="0" z="399.99592"/>
+    <box lunit="mm" name="CAVI0x10a1280" x="4330.8002" y="4790.8002" z="9753.5998"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="CVBD0x10a1480" rmax="1414.4" rmin="0" startphi="0" z="585.60002"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="CDSK0x10b9d40" rmax="900" rmin="0" startphi="0" z="2"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="CVFD0x10a16f0" rmax="914.40002" rmin="0" startphi="0" z="585.60002"/>
+    <box lunit="mm" name="CAVE0x10a1080" x="5502.0002" y="5962.0002" z="10924.7998"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="BMLI0x10a1bd0" rmax="1414.4" rmin="0" startphi="0" z="50434.8"/>
+    <tube aunit="deg" deltaphi="360" lunit="mm" name="BMLN0x10a1960" rmax="2000" rmin="0" startphi="0" z="50434.8"/>
+    <box lunit="mm" name="SAND0x109d6d0" x="16000" y="16000" z="110940.8"/>
+  </solids>
+
+  <structure>
+    <volume name="FBL10x107bb70">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="FBL10x109df70"/>
+    </volume>
+    <volume name="FBCO0x107bc00">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="FBCO0x109e170"/>
+    </volume>
+    <volume name="FBLU0x107bc90">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="FBLU0x109e370"/>
+    </volume>
+    <volume name="FBLD0x107bd20">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="FBLD0x109e570"/>
+    </volume>
+    <volume name="FBL20x107bdb0">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="FBL20x109e770"/>
+    </volume>
+    <volume name="FABV0x107bae0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="FABV0x109dd70"/>
+      <physvol name="FBL10x10b9240">
+        <volumeref ref="FBL10x107bb70"/>
+        <position name="FBL10x10b9240_pos" unit="mm" x="0" y="-50" z="-939.80003"/>
+      </physvol>
+      <physvol name="FBCO0x10ad540">
+        <volumeref ref="FBCO0x107bc00"/>
+        <position name="FBCO0x10ad540_pos" unit="mm" x="0" y="-50" z="889.00002"/>
+      </physvol>
+      <physvol name="FBLU0x10b9960">
+        <volumeref ref="FBLU0x107bc90"/>
+        <position name="FBLU0x10b9960_pos" unit="mm" x="0" y="-50" z="1371.6"/>
+      </physvol>
+      <physvol name="FBLD0x107c470">
+        <volumeref ref="FBLD0x107bd20"/>
+        <position name="FBLD0x107c470_pos" unit="mm" x="0" y="-50" z="1552.57"/>
+      </physvol>
+      <physvol name="FBL20x1090eb0">
+        <volumeref ref="FBL20x107bdb0"/>
+        <position name="FBL20x1090eb0_pos" unit="mm" x="0" y="-50" z="1892.3"/>
+      </physvol>
+    </volume>
+    <volume name="ARBBS0x107bf60">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="ARBBS0x10b9430"/>
+    </volume>
+    <volume name="HOL10x107be40">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="HOL10x10a0930"/>
+      <physvol name="ARBBS0x107cbc0">
+        <volumeref ref="ARBBS0x107bf60"/>
+        <position name="ARBBS0x107cbc0_pos" unit="mm" x="0" y="0" z="238.58874"/>
+      </physvol>
+    </volume>
+    <volume name="FABC0x107ba30">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="FABC0x109dba0"/>
+      <physvol name="FABV0x1077cd0">
+        <volumeref ref="FABV0x107bae0"/>
+      </physvol>
+      <physvol name="HOL10x107cb20">
+        <volumeref ref="HOL10x107be40"/>
+        <position name="HOL10x107cb20_pos" unit="mm" x="0" y="0" z="-2603.4"/>
+      </physvol>
+    </volume>
+    <volume name="IAST0x107c110">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="IAST0x109ed70"/>
+    </volume>
+    <volume name="NAHO0x107c230">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="NAHO0x109f770"/>
+    </volume>
+    <volume name="NAV10x107c2c0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="NAV10x109f970"/>
+    </volume>
+    <volume name="NAV20x107c350">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="NAV20x109fb70"/>
+    </volume>
+    <volume name="NBLM0x107c1a0">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="NBLM0x109ef70"/>
+      <physvol name="NAHO0x10bae30">
+        <volumeref ref="NAHO0x107c230"/>
+        <position name="NAHO0x10bae30_pos" unit="mm" x="0" y="-381" z="-50.799999"/>
+      </physvol>
+      <physvol name="NAV10x10bae80">
+        <volumeref ref="NAV10x107c2c0"/>
+        <position name="NAV10x10bae80_pos" unit="mm" x="0" y="222.25" z="-50.799999"/>
+      </physvol>
+      <physvol name="NAV20x10baed0">
+        <volumeref ref="NAV20x107c350"/>
+        <position name="NAV20x10baed0_pos" unit="mm" x="0" y="-984.25" z="-50.799999"/>
+      </physvol>
+    </volume>
+    <volume name="IACO0x107bed0">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="IACO0x109fd70"/>
+    </volume>
+    <volume name="IFLL0x10a2d40">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="IFLL0x109f170"/>
+    </volume>
+    <volume name="IFLI0x10a2dd0">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="IFLI0x109f370"/>
+    </volume>
+    <volume name="IFLS0x10a2e60">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="IFLS0x109f570"/>
+    </volume>
+    <volume name="IABV0x107c080">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="IABV0x109eb70"/>
+      <physvol name="IAST0x10baa80">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10baa80_pos" unit="mm" x="0" y="1155.7" z="-1932.94"/>
+      </physvol>
+      <physvol name="IAST0x10baad0">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10baad0_pos" unit="mm" x="0" y="1155.7" z="-1607.82"/>
+      </physvol>
+      <physvol name="IAST0x10bab20">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10bab20_pos" unit="mm" x="0" y="1155.7" z="-1282.7"/>
+      </physvol>
+      <physvol name="IAST0x10bab70">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10bab70_pos" unit="mm" x="0" y="1155.7" z="-957.58"/>
+      </physvol>
+      <physvol name="IAST0x10babc0">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10babc0_pos" unit="mm" x="0" y="1155.7" z="-632.46"/>
+      </physvol>
+      <physvol name="IAST0x10bac60">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10bac60_pos" unit="mm" x="0" y="1155.7" z="-307.34"/>
+      </physvol>
+      <physvol name="IAST0x10bacb0">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10bacb0_pos" unit="mm" x="0" y="1155.7" z="17.78"/>
+      </physvol>
+      <physvol name="IAST0x10bad00">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10bad00_pos" unit="mm" x="0" y="1155.7" z="342.9"/>
+      </physvol>
+      <physvol name="IAST0x10bad50">
+        <volumeref ref="IAST0x107c110"/>
+        <position name="IAST0x10bad50_pos" unit="mm" x="0" y="1155.7" z="1932.94"/>
+      </physvol>
+      <physvol name="NBLM0x10bac10">
+        <volumeref ref="NBLM0x107c1a0"/>
+        <position name="NBLM0x10bac10_pos" unit="mm" x="0" y="1155.7" z="1607.82"/>
+      </physvol>
+      <physvol name="IACO0x10baf20">
+        <volumeref ref="IACO0x107bed0"/>
+        <position name="IACO0x10baf20_pos" unit="mm" x="0" y="1155.7" z="975.36"/>
+      </physvol>
+      <physvol name="IFLL0x10baf70">
+        <volumeref ref="IFLL0x10a2d40"/>
+        <position name="IFLL0x10baf70_pos" unit="mm" x="981.075" y="-2749.55" z="-25.4"/>
+      </physvol>
+      <physvol name="IFLL0x10bafc0">
+        <volumeref ref="IFLL0x10a2d40"/>
+        <position name="IFLL0x10bafc0_pos" unit="mm" x="-981.075" y="-2749.55" z="-25.4"/>
+      </physvol>
+      <physvol name="IFLI0x10bb010">
+        <volumeref ref="IFLI0x10a2dd0"/>
+        <position name="IFLI0x10bb010_pos" unit="mm" x="0" y="-2762.25" z="-1181.1"/>
+      </physvol>
+      <physvol name="IFLI0x10bb060">
+        <volumeref ref="IFLI0x10a2dd0"/>
+        <position name="IFLI0x10bb060_pos" unit="mm" x="0" y="-2762.25" z="647.7"/>
+      </physvol>
+      <physvol name="IFLS0x10bb0b0">
+        <volumeref ref="IFLS0x10a2e60"/>
+        <position name="IFLS0x10bb0b0_pos" unit="mm" x="0" y="-2768.6" z="1816.1"/>
+      </physvol>
+    </volume>
+    <volume name="HOL20x10a2ef0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="HOL20x10a0ba0"/>
+    </volume>
+    <volume name="HOL30x107c4f0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="HOL30x10a0e10"/>
+    </volume>
+    <volume name="IABC0x107bff0">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="IABC0x109e970"/>
+      <physvol name="IABV0x107ccb0">
+        <volumeref ref="IABV0x107c080"/>
+        <position name="IABV0x107ccb0_pos" unit="mm" x="0" y="304.8" z="0"/>
+      </physvol>
+      <physvol name="HOL20x10bb100">
+        <volumeref ref="HOL20x10a2ef0"/>
+        <position name="HOL20x10bb100_pos" unit="mm" x="0" y="-1066.8" z="2413.3"/>
+      </physvol>
+      <physvol name="HOL30x10bb1a0">
+        <volumeref ref="HOL30x107c4f0"/>
+        <position name="HOL30x10bb1a0_pos" unit="mm" x="0" y="-1066.8" z="-2413.3"/>
+      </physvol>
+    </volume>
+    <volume name="DKDV0x107c6a0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="DKDV0x10ad830"/>
+    </volume>
+    <volume name="DKTI0x107c610">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="DKTI0x10a01e0"/>
+      <replicavol number="5">
+        <volumeref ref="DKDV0x107c6a0"/>
+        <replicate_along_axis>
+          <direction z="1"/>
+          <width unit="mm" value="3906.39992"/>
+          <offset unit="mm" value="0"/>
+        </replicate_along_axis>
+      </replicavol>
+    </volume>
+    <volume name="LMCV0x10c45d0">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="LMCV0x10c4510"/>
+    </volume>
+    <volume name="DKTN0x107c580">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="DKTN0x109ff70"/>
+      <physvol name="DKTI0x10bb2e0">
+        <volumeref ref="DKTI0x107c610"/>
+      </physvol>
+      <physvol name="LMCV0x10c44c0">
+        <volumeref ref="LMCV0x10c45d0"/>
+        <position name="LMCV0x10c44c0_pos" unit="mm" x="0" y="0" z="-1912"/>
+      </physvol>
+    </volume>
+    <volume name="DKTD0x107c850">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="DKTD0x10adc40"/>
+    </volume>
+    <volume name="DKI10x107c7c0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="DKI10x10a06c0"/>
+      <replicavol number="5">
+        <volumeref ref="DKTD0x107c850"/>
+        <replicate_along_axis>
+          <direction z="1"/>
+          <width unit="mm" value="3758.91992"/>
+          <offset unit="mm" value="0"/>
+        </replicate_along_axis>
+      </replicavol>
+    </volume>
+    <volume name="DKO10x107c730">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="DKO10x10a0450"/>
+      <physvol name="DKI10x10bb490">
+        <volumeref ref="DKI10x107c7c0"/>
+      </physvol>
+    </volume>
+    <volume name="TMWA0x107cd30">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="TMWA0x10aa460"/>
+    </volume>
+    <volume name="TMWFI0x107ce50">
+      <materialref ref="VACUUM0x1092420"/>
+      <solidref ref="TMWFI0x10aaa80"/>
+    </volume>
+    <volume name="TMWFO0x107cdc0">
+      <materialref ref="AL2O30x109c120"/>
+      <solidref ref="TMWFO0x10aa8c0"/>
+      <physvol name="TMWFI0x10bb990">
+        <volumeref ref="TMWFI0x107ce50"/>
+      </physvol>
+    </volume>
+    <volume name="TMWW0x107cee0">
+      <materialref ref="TUNGSTEN0x108e760"/>
+      <solidref ref="TMWW0x10aacd0"/>
+    </volume>
+    <volume name="PIPE0x107c3e0">
+      <materialref ref="VACUUM0x1092420"/>
+      <solidref ref="PIPE0x10aa000"/>
+      <physvol name="TMWA0x10bb8a0">
+        <volumeref ref="TMWA0x107cd30"/>
+        <position name="TMWA0x10bb8a0_pos" unit="mm" x="0" y="0" z="1107.073"/>
+      </physvol>
+      <physvol name="TMWA0x10bb8f0">
+        <volumeref ref="TMWA0x107cd30"/>
+        <position name="TMWA0x10bb8f0_pos" unit="mm" x="0" y="0" z="1157.873"/>
+      </physvol>
+      <physvol name="TMWFO0x10bb940">
+        <volumeref ref="TMWFO0x107cdc0"/>
+        <position name="TMWFO0x10bb940_pos" unit="mm" x="0" y="0" z="1134.273"/>
+      </physvol>
+      <physvol name="TMWW0x10bb9e0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bb9e0_pos" unit="mm" x="0" y="-5.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bb9e0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bba80">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bba80_pos" unit="mm" x="0" y="-5.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bba80_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbb70">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbb70_pos" unit="mm" x="0" y="-4.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bbb70_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbc10">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbc10_pos" unit="mm" x="0" y="-4.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bbc10_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbcb0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbcb0_pos" unit="mm" x="0" y="-3.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bbcb0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbd50">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbd50_pos" unit="mm" x="0" y="-3.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bbd50_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbb20">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbb20_pos" unit="mm" x="0" y="-2.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bbb20_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbed0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbed0_pos" unit="mm" x="0" y="-2.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bbed0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbf70">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbf70_pos" unit="mm" x="0" y="-1.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bbf70_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc010">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc010_pos" unit="mm" x="0" y="-1.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc010_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc0b0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc0b0_pos" unit="mm" x="0" y="-0.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc0b0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc150">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc150_pos" unit="mm" x="0" y="-0.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc150_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc1f0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc1f0_pos" unit="mm" x="0" y="0.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc1f0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc290">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc290_pos" unit="mm" x="0" y="0.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc290_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bbdf0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bbdf0_pos" unit="mm" x="0" y="1.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bbdf0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc490">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc490_pos" unit="mm" x="0" y="1.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc490_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc530">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc530_pos" unit="mm" x="0" y="2.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc530_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc5d0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc5d0_pos" unit="mm" x="0" y="2.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc5d0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc670">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc670_pos" unit="mm" x="0" y="3.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc670_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc710">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc710_pos" unit="mm" x="0" y="3.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc710_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc7b0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc7b0_pos" unit="mm" x="0" y="4.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc7b0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc850">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc850_pos" unit="mm" x="0" y="4.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc850_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc8f0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc8f0_pos" unit="mm" x="0" y="5.25" z="1133.21885"/>
+        <rotation name="TMWW0x10bc8f0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bc990">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc990_pos" unit="mm" x="0" y="5.75" z="1133.21885"/>
+        <rotation name="TMWW0x10bc990_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="TMWW0x10bca30">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bca30_pos" unit="mm" x="-5.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bca30_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bcad0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bcad0_pos" unit="mm" x="-5.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bcad0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bcb70">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bcb70_pos" unit="mm" x="-4.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bcb70_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bcc10">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bcc10_pos" unit="mm" x="-4.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bcc10_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bccb0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bccb0_pos" unit="mm" x="-3.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bccb0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bcd50">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bcd50_pos" unit="mm" x="-3.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bcd50_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bc330">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc330_pos" unit="mm" x="-2.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bc330_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bc3d0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bc3d0_pos" unit="mm" x="-2.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bc3d0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd050">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd050_pos" unit="mm" x="-1.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd050_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd0f0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd0f0_pos" unit="mm" x="-1.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd0f0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd190">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd190_pos" unit="mm" x="-0.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd190_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd230">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd230_pos" unit="mm" x="-0.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd230_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd2d0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd2d0_pos" unit="mm" x="0.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd2d0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd370">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd370_pos" unit="mm" x="0.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd370_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd410">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd410_pos" unit="mm" x="1.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd410_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd4b0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd4b0_pos" unit="mm" x="1.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd4b0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd550">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd550_pos" unit="mm" x="2.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd550_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd5f0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd5f0_pos" unit="mm" x="2.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd5f0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd690">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd690_pos" unit="mm" x="3.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd690_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd730">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd730_pos" unit="mm" x="3.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd730_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd7d0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd7d0_pos" unit="mm" x="4.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd7d0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd870">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd870_pos" unit="mm" x="4.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd870_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd910">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd910_pos" unit="mm" x="5.25" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd910_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="TMWW0x10bd9b0">
+        <volumeref ref="TMWW0x107cee0"/>
+        <position name="TMWW0x10bd9b0_pos" unit="mm" x="5.75" y="0" z="1135.32715"/>
+        <rotation name="TMWW0x10bd9b0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+    </volume>
+    <volume name="HRN10x107d000">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="HRN10x10a58a0"/>
+    </volume>
+    <volume name="HWL10x107cf70">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="HWL10x10a3070"/>
+      <physvol name="HRN10x10bdaf0">
+        <volumeref ref="HRN10x107d000"/>
+      </physvol>
+    </volume>
+    <volume name="TARG0x107d090">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="TARG0x10a7b00"/>
+    </volume>
+    <volume name="WIND0x107d120">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="WIND0x10a7d60"/>
+    </volume>
+    <volume name="VWIN0x107d1b0">
+      <materialref ref="Titanium0x1093170"/>
+      <solidref ref="VWIN0x10a7f50"/>
+    </volume>
+    <volume name="USLA0x107d240">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="USLA0x10a8820"/>
+    </volume>
+    <volume name="USLB0x107d2d0">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="USLB0x10a8aa0"/>
+    </volume>
+    <volume name="USLC0x107d360">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="USLC0x10a8d20"/>
+    </volume>
+    <volume name="USLI0x107d3f0">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="USLI0x10a8180"/>
+    </volume>
+    <volume name="USLM0x107d480">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="USLM0x10a8350"/>
+    </volume>
+    <volume name="USLE0x107d510">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="USLE0x10a85a0"/>
+    </volume>
+    <volume name="TCTI0x107d5a0">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="TCTI0x10a9c10"/>
+    </volume>
+    <volume name="TCFI0x107d630">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="TCFI0x10a9e40"/>
+    </volume>
+    <volume name="DSLO0x107d6c0">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="DSLO0x10a9030"/>
+    </volume>
+    <volume name="DSLI0x107d750">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="DSLI0x10a9260"/>
+    </volume>
+    <volume name="DSLA0x107d7e0">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="DSLA0x10a9430"/>
+    </volume>
+    <volume name="DSLB0x107d870">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="DSLB0x10a9680"/>
+    </volume>
+    <volume name="DSLC0x10ba080">
+      <materialref ref="BERILLIUM0x1089c80"/>
+      <solidref ref="DSLC0x10a9900"/>
+    </volume>
+    <volume name="HWIN10x10ba110">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="HWIN10x10b81d0"/>
+    </volume>
+    <volume name="HWIN20x10ba1a0">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="HWIN20x10b83d0"/>
+    </volume>
+    <volume name="TBAB10x10ba230">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="TBAB10x10b88b0"/>
+    </volume>
+    <volume name="TBAB20x10ba2c0">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="TBAB20x10b8ab0"/>
+    </volume>
+    <volume name="TBBL0x10ba350">
+      <materialref ref="ALUMINIUM0x108c690"/>
+      <solidref ref="TBBL0x10b8e80"/>
+    </volume>
+    <volume name="HDSK0x10ba3e0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="HDSK0x10b99d0"/>
+    </volume>
+    <volume name="PICV0x107ca90">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="PICV0x10a2040"/>
+      <physvol name="PIPE0x10bb800">
+        <volumeref ref="PIPE0x107c3e0"/>
+        <position name="PIPE0x10bb800_pos" unit="mm" x="0" y="300" z="-1750.5525"/>
+      </physvol>
+      <physvol name="HWL10x10bda50">
+        <volumeref ref="HWL10x107cf70"/>
+        <position name="HWL10x10bda50_pos" unit="mm" x="0" y="300" z="0"/>
+      </physvol>
+      <physvol name="TARG0x10bdb90">
+        <volumeref ref="TARG0x107d090"/>
+        <position name="TARG0x10bdb90_pos" unit="mm" x="0" y="300" z="390.52502"/>
+      </physvol>
+      <physvol name="WIND0x10bdc30">
+        <volumeref ref="WIND0x107d120"/>
+        <position name="WIND0x10bdc30_pos" unit="mm" x="0" y="300" z="-86.106002"/>
+      </physvol>
+      <physvol name="VWIN0x10bdcd0">
+        <volumeref ref="VWIN0x107d1b0"/>
+        <position name="VWIN0x10bdcd0_pos" unit="mm" x="0" y="300" z="-431.12025"/>
+      </physvol>
+      <physvol name="USLA0x10bddc0">
+        <volumeref ref="USLA0x107d240"/>
+        <position name="USLA0x10bddc0_pos" unit="mm" x="0" y="300" z="36.512498"/>
+      </physvol>
+      <physvol name="USLB0x10a39b0">
+        <volumeref ref="USLB0x107d2d0"/>
+        <position name="USLB0x10a39b0_pos" unit="mm" x="0" y="300" z="36.512498"/>
+      </physvol>
+      <physvol name="USLC0x10a3a50">
+        <volumeref ref="USLC0x107d360"/>
+        <position name="USLC0x10a3a50_pos" unit="mm" x="0" y="300" z="36.512498"/>
+      </physvol>
+      <physvol name="USLI0x10a3af0">
+        <volumeref ref="USLI0x107d3f0"/>
+        <position name="USLI0x10a3af0_pos" unit="mm" x="0" y="300" z="-7.1374018"/>
+      </physvol>
+      <physvol name="USLM0x10bdd70">
+        <volumeref ref="USLM0x107d480"/>
+        <position name="USLM0x10bdd70_pos" unit="mm" x="0" y="300" z="-60.312502"/>
+      </physvol>
+      <physvol name="USLE0x10a3c70">
+        <volumeref ref="USLE0x107d510"/>
+        <position name="USLE0x10a3c70_pos" unit="mm" x="0" y="300" z="-80.162402"/>
+      </physvol>
+      <physvol name="TCTI0x10be460">
+        <volumeref ref="TCTI0x107d5a0"/>
+        <position name="TCTI0x10be460_pos" unit="mm" x="0" y="300" z="360.299"/>
+      </physvol>
+      <physvol name="TCFI0x10be500">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10be500_pos" unit="mm" x="7.9464418" y="304.58786" z="85.725002"/>
+        <rotation name="TCFI0x10be500_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10be5a0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10be5a0_pos" unit="mm" x="7.9464418" y="304.58786" z="187.325"/>
+        <rotation name="TCFI0x10be5a0_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10be640">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10be640_pos" unit="mm" x="7.9464418" y="304.58786" z="288.925"/>
+        <rotation name="TCFI0x10be640_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10be6e0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10be6e0_pos" unit="mm" x="7.9464418" y="304.58786" z="390.52498"/>
+        <rotation name="TCFI0x10be6e0_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10be780">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10be780_pos" unit="mm" x="7.9464418" y="304.58786" z="492.12502"/>
+        <rotation name="TCFI0x10be780_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10a3b90">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10a3b90_pos" unit="mm" x="7.9464418" y="304.58786" z="593.72498"/>
+        <rotation name="TCFI0x10a3b90_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10be980">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10be980_pos" unit="mm" x="7.9464418" y="304.58786" z="695.32501"/>
+        <rotation name="TCFI0x10be980_rot" unit="deg" x="0" y="0" z="60"/>
+      </physvol>
+      <physvol name="TCFI0x10bea20">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bea20_pos" unit="mm" x="-7.9463857" y="304.58796" z="85.725002"/>
+        <rotation name="TCFI0x10bea20_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10beac0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10beac0_pos" unit="mm" x="-7.9463857" y="304.58796" z="187.325"/>
+        <rotation name="TCFI0x10beac0_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10beb60">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10beb60_pos" unit="mm" x="-7.9463857" y="304.58796" z="288.925"/>
+        <rotation name="TCFI0x10beb60_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10bec00">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bec00_pos" unit="mm" x="-7.9463857" y="304.58796" z="390.52498"/>
+        <rotation name="TCFI0x10bec00_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10beca0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10beca0_pos" unit="mm" x="-7.9463857" y="304.58796" z="492.12502"/>
+        <rotation name="TCFI0x10beca0_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10bed40">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bed40_pos" unit="mm" x="-7.9463857" y="304.58796" z="593.72498"/>
+        <rotation name="TCFI0x10bed40_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10bede0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bede0_pos" unit="mm" x="-7.9463857" y="304.58796" z="695.32501"/>
+        <rotation name="TCFI0x10bede0_rot" unit="deg" x="0" y="0" z="-60"/>
+      </physvol>
+      <physvol name="TCFI0x10bee80">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bee80_pos" unit="mm" x="-0.00016747781" y="290.82424" z="85.725002"/>
+        <rotation name="TCFI0x10bee80_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="TCFI0x10bef20">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bef20_pos" unit="mm" x="-0.00016747781" y="290.82424" z="187.325"/>
+        <rotation name="TCFI0x10bef20_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="TCFI0x10befc0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10befc0_pos" unit="mm" x="-0.00016747781" y="290.82424" z="288.925"/>
+        <rotation name="TCFI0x10befc0_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="TCFI0x10bf060">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bf060_pos" unit="mm" x="-0.00016747781" y="290.82424" z="390.52498"/>
+        <rotation name="TCFI0x10bf060_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="TCFI0x10bf100">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bf100_pos" unit="mm" x="-0.00016747781" y="290.82424" z="492.12502"/>
+        <rotation name="TCFI0x10bf100_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="TCFI0x10bf1a0">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bf1a0_pos" unit="mm" x="-0.00016747781" y="290.82424" z="593.72498"/>
+        <rotation name="TCFI0x10bf1a0_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="TCFI0x10bf240">
+        <volumeref ref="TCFI0x107d630"/>
+        <position name="TCFI0x10bf240_pos" unit="mm" x="-0.00016747781" y="290.82424" z="695.32501"/>
+        <rotation name="TCFI0x10bf240_rot" unit="deg" x="0" y="0" z="-180"/>
+      </physvol>
+      <physvol name="DSLO0x10be820">
+        <volumeref ref="DSLO0x107d6c0"/>
+        <position name="DSLO0x10be820_pos" unit="mm" x="0" y="300" z="756.3104"/>
+      </physvol>
+      <physvol name="DSLI0x10be8c0">
+        <volumeref ref="DSLI0x107d750"/>
+        <position name="DSLI0x10be8c0_pos" unit="mm" x="0" y="300" z="750.6335"/>
+      </physvol>
+      <physvol name="DSLA0x10bf540">
+        <volumeref ref="DSLA0x107d7e0"/>
+        <position name="DSLA0x10bf540_pos" unit="mm" x="0" y="300" z="741.10825"/>
+      </physvol>
+      <physvol name="DSLB0x10bf590">
+        <volumeref ref="DSLB0x107d870"/>
+        <position name="DSLB0x10bf590_pos" unit="mm" x="0" y="300" z="741.10825"/>
+      </physvol>
+      <physvol name="DSLC0x10bf5e0">
+        <volumeref ref="DSLC0x10ba080"/>
+        <position name="DSLC0x10bf5e0_pos" unit="mm" x="0" y="300" z="741.10825"/>
+      </physvol>
+      <physvol name="HWIN10x10bf630">
+        <volumeref ref="HWIN10x10ba110"/>
+        <position name="HWIN10x10bf630_pos" unit="mm" x="0" y="300" z="1830"/>
+      </physvol>
+      <physvol name="HWIN20x10bf680">
+        <volumeref ref="HWIN20x10ba1a0"/>
+        <position name="HWIN20x10bf680_pos" unit="mm" x="0" y="300" z="1830"/>
+      </physvol>
+      <physvol name="TBAB10x10bf6d0">
+        <volumeref ref="TBAB10x10ba230"/>
+        <position name="TBAB10x10bf6d0_pos" unit="mm" x="0" y="300" z="-60.325002"/>
+      </physvol>
+      <physvol name="TBAB20x10bf720">
+        <volumeref ref="TBAB20x10ba2c0"/>
+        <position name="TBAB20x10bf720_pos" unit="mm" x="0" y="300" z="-11.925002"/>
+      </physvol>
+      <physvol name="TBBL0x10bf770">
+        <volumeref ref="TBBL0x10ba350"/>
+        <position name="TBBL0x10bf770_pos" unit="mm" x="0" y="300" z="-171.42949"/>
+      </physvol>
+      <physvol name="HDSK0x10bf7c0">
+        <volumeref ref="HDSK0x10ba3e0"/>
+        <position name="HDSK0x10bf7c0_pos" unit="mm" x="0" y="0" z="2000"/>
+      </physvol>
+    </volume>
+    <volume name="PIRD0x10ba470">
+      <materialref ref="VACUUM0x1092420"/>
+      <solidref ref="PIRD0x10a2240"/>
+    </volume>
+    <volume name="PIFD0x10ba500">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="PIFD0x10a24b0"/>
+    </volume>
+    <volume name="PILE0x107ca00">
+      <materialref ref="STEEL0x1099e60"/>
+      <solidref ref="PILE0x10a1e40"/>
+      <physvol name="PICV0x10bb760">
+        <volumeref ref="PICV0x107ca90"/>
+        <position name="PICV0x10bb760_pos" unit="mm" x="0" y="0" z="-426.8"/>
+      </physvol>
+      <physvol name="PIRD0x10bf810">
+        <volumeref ref="PIRD0x10ba470"/>
+        <position name="PIRD0x10bf810_pos" unit="mm" x="0" y="300" z="-3986.79995"/>
+      </physvol>
+      <physvol name="PIFD0x10bf8b0">
+        <volumeref ref="PIFD0x10ba500"/>
+        <position name="PIFD0x10bf8b0_pos" unit="mm" x="0" y="300" z="2643.2001"/>
+      </physvol>
+    </volume>
+    <volume name="MMWW0x10951e0">
+      <materialref ref="TUNGSTEN0x108e760"/>
+      <solidref ref="MMWW0x10aaf40"/>
+    </volume>
+    <volume name="PIP20x10ba590">
+      <materialref ref="VACUUM0x1092420"/>
+      <solidref ref="PIP20x10aa230"/>
+      <physvol name="MMWW0x10bf9f0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bf9f0_pos" unit="mm" x="-4.728" y="-10.511" z="-120"/>
+        <rotation name="MMWW0x10bf9f0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfa90">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfa90_pos" unit="mm" x="-4.728" y="-9.511" z="-120"/>
+        <rotation name="MMWW0x10bfa90_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfb30">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfb30_pos" unit="mm" x="-4.728" y="-8.511" z="-120"/>
+        <rotation name="MMWW0x10bfb30_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfbd0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfbd0_pos" unit="mm" x="-4.728" y="-7.511" z="-120"/>
+        <rotation name="MMWW0x10bfbd0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfc70">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfc70_pos" unit="mm" x="-4.728" y="-6.511" z="-120"/>
+        <rotation name="MMWW0x10bfc70_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfd60">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfd60_pos" unit="mm" x="-4.728" y="-5.511" z="-120"/>
+        <rotation name="MMWW0x10bfd60_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfe00">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfe00_pos" unit="mm" x="-4.728" y="-4.511" z="-120"/>
+        <rotation name="MMWW0x10bfe00_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfea0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfea0_pos" unit="mm" x="-4.728" y="-3.511" z="-120"/>
+        <rotation name="MMWW0x10bfea0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bff40">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bff40_pos" unit="mm" x="-4.728" y="-2.511" z="-120"/>
+        <rotation name="MMWW0x10bff40_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bfd10">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bfd10_pos" unit="mm" x="-4.728" y="-1.511" z="-120"/>
+        <rotation name="MMWW0x10bfd10_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c00c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c00c0_pos" unit="mm" x="-4.728" y="-0.511" z="-120"/>
+        <rotation name="MMWW0x10c00c0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0160">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0160_pos" unit="mm" x="-4.728" y="0.489" z="-120"/>
+        <rotation name="MMWW0x10c0160_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0200">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0200_pos" unit="mm" x="-4.728" y="1.489" z="-120"/>
+        <rotation name="MMWW0x10c0200_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c02a0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c02a0_pos" unit="mm" x="-4.728" y="2.489" z="-120"/>
+        <rotation name="MMWW0x10c02a0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0340">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0340_pos" unit="mm" x="-4.728" y="3.489" z="-120"/>
+        <rotation name="MMWW0x10c0340_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c03e0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c03e0_pos" unit="mm" x="-4.728" y="4.489" z="-120"/>
+        <rotation name="MMWW0x10c03e0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0480">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0480_pos" unit="mm" x="-4.728" y="5.489" z="-120"/>
+        <rotation name="MMWW0x10c0480_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bffe0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bffe0_pos" unit="mm" x="-4.728" y="6.489" z="-120"/>
+        <rotation name="MMWW0x10bffe0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0680">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0680_pos" unit="mm" x="-4.728" y="7.489" z="-120"/>
+        <rotation name="MMWW0x10c0680_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0720">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0720_pos" unit="mm" x="-4.728" y="8.489" z="-120"/>
+        <rotation name="MMWW0x10c0720_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c07c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c07c0_pos" unit="mm" x="-4.728" y="9.489" z="-120"/>
+        <rotation name="MMWW0x10c07c0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0860">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0860_pos" unit="mm" x="-4.728" y="10.489" z="-120"/>
+        <rotation name="MMWW0x10c0860_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0900">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0900_pos" unit="mm" x="-4.728" y="11.489" z="-120"/>
+        <rotation name="MMWW0x10c0900_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c09a0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c09a0_pos" unit="mm" x="-4.728" y="12.489" z="-120"/>
+        <rotation name="MMWW0x10c09a0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0a40">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0a40_pos" unit="mm" x="-16.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0a40_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0ae0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0ae0_pos" unit="mm" x="-15.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0ae0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0b80">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0b80_pos" unit="mm" x="-14.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0b80_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0c20">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0c20_pos" unit="mm" x="-13.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0c20_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0cc0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0cc0_pos" unit="mm" x="-12.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0cc0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0d60">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0d60_pos" unit="mm" x="-11.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0d60_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0e00">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0e00_pos" unit="mm" x="-10.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0e00_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0ea0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0ea0_pos" unit="mm" x="-9.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0ea0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0f40">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0f40_pos" unit="mm" x="-8.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0f40_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c0520">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0520_pos" unit="mm" x="-7.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c0520_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c05c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c05c0_pos" unit="mm" x="-6.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c05c0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1240">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1240_pos" unit="mm" x="-5.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1240_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c12e0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c12e0_pos" unit="mm" x="-4.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c12e0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1380">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1380_pos" unit="mm" x="-3.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1380_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1420">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1420_pos" unit="mm" x="-2.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1420_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c14c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c14c0_pos" unit="mm" x="-1.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c14c0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1560">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1560_pos" unit="mm" x="-0.228" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1560_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1600">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1600_pos" unit="mm" x="0.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1600_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c16a0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c16a0_pos" unit="mm" x="1.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c16a0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1740">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1740_pos" unit="mm" x="2.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1740_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c17e0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c17e0_pos" unit="mm" x="3.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c17e0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1880">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1880_pos" unit="mm" x="4.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1880_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1920">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1920_pos" unit="mm" x="5.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c1920_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c19c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c19c0_pos" unit="mm" x="6.772" y="0.989" z="-119.9238"/>
+        <rotation name="MMWW0x10c19c0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c1a60">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1a60_pos" unit="mm" x="-4.728" y="-10.511" z="-115"/>
+        <rotation name="MMWW0x10c1a60_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1b00">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1b00_pos" unit="mm" x="-4.728" y="-9.511" z="-115"/>
+        <rotation name="MMWW0x10c1b00_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1ba0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1ba0_pos" unit="mm" x="-4.728" y="-8.511" z="-115"/>
+        <rotation name="MMWW0x10c1ba0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1c40">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1c40_pos" unit="mm" x="-4.728" y="-7.511" z="-115"/>
+        <rotation name="MMWW0x10c1c40_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1ce0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1ce0_pos" unit="mm" x="-4.728" y="-6.511" z="-115"/>
+        <rotation name="MMWW0x10c1ce0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1d80">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1d80_pos" unit="mm" x="-4.728" y="-5.511" z="-115"/>
+        <rotation name="MMWW0x10c1d80_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1e20">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1e20_pos" unit="mm" x="-4.728" y="-4.511" z="-115"/>
+        <rotation name="MMWW0x10c1e20_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1ec0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1ec0_pos" unit="mm" x="-4.728" y="-3.511" z="-115"/>
+        <rotation name="MMWW0x10c1ec0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1f60">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1f60_pos" unit="mm" x="-4.728" y="-2.511" z="-115"/>
+        <rotation name="MMWW0x10c1f60_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c2000">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c2000_pos" unit="mm" x="-4.728" y="-1.511" z="-115"/>
+        <rotation name="MMWW0x10c2000_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c20a0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c20a0_pos" unit="mm" x="-4.728" y="-0.511" z="-115"/>
+        <rotation name="MMWW0x10c20a0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bde60">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bde60_pos" unit="mm" x="-4.728" y="0.489" z="-115"/>
+        <rotation name="MMWW0x10bde60_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bdf00">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bdf00_pos" unit="mm" x="-4.728" y="1.489" z="-115"/>
+        <rotation name="MMWW0x10bdf00_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10bdfa0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10bdfa0_pos" unit="mm" x="-4.728" y="2.489" z="-115"/>
+        <rotation name="MMWW0x10bdfa0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be040">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be040_pos" unit="mm" x="-4.728" y="3.489" z="-115"/>
+        <rotation name="MMWW0x10be040_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be0e0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be0e0_pos" unit="mm" x="-4.728" y="4.489" z="-115"/>
+        <rotation name="MMWW0x10be0e0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be180">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be180_pos" unit="mm" x="-4.728" y="5.489" z="-115"/>
+        <rotation name="MMWW0x10be180_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c0fe0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c0fe0_pos" unit="mm" x="-4.728" y="6.489" z="-115"/>
+        <rotation name="MMWW0x10c0fe0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1080">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1080_pos" unit="mm" x="-4.728" y="7.489" z="-115"/>
+        <rotation name="MMWW0x10c1080_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c1120">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c1120_pos" unit="mm" x="-4.728" y="8.489" z="-115"/>
+        <rotation name="MMWW0x10c1120_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be220">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be220_pos" unit="mm" x="-4.728" y="9.489" z="-115"/>
+        <rotation name="MMWW0x10be220_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be2c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be2c0_pos" unit="mm" x="-4.728" y="10.489" z="-115"/>
+        <rotation name="MMWW0x10be2c0_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be360">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be360_pos" unit="mm" x="-4.728" y="11.489" z="-115"/>
+        <rotation name="MMWW0x10be360_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10be400">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10be400_pos" unit="mm" x="-4.728" y="12.489" z="-115"/>
+        <rotation name="MMWW0x10be400_rot" unit="deg" x="0" y="-90" z="0"/>
+      </physvol>
+      <physvol name="MMWW0x10c31e0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c31e0_pos" unit="mm" x="-16.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c31e0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3280">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3280_pos" unit="mm" x="-15.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3280_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3320">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3320_pos" unit="mm" x="-14.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3320_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c33c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c33c0_pos" unit="mm" x="-13.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c33c0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3460">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3460_pos" unit="mm" x="-12.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3460_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3500">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3500_pos" unit="mm" x="-11.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3500_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c35a0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c35a0_pos" unit="mm" x="-10.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c35a0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3640">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3640_pos" unit="mm" x="-9.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3640_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c36e0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c36e0_pos" unit="mm" x="-8.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c36e0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3780">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3780_pos" unit="mm" x="-7.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3780_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3820">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3820_pos" unit="mm" x="-6.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3820_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c38c0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c38c0_pos" unit="mm" x="-5.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c38c0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3960">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3960_pos" unit="mm" x="-4.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3960_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3a00">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3a00_pos" unit="mm" x="-3.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3a00_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3aa0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3aa0_pos" unit="mm" x="-2.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3aa0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3b40">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3b40_pos" unit="mm" x="-1.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3b40_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3be0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3be0_pos" unit="mm" x="-0.228" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3be0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3c80">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3c80_pos" unit="mm" x="0.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3c80_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3d20">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3d20_pos" unit="mm" x="1.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3d20_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3dc0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3dc0_pos" unit="mm" x="2.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3dc0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3e60">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3e60_pos" unit="mm" x="3.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3e60_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3f00">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3f00_pos" unit="mm" x="4.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3f00_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c3fa0">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c3fa0_pos" unit="mm" x="5.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c3fa0_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+      <physvol name="MMWW0x10c4040">
+        <volumeref ref="MMWW0x10951e0"/>
+        <position name="MMWW0x10c4040_pos" unit="mm" x="6.772" y="0.989" z="-114.9238"/>
+        <rotation name="MMWW0x10c4040_rot" unit="deg" x="90" y="0" z="-90"/>
+      </physvol>
+    </volume>
+    <volume name="CAVI0x107c970">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="CAVI0x10a1280"/>
+      <physvol name="PILE0x10bb6c0">
+        <volumeref ref="PILE0x107ca00"/>
+        <position name="PILE0x10bb6c0_pos" unit="mm" x="0" y="-100" z="-7.6293945e-05"/>
+      </physvol>
+      <physvol name="PIP20x10bf950">
+        <volumeref ref="PIP20x10ba590"/>
+        <position name="PIP20x10bf950_pos" unit="mm" x="0" y="200" z="-4676.79794"/>
+      </physvol>
+    </volume>
+    <volume name="CVBD0x10b9fc0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="CVBD0x10a1480"/>
+    </volume>
+    <volume name="CDSK0x10a2f80">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="CDSK0x10b9d40"/>
+    </volume>
+    <volume name="CVFD0x10b91b0">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="CVFD0x10a16f0"/>
+      <physvol name="CDSK0x10c4220">
+        <volumeref ref="CDSK0x10a2f80"/>
+      </physvol>
+    </volume>
+    <volume name="CAVE0x107c8e0">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="CAVE0x10a1080"/>
+      <physvol name="CAVI0x10bb620">
+        <volumeref ref="CAVI0x107c970"/>
+      </physvol>
+      <physvol name="CVBD0x10c40e0">
+        <volumeref ref="CVBD0x10b9fc0"/>
+        <position name="CVBD0x10c40e0_pos" unit="mm" x="0" y="200" z="-5169.5996"/>
+      </physvol>
+      <physvol name="CVFD0x10c4180">
+        <volumeref ref="CVFD0x10b91b0"/>
+        <position name="CVFD0x10c4180_pos" unit="mm" x="0" y="200" z="5169.5996"/>
+      </physvol>
+    </volume>
+    <volume name="BMLI0x10b9300">
+      <materialref ref="AIRMATERIAL0x1090fb0"/>
+      <solidref ref="BMLI0x10a1bd0"/>
+    </volume>
+    <volume name="BMLN0x10b98d0">
+      <materialref ref="Concrete0x1094d10"/>
+      <solidref ref="BMLN0x10a1960"/>
+      <physvol name="BMLI0x10c4310">
+        <volumeref ref="BMLI0x10b9300"/>
+      </physvol>
+    </volume>
+    <volume name="SAND0x10a2cb0">
+      <materialref ref="DOLOMITE0x109ac60"/>
+      <solidref ref="SAND0x109d6d0"/>
+      <physvol name="FABC0x10b9690">
+        <volumeref ref="FABC0x107ba30"/>
+        <position name="FABC0x10b9690_pos" unit="mm" x="0" y="0" z="52574.199"/>
+      </physvol>
+      <physvol name="IABC0x107cc10">
+        <volumeref ref="IABC0x107bff0"/>
+        <position name="IABC0x107cc10_pos" unit="mm" x="0" y="1066.8" z="27414.9"/>
+      </physvol>
+      <physvol name="DKTN0x10bb240">
+        <volumeref ref="DKTN0x107c580"/>
+        <position name="DKTN0x10bb240_pos" unit="mm" x="0" y="0" z="39912"/>
+      </physvol>
+      <physvol name="DKO10x10bb3f0">
+        <volumeref ref="DKO10x107c730"/>
+        <position name="DKO10x10bb3f0_pos" unit="mm" x="0" y="0" z="15286.499"/>
+      </physvol>
+      <physvol name="CAVE0x10bb530">
+        <volumeref ref="CAVE0x107c8e0"/>
+        <position name="CAVE0x10bb530_pos" unit="mm" x="0" y="-200" z="426.8"/>
+      </physvol>
+      <physvol name="BMLN0x10c4270">
+        <volumeref ref="BMLN0x10b98d0"/>
+        <position name="BMLN0x10c4270_pos" unit="mm" x="0" y="0" z="-30253"/>
+      </physvol>
+    </volume>
+  </structure>
+
+  <setup name="Default" version="1.0">
+    <world ref="SAND0x10a2cb0"/>
+  </setup>
+
+</gdml>
