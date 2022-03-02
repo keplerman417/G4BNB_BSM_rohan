@@ -96,7 +96,7 @@ geofn=re.sub('\.gdml','',os.path.basename(args.geometry))
 jobname="%s_%s_I%iA"%(jobinpfn,geofn,int(horncurrent))
 
 #check setup
-upsp=subprocess.Popen(['readelf', '-p','ups_setup',args.bin+"/NuBeam"], 
+upsp=subprocess.Popen(['objcopy', '--dump-section','ups_setup=/dev/stdout',args.bin+"/NuBeam"], 
                       stdout=subprocess.PIPE,
                       stderr=subprocess.PIPE)
 upsout,upserr=upsp.communicate()
@@ -123,7 +123,7 @@ echo "Running $0 on "$HOSTNAME
 echo "Cluster: " ${CLUSTER}
 echo "Process: " ${PROCESS}
 
-source /cvmfs/fermilab.opensciencegrid.org/products/larsoft/setups
+source /cvmfs/larsoft.opensciencegrid.org/products/setups
 setup %(gccsetup)s
 setup %(g4setup)s
 setup %(dk2nusetup)s
@@ -138,8 +138,8 @@ mkdir ${CLUSTER}
 cd ${CLUSTER}
 mkdir ${JOBID}
 cd ${JOBID}
-cp $INPUT_TAR_FILE .
-tar -vxf `basename ${INPUT_TAR_FILE}`
+
+cp ${INPUT_TAR_DIR}/* . -r
 
 sed -i "s/RNDSEED/${RNDNO}/g" %(inputfile)s
 sed -i "s/OUTPUTFILE/NuBeam_%(jobname)s_${JOBID}.dk2nu.root/g" %(inputfile)s
@@ -153,7 +153,6 @@ rm NuBeam
 
 rm beamHist
 
-rm `basename ${INPUT_TAR_FILE}`
 cd ..
 ifdh mkdir %(outputdir)s
 ifdh mkdir %(outputdir)s/%(jobname)s
