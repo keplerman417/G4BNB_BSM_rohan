@@ -19,7 +19,7 @@ add_custom_command(TARGET NuBeam
 	           COMMAND ups active | grep -e Active -e gcc -e geant4 -e dk2nu -e cmake -e jobsub -e ifdhc -e boost > upssetup.tmp
                    COMMAND objcopy --add-section ups_setup=upssetup.tmp NuBeam
                    DEPENDS NuBeam
-                   COMMENT "Embedding ups setup into binary.\n\treadelf -p ups_setup NuBeam\nStored environment will be reproduced automatically with submitJobs.py script.")
+                   COMMENT "Embedding ups setup into binary.\n\tobjcopy --dump-section ups_setup=/dev/stdout NuBeam\nStored environment will be reproduced automatically with submitJobs.py script.")
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
