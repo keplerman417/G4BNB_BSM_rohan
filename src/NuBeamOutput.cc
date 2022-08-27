@@ -354,42 +354,30 @@ void NuBeamOutput::RecordNeutrino(const G4Track* track)
   fDk2Nu->decay.necm = enuzrInGeV; // Now in GeV... 
   fDk2Nu->decay.nimpwt = track->GetWeight();
   
-   // ancestry info. 
-  fDk2Nu->ancestor.clear();
- 
-  // Now counting the depth of the tree.
-  size_t numAncestors = 0; // Not counting the above Proton ancestor. 
+  std::vector<NuBeamTrajectory *> trajs;
   G4int trackIDTmp = track->GetParentID();
-  NuBeamTrajectory *tmpTraj = GetTrajectory(trackIDTmp);
   while (trackIDTmp > 0) {
-    numAncestors++;
+    NuBeamTrajectory *tmpTraj = GetTrajectory(trackIDTmp);    
+    trajs.push_back(tmpTraj);
     trackIDTmp = tmpTraj->GetParentID();
-    if(trackIDTmp > 0) tmpTraj = GetTrajectory(trackIDTmp);
-    if (tmpTraj == 0) break;
+    if(trackIDTmp > 0) tmpTraj = GetTrajectory(trackIDTmp);  
   }
-  std::vector<NuBeamTrajectory *> trajs(numAncestors, 0);
-  std::vector<int> trajsTrackIDs(numAncestors, 0); 
-  // Revert order, starting with the proton...
-  size_t nAnces = numAncestors;
-  trackIDTmp = track->GetParentID();
-  tmpTraj = GetTrajectory(trackIDTmp);
-  while (trackIDTmp > 0) {
-    nAnces--;
-    trajs[nAnces] = tmpTraj;
-    trajsTrackIDs[nAnces] = trackIDTmp;
-    trackIDTmp = tmpTraj->GetParentID();
-    if(trackIDTmp > 0) tmpTraj = GetTrajectory(trackIDTmp);
-    if (tmpTraj == 0) break;
-  }
-  // We store the trajsTrackIDs in the user vector in dk2nu for further debugging.. 
+  std::reverse(trajs.begin(), trajs.end());
+
+  //add neutrino track info to ancestor since it is not in trajectory container yet
+  G4String creatorProc=track->GetCreatorProcess()->GetProcessName()+":"+
+    ((NuBeamTrackInformation*)track->GetUserInformation())->GetCreatorModelName();
+  NuBeamTrajectory* nutraj=new NuBeamTrajectory(track);
+  nutraj->AddTrajectoryPoint(track,creatorProc);
+  nutraj->AddTrajectoryPoint(track,creatorProc);
+  trajs.push_back(nutraj);
+
+  fDk2Nu->ancestor.clear();
   fDk2Nu->vint.clear();
-  for (std::vector<int>::const_iterator itI = trajsTrackIDs.begin(); itI != trajsTrackIDs.end(); itI++) 
-    fDk2Nu->vint.push_back(*itI);
-   
-  // Now fill.. 
-  for (size_t iA=0; iA != numAncestors; iA++) { 
-    NuBeamTrajectory *t = trajs[iA];
-    
+
+  // Now fill ancestry info. 
+  for (auto t: trajs) {
+    fDk2Nu->vint.push_back(t->GetTrackID());
     std::vector<NuBeamTrajectory::trajPoint_t> trajPoints=t->GetTrajectoryPoints();
     //hadron elastic scatterings are added as additional points in trajectory
     for (size_t iTP=0; iTP<trajPoints.size();iTP+=2) {
@@ -417,40 +405,11 @@ void NuBeamOutput::RecordNeutrino(const G4Track* track)
       a.imat    = trajPoints[iTP].fMaterialName;
       fDk2Nu->ancestor.push_back(a);
     }
-    /*
-    bsim::Ancestor a;
-    a.pdg = t->GetPDGEncoding();
-    G4ThreeVector x1rst = t->GetPoint(0)->GetPosition();
-    a.startx = x1rst[0]/CLHEP::cm; 
-    a.starty = x1rst[1]/CLHEP::cm; 
-    a.startz = x1rst[2]/CLHEP::cm;
-    a.startt = t->GetInitialTime(); // ? Units? 
-    G4ThreeVector p1rst = t->GetInitialMomentum();
-    a.startpx = p1rst[0]/CLHEP::GeV; 
-    a.startpy = p1rst[1]/CLHEP::GeV; 
-    a.startpz = p1rst[2]/CLHEP::GeV;
-    G4ThreeVector pLast = t->GetFinalMomentum();
-    a.stoppx = pLast[0]/CLHEP::GeV;
-    a.stoppy = pLast[1]/CLHEP::GeV;
-    a.stoppz = pLast[2]/CLHEP::GeV;
-
-//       G4ThreeVector pol = t->GetPolarization();
-    //       a.polx = pol[0];
-    //       a.poly = pol[1];
-    //       a.polz = pol[2]; // Not followed 
-    a.polx = 1.0/3.;  a.poly = 1.0/3.;  a.polz = 1.0/3.; 
-    // We do not fill pprodpx, y,z, duplicate info 
-    a.pprodpx = 0.; a.pprodpy = 0.; a.pprodpz = 0.;
-    a.nucleus = 0; // Not followed either.. 
-    a.proc = t->GetCreatorProcessName();
-    a.ivol = t->GetInitialVolumeName();
-    a.imat = t->GetInitialMaterialName();
-    fDk2Nu->ancestor.push_back(a);
-    */
   }
+  
   if (fDk2Nu->ancestor.size() == 1) { 
     std::cerr << " Incorrect ancestry...  Final number of ancestor at evt " << fDk2Nu->potnum 
-	      << " is " << fDk2Nu->ancestor.size() << " num Inel " << numAncestors << std::endl;
+	      << " is " << fDk2Nu->ancestor.size() << " num Inel " << trajs.size() << std::endl;
     std::cerr << " Single PDG ancestor " << fDk2Nu->ancestor[0].pdg << "  Start position " 
 	      << fDk2Nu->ancestor[0].startx << " / " << fDk2Nu->ancestor[0].starty 
 	      << " / " << fDk2Nu->ancestor[0].startz  << std::endl;
