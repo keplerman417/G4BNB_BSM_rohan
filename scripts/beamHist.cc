@@ -51,19 +51,19 @@ int main(int ac, char* av[])
   int nthread=1;
   options_description opt("Options");
   opt.add_options()
-    ("help,h", "Print help message")
-    ("input,i",value<string>(&searchpath),"Path pattern for input files. Put it in quotes or escape *.")
-    ("output,o",value<string>(&outputfn)->default_value("hist.root"),"Output file name.")
-    ("pot,p",value<double>(&userPOT),"POT used for normalization (overides counting using info in meta tree and speeds up process). \nTotal POT should be given (number of files X POT per file).")
-    ("nredecays,n",value<int>(&NREDECAY)->default_value(1.),"Number of redecays.")
-    ("detector-radius,r",value<double>(&RDet)->default_value(0.),"Detector radius (in cm).")
-    ("detector-position,x",value<vector<double> >(&detpos)->multitoken(),"Detector position (in cm).")
-    ("thread,t",value<int>(&nthread)->default_value(1),"Number of threads to run. (max set to 8)");
+    ("help", "Print help message")
+    ("input",value<string>(&searchpath),"Path pattern for input files. Put it in quotes or escape *.")
+    ("output",value<string>(&outputfn)->default_value("hist.root"),"Output file name.")
+    ("pot",value<double>(&userPOT),"POT used for normalization (overides counting using info in meta tree and speeds up process). \nTotal POT should be given (number of files X POT per file).")
+    ("nredecays",value<int>(&NREDECAY)->default_value(1.),"Number of redecays.")
+    ("detector-radius",value<double>(&RDet)->default_value(0.),"Detector radius (in cm).")
+    ("detector-position",value<vector<double> >(&detpos)->multitoken(),"Detector position (in cm).")
+    ("thread",value<int>(&nthread)->default_value(1),"Number of threads to run. (max set to 8)");
     
   variables_map vm;
   
   try {
-    store(parse_command_line(ac,av,opt),vm);
+    store(parse_command_line(ac,av,opt, command_line_style::unix_style ^ command_line_style::allow_short),vm);
     notify(vm);
     if (vm.count("help")) {
       cerr<<opt<<endl;
