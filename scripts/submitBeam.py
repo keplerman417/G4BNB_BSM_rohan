@@ -6,6 +6,7 @@ import sys
 import tarfile
 import re
 import subprocess
+from  datetime import datetime
 
 parser = argparse.ArgumentParser(description='Submit beam MC jobs.')
 
@@ -31,6 +32,9 @@ parser.add_argument("-j", "--jobidoffset", type=int, dest="jobid",
 parser.add_argument("-o", "--output-path", dest="outputpath",
                     default="/pnfs/uboone/scratch/users/%s/beammc"%os.environ['USER'],
                     help="Path where to copy final output. (default=/pnfs/uboone/scratch/users/%s/beammc)"%os.environ['USER'])
+parser.add_argument("-gg", "--grid-group", dest="gridgroup",
+                    default="sbnd",
+                    help="The group to pass to jobsub_submit. Default: sbnd.")
 parser.add_argument("-p", "--pot", type=int,
                     help="Protons on target per job. If specified overwrites /run/beamOn command.")
 parser.add_argument("-r", "--random-seed", type=int, dest="randomseed",
@@ -139,25 +143,36 @@ cd ${CLUSTER}
 mkdir ${JOBID}
 cd ${JOBID}
 
-cp ${INPUT_TAR_DIR}/* . -r
+cp ${INPUT_TAR_DIR_LOCAL}/* . -r
 
 sed -i "s/RNDSEED/${RNDNO}/g" %(inputfile)s
 sed -i "s/OUTPUTFILE/NuBeam_%(jobname)s_${JOBID}.dk2nu.root/g" %(inputfile)s
 
 ./NuBeam %(inputfile)s
 rm NuBeam
-./beamHist -i ./\*dk2nu.root -r 200 -x 0 0 11000 -t 1 -o hist_sbnd_NuBeam_%(jobname)s_${JOBID}.root
-./beamHist -i ./\*dk2nu.root -r 200 -x 0 0 47000 -t 1 -o hist_uboone_NuBeam_%(jobname)s_${JOBID}.root
-./beamHist -i ./\*dk2nu.root -r 610 -x 0 189.614 54134 -t 1 -o hist_miniboone_NuBeam_%(jobname)s_${JOBID}.root
-./beamHist -i ./\*dk2nu.root -r 200 -x 0 0 60000 -t 1 -o hist_icarus_NuBeam_%(jobname)s_${JOBID}.root
+./beamHist --input ./\*dk2nu.root --detector-radius 200 --detector-position 0 0 11000 --thread 1 --output hist_sbnd_NuBeam_%(jobname)s_${JOBID}.root
+./beamHist --input ./\*dk2nu.root --detector-radius 200 --detector-position 0 0 47000 --thread 1 --output hist_uboone_NuBeam_%(jobname)s_${JOBID}.root
+./beamHist --input ./\*dk2nu.root --detector-radius 610 --detector-position 0 189.614 54134 --thread 1 --output hist_miniboone_NuBeam_%(jobname)s_${JOBID}.root
+./beamHist --input ./\*dk2nu.root --detector-radius 200 --detector-position 0 0 60000 --thread 1 --output hist_icarus_NuBeam_%(jobname)s_${JOBID}.root
 
 rm beamHist
 
 cd ..
 ifdh mkdir %(outputdir)s
 ifdh mkdir %(outputdir)s/%(jobname)s
-ifdh cp -r ${JOBID} %(outputdir)s/%(jobname)s/${JOBID}
-'''%{'g4setup':g4setup,'gccsetup':gccsetup,'dk2nusetup':dk2nusetup,'ifdhcsetup':ifdhcsetup,'boostsetup':boostsetup,'jobidoffset':str(args.jobid),'randomseed':str(args.randomseed),'inputfile':inpfilename,'jobname':jobname,'outputdir':args.outputpath}
+ifdh mkdir %(outputdir)s/%(jobname)s/%(now)s
+ifdh cp -r ${JOBID} %(outputdir)s/%(jobname)s/%(now)s/${JOBID}
+'''%{'g4setup':g4setup,
+     'gccsetup':gccsetup,
+     'dk2nusetup':dk2nusetup,
+     'ifdhcsetup':ifdhcsetup,
+     'boostsetup':boostsetup,
+     'jobidoffset':str(args.jobid),
+     'randomseed':str(args.randomseed),
+     'inputfile':inpfilename,
+     'jobname':jobname,
+     'outputdir':args.outputpath,
+     'now':datetime.now().strftime('%Y%m%d-%H:%M')}
 
 runjobfname="runjob_%i.sh"%os.getpid()
 of=open(runjobfname,'w')
@@ -165,7 +180,8 @@ of.write(ofstr)
 of.close()
 
 #Create submit command
-cmd="jobsub_submit --group=uboone -N %i --tar_file_name=dropbox://%s file://%s"%(args.n,os.path.abspath(tarfilename),os.path.abspath(runjobfname))
+jobsub_options=" --group=%s --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC --role=Analysis --memory 2000MB --expected-lifetime=8h "%(args.gridgroup)
+cmd="jobsub_submit" + jobsub_options + "-N %i --tar_file_name=dropbox://%s file://%s"%(args.n,os.path.abspath(tarfilename),os.path.abspath(runjobfname))
 
 if (not args.debug):
     print "Running submit cmd:"
@@ -177,6 +193,6 @@ else:
 
 #Delete temp files unless debugging
 if (not args.debug):
-    os.remove(inpfilename)
-    os.remove(runjobfname)
-    os.remove(tarfilename)
+   os.remove(inpfilename)
+   os.remove(runjobfname)
+   os.remove(tarfilename)
