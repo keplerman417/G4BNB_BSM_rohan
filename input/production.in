@@ -1,6 +1,6 @@
 # NuBeam options file
 
-/boone/rndm/setRndmSeed 1000000
+/boone/rndm/setRndmSeed 100000
 #Set primary particle here since some cross section arrays in BooNEpBE are
 #filled depending on primary energy
 /gun/particle proton
@@ -230,8 +230,8 @@
 # set thresholds for recording neutrinos
 #
 /boone/output/nuEnergyThr 0. MeV
-/boone/output/pionMomentumThr 1. MeV
-/boone/output/muonMomentumThr 1. MeV
+/boone/output/pionMomentumThr -1. MeV
+/boone/output/muonMomentumThr -1. MeV
 /boone/output/kaonMomentumThr -1. MeV
 #
 # set verbosities
@@ -248,7 +248,7 @@
 # Start simulation
 # ----------------
 # Specify number of protons on target
-/run/beamOn 10000
+/run/beamOn 1000
 
 # Termination
 # -----------
