@@ -88,6 +88,18 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("pimAlMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); pimAlMomentumRangeCmd->SetParameter(param);
   param = new G4UIparameter("pimAlMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pimAlMomentumRangeCmd->SetParameter(param);
 
+  etaBeMomentumRangeCmd =  new G4UIcommand("/boone/crosssections/eta/etaBeMomentumRange",this);
+  etaBeMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Eta Cross section ");
+  etaBeMomentumRangeCmd->SetGuidance("Usage: /boone/crosssections/eta/etaBeMomentumRange min max");
+  param = new G4UIparameter("etaBeMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); etaBeMomentumRangeCmd->SetParameter(param);
+  param = new G4UIparameter("etaBeMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); etaBeMomentumRangeCmd->SetParameter(param);
+
+  etaAlMomentumRangeCmd =  new G4UIcommand("/boone/crosssections/eta/etaAlMomentumRange",this);
+  etaAlMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Eta Cross section ");
+  etaAlMomentumRangeCmd->SetGuidance("Usage: /boone/crosssections/eta/etaAlMomentumRange min max");
+  param = new G4UIparameter("etaAlMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); etaAlMomentumRangeCmd->SetParameter(param);
+  param = new G4UIparameter("etaAlMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); etaAlMomentumRangeCmd->SetParameter(param);
+
 
   // specify proton cross section parameters
   // Be total cross section
@@ -471,6 +483,121 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("qelPimAlXsecPar8",'d',true);  param->SetDefaultValue(   1.383   ); qelPimAlXsecParCmd->SetParameter(param);
   param = new G4UIparameter("qelPimAlXsecPar9",'d',true);  param->SetDefaultValue(   0.000   ); qelPimAlXsecParCmd->SetParameter(param);
 
+  // specify eta cross section parameters
+  // Be total cross section
+  totEtaBeXsecParCmd =  new G4UIcommand("/boone/crosssections/eta/totEtaBeXsecPar",this);
+  totEtaBeXsecParCmd->SetGuidance("Set values of parameters for eta-Be tot xsec ");
+  totEtaBeXsecParCmd->SetGuidance("Usage: /boone/crosssections/eta/totEtaBeXsecPar c0 c1 c2 c3 c4 c5 c6 c7");
+  totEtaBeXsecParCmd->SetGuidance("Description: parametrization according to");
+  totEtaBeXsecParCmd->SetGuidance("             CBW or 0.5 * (1 + tanh( (p-c1)*c2 ))* (c3 + c4 * p^c5 + c6* log^2 p + c7 * log p)");
+  totEtaBeXsecParCmd->SetGuidance("             where CBW is the Carroll et al. BW function, A 9 for Be)");
+  totEtaBeXsecParCmd->SetGuidance("             where c0 marks the transition between the two forms");
+
+  param = new G4UIparameter("totEtaBeXsecPar0",'d',true);  param->SetDefaultValue(   0.600   ); totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar1",'d',true);  param->SetDefaultValue(   0.56733 );	totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar2",'d',true);  param->SetDefaultValue(   1.97133 );	totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar3",'d',true);  param->SetDefaultValue( 510.537   ) ;totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar4",'d',true);  param->SetDefaultValue(-212.193   );	totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar5",'d',true);  param->SetDefaultValue(   0.4417  );	totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar6",'d',true);  param->SetDefaultValue(  50.4741  );	totEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaBeXsecPar7",'d',true);  param->SetDefaultValue(   0.0     );	totEtaBeXsecParCmd->SetParameter(param);
+
+  // Be inelastic cross section
+  ineEtaBeXsecParCmd =  new G4UIcommand("/boone/crosssections/eta/ineEtaBeXsecPar",this);
+  ineEtaBeXsecParCmd->SetGuidance("Set values of parameters for eta-Be ine xsec ");
+  ineEtaBeXsecParCmd->SetGuidance("Usage: /boone/crosssections/eta/ineEtaBeXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  ineEtaBeXsecParCmd->SetGuidance("Description: parametrization according to");
+  ineEtaBeXsecParCmd->SetGuidance("             0.5 * ( 1+ tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  ineEtaBeXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("ineEtaBeXsecPar0",'d',true);  param->SetDefaultValue(  371.452   ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar1",'d',true);  param->SetDefaultValue(    1.20055 ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar2",'d',true);  param->SetDefaultValue(    0.2328  ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar3",'d',true);  param->SetDefaultValue(    0.6000  ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar4",'d',true);  param->SetDefaultValue(    2.8737  ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar5",'d',true);  param->SetDefaultValue(   92.6620  ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar6",'d',true);  param->SetDefaultValue(  112.213   ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar7",'d',true);  param->SetDefaultValue( -0.486080  ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar8",'d',true);  param->SetDefaultValue(    7.500   ); ineEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaBeXsecPar9",'d',true);  param->SetDefaultValue(    0.0     ); ineEtaBeXsecParCmd->SetParameter(param);
+
+
+  // Be quasielastic cross section
+  qelEtaBeXsecParCmd =  new G4UIcommand("/boone/crosssections/eta/qelEtaBeXsecPar",this);
+  qelEtaBeXsecParCmd->SetGuidance("Set values of parameters for eta-Be qel xsec ");
+  qelEtaBeXsecParCmd->SetGuidance("Usage: /boone/crosssections/eta/qelEtaBeXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  qelEtaBeXsecParCmd->SetGuidance("Description: parametrization according to");
+  qelEtaBeXsecParCmd->SetGuidance("             0.5 * (1+tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  qelEtaBeXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("qelEtaBeXsecPar0",'d',true);  param->SetDefaultValue( 188.971   ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar1",'d',true);  param->SetDefaultValue(   1.20055 ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar2",'d',true);  param->SetDefaultValue(   0.1851  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar3",'d',true);  param->SetDefaultValue(   0.6264  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar4",'d',true);  param->SetDefaultValue(   2.5043  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar5",'d',true);  param->SetDefaultValue(  -1.5594  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar6",'d',true);  param->SetDefaultValue(  46.4073  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar7",'d',true);  param->SetDefaultValue(  -0.6325  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar8",'d',true);  param->SetDefaultValue(   1.8743  ); qelEtaBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaBeXsecPar9",'d',true);  param->SetDefaultValue(   0.0000  ); qelEtaBeXsecParCmd->SetParameter(param);
+
+  // Al total cross section
+  totEtaAlXsecParCmd =  new G4UIcommand("/boone/crosssections/eta/totEtaAlXsecPar",this);
+  totEtaAlXsecParCmd->SetGuidance("Set values of parameters for eta-Be tot xsec ");
+  totEtaAlXsecParCmd->SetGuidance("Usage: /boone/crosssections/eta/totEtaAlXsecPar c0 c1 c2 c3 c4 c5 c6 c7");
+  totEtaAlXsecParCmd->SetGuidance("Description: parametrization according to");
+  totEtaAlXsecParCmd->SetGuidance("             CBW or 0.5 * (1+tanh( (p-c1)*c2 ))* (c3 + c4 * p^c5 + c6* log^2 p + c7*log p)");
+  totEtaAlXsecParCmd->SetGuidance("             where CBW is the Carroll et al. BW function, A =27 for Al)");
+  totEtaAlXsecParCmd->SetGuidance("             where c0 marks the transition between the two forms");
+
+  param = new G4UIparameter("totEtaAlXsecPar0",'d',true);  param->SetDefaultValue(  0.900   ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar1",'d',true);  param->SetDefaultValue(  0.9313  ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar2",'d',true);  param->SetDefaultValue(  3.1856  ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar3",'d',true);  param->SetDefaultValue(569.084   ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar4",'d',true);  param->SetDefaultValue(511.272   ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar5",'d',true);  param->SetDefaultValue( -3.791   ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar6",'d',true);  param->SetDefaultValue(-18.495   ); totEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totEtaAlXsecPar7",'d',true);  param->SetDefaultValue(  0.0     ); totEtaAlXsecParCmd->SetParameter(param);
+
+  // Al inelastic cross section
+  ineEtaAlXsecParCmd =  new G4UIcommand("/boone/crosssections/eta/ineEtaAlXsecPar",this);
+  ineEtaAlXsecParCmd->SetGuidance("Set values of parameters for eta-Al ine xsec ");
+  ineEtaAlXsecParCmd->SetGuidance("Usage: /boone/crosssections/eta/ineEtaAlXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  ineEtaAlXsecParCmd->SetGuidance("Description: parametrization according to");
+  ineEtaAlXsecParCmd->SetGuidance("             0.5 * (1+tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  ineEtaAlXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("ineEtaAlXsecPar0",'d',true);  param->SetDefaultValue(  346.568  ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar1",'d',true);  param->SetDefaultValue(    1.1888 ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar2",'d',true);  param->SetDefaultValue(    0.30478); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar3",'d',true);  param->SetDefaultValue(    0.8746 ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar4",'d',true);  param->SetDefaultValue(    1.469  ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar5",'d',true);  param->SetDefaultValue( 1532.00   ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar6",'d',true);  param->SetDefaultValue( -848.623  ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar7",'d',true);  param->SetDefaultValue(    0.7050 ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar8",'d',true);  param->SetDefaultValue(  575.056  ); ineEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("ineEtaAlXsecPar9",'d',true);  param->SetDefaultValue(    0.000  ); ineEtaAlXsecParCmd->SetParameter(param);
+
+
+  // Al quasielastic cross section
+  qelEtaAlXsecParCmd =  new G4UIcommand("/boone/crosssections/eta/qelEtaAlXsecPar",this);
+  qelEtaAlXsecParCmd->SetGuidance("Set values of parameters for eta-Al qel xsec ");
+  qelEtaAlXsecParCmd->SetGuidance("Usage: /boone/crosssections/eta/qelEtaAlXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  qelEtaAlXsecParCmd->SetGuidance("Description: parametrization according to");
+  qelEtaAlXsecParCmd->SetGuidance("             0.5 * (1+tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  qelEtaAlXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("qelEtaAlXsecPar0",'d',true);  param->SetDefaultValue( 129.119   ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar1",'d',true);  param->SetDefaultValue(   1.1888  ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar2",'d',true);  param->SetDefaultValue(   0.30478 ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar3",'d',true);  param->SetDefaultValue(   0.633   ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar4",'d',true);  param->SetDefaultValue(   2.199   ); qelEtaAlXsecParCmd->SetParameter(param); 
+  param = new G4UIparameter("qelEtaAlXsecPar5",'d',true);  param->SetDefaultValue(  32.523   ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar6",'d',true);  param->SetDefaultValue(  85.148   ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar7",'d',true);  param->SetDefaultValue(  -1.225   ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar8",'d',true);  param->SetDefaultValue(   1.383   ); qelEtaAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelEtaAlXsecPar9",'d',true);  param->SetDefaultValue(   0.000   ); qelEtaAlXsecParCmd->SetParameter(param);
+
 }
 
 BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
@@ -481,6 +608,7 @@ BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
   delete booneNeutronCrossSectionsDirectory;
   delete boonePionPlusCrossSectionsDirectory;
   delete boonePionMinusCrossSectionsDirectory;
+  delete booneEtaCrossSectionsDirectory;
 
   delete proBeMomentumRangeCmd;
   delete proAlMomentumRangeCmd;
@@ -490,6 +618,8 @@ BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
   delete pipAlMomentumRangeCmd;
   delete pimBeMomentumRangeCmd;
   delete pimAlMomentumRangeCmd;
+  delete etaBeMomentumRangeCmd;
+  delete etaAlMomentumRangeCmd;
 
   delete totProBeXsecParCmd;
   delete ineProBeXsecParCmd;
@@ -518,6 +648,13 @@ BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
   delete totPimAlXsecParCmd;
   delete inePimAlXsecParCmd;
   delete qelPimAlXsecParCmd;
+
+  delete totEtaBeXsecParCmd;
+  delete ineEtaBeXsecParCmd;
+  delete qelEtaBeXsecParCmd;
+  delete totEtaAlXsecParCmd;
+  delete ineEtaAlXsecParCmd;
+  delete qelEtaAlXsecParCmd;
 
 }
 
@@ -576,6 +713,17 @@ void BooNEHadronCrossSectionsMessenger::SetNewValue(G4UIcommand * command,G4Stri
     theBooNEHadronCrossSections->SetPionMinusAlMomentumRange(min, max);
   }
 
+ if (command == etaBeMomentumRangeCmd){
+    G4double min = StoD(next());
+    G4double max = StoD(next());
+    theBooNEHadronCrossSections->SetEtaBeMomentumRange(min, max);
+  }
+
+  if (command == etaAlMomentumRangeCmd){
+    G4double min = StoD(next());
+    G4double max = StoD(next());
+    theBooNEHadronCrossSections->SetEtaAlMomentumRange(min, max);
+  }
 
   // protons
   if (command == totProBeXsecParCmd){
@@ -704,5 +852,37 @@ void BooNEHadronCrossSectionsMessenger::SetNewValue(G4UIcommand * command,G4Stri
     for(int i = 0; i < 10; i++)qelPimAlXsecPar[i] = StoD(next());
     theBooNEHadronCrossSections->SetPimAlQelParameter(qelPimAlXsecPar, 10);
   }
+
+  // Eta
+  if (command == totEtaBeXsecParCmd){
+    for(int i = 0; i < 8; i++)totEtaBeXsecPar[i] = StoD(next());
+    theBooNEHadronCrossSections->SetEtaBeTotParameter(totEtaBeXsecPar, 8);
+  }
+
+  if (command == ineEtaBeXsecParCmd){
+    for(int i = 0; i < 10; i++)ineEtaBeXsecPar[i] = StoD(next());
+    theBooNEHadronCrossSections->SetEtaBeIneParameter(ineEtaBeXsecPar, 10);
+  }
+
+  if (command == qelEtaBeXsecParCmd){
+    for(int i = 0; i < 10; i++)qelEtaBeXsecPar[i] = StoD(next());
+    theBooNEHadronCrossSections->SetEtaBeQelParameter(qelEtaBeXsecPar, 10);
+  }
+
+  if (command == totEtaAlXsecParCmd){
+    for(int i = 0; i < 8; i++)totEtaAlXsecPar[i] = StoD(next());
+    theBooNEHadronCrossSections->SetEtaAlTotParameter(totEtaAlXsecPar, 8);
+  }
+
+  if (command == ineEtaAlXsecParCmd){
+    for(int i = 0; i < 10; i++)ineEtaAlXsecPar[i] = StoD(next());
+    theBooNEHadronCrossSections->SetEtaAlIneParameter(ineEtaAlXsecPar, 10);
+  }
+
+  if (command == qelEtaAlXsecParCmd){
+    for(int i = 0; i < 10; i++)qelEtaAlXsecPar[i] = StoD(next());
+    theBooNEHadronCrossSections->SetEtaAlQelParameter(qelEtaAlXsecPar, 10);
+  }
+
 
 }

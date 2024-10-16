@@ -78,6 +78,7 @@ BooNEHadronInelasticProcess(const G4ParticleDefinition& aParticleType)
     AddDataSet(booneXsec); //BooNE xsec 
   } else if (aParticleType==*(G4PionPlus::PionPlus()) ||
 	     aParticleType==*(G4PionMinus::PionMinus()) ||
+	     //aParticleType==*(G4Eta::Eta()) ||
 	     aParticleType==*(G4KaonPlus::KaonPlus()) ||
 	     aParticleType==*(G4KaonMinus::KaonMinus()) ||
 	     aParticleType==*(G4KaonZeroLong::KaonZeroLong()) ||
@@ -139,6 +140,7 @@ IsApplicable(const G4ParticleDefinition& aParticleType)
 {
   return (aParticleType == *(G4PionPlus::PionPlus()  )  ||
 	  aParticleType == *(G4PionMinus::PionMinus())  ||
+	  //aParticleType == *(G4Eta::Eta())  ||
 	  aParticleType == *(G4KaonPlus::KaonPlus()  )  ||
 	  aParticleType == *(G4KaonMinus::KaonMinus())  ||
 	  aParticleType == *(G4KaonZeroLong::KaonZeroLong()) || 

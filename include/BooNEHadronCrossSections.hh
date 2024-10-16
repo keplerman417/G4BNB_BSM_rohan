@@ -9,6 +9,7 @@
 #include "G4PionMinus.hh"
 #include "G4Proton.hh"
 #include "G4Neutron.hh"
+#include "G4Eta.hh"
 #include "G4UImanager.hh"
 #include "BooNEHadronCrossSectionsMessenger.hh"
 
@@ -53,35 +54,53 @@ public:
   G4double GetNeutronBeMomentumMin()    { return nBeMin;   }
   G4double GetPionPlusBeMomentumMin()   { return pipBeMin; }
   G4double GetPionMinusBeMomentumMin()  { return pimBeMin; }
-
+  G4double GetEtaBeMomentumMin()  { return etaBeMin; }
+  
   G4double GetProtonBeMomentumMax()     { return pBeMax;   }
   G4double GetNeutronBeMomentumMax()    { return nBeMax;   }
   G4double GetPionPlusBeMomentumMax()   { return pipBeMax; }
   G4double GetPionMinusBeMomentumMax()  { return pimBeMax; }
-
+  G4double GetEtaBeMomentumMax()  { return etaBeMax; }
+  
   G4double GetProtonAlMomentumMin()     { return pAlMin;   }
   G4double GetNeutronAlMomentumMin()    { return nAlMin;   }
   G4double GetPionPlusAlMomentumMin()   { return pipAlMin; }
   G4double GetPionMinusAlMomentumMin()  { return pimAlMin; }
-
+  G4double GetEtaAlMomentumMin()  { return etaAlMin; }
+  
   G4double GetProtonAlMomentumMax()     { return pAlMax;   }
   G4double GetNeutronAlMomentumMax()    { return nAlMax;   }
   G4double GetPionPlusAlMomentumMax()   { return pipAlMax; }
   G4double GetPionMinusAlMomentumMax()  { return pimAlMax; }
-
+  G4double GetEtaAlMomentumMax()  { return etaAlMax; }
 
   // modifier for momentum ranges
   void SetProtonBeMomentumRange(G4double min, G4double max)      { pBeMin = min;   pBeMax = max;   }
   void SetNeutronBeMomentumRange(G4double min, G4double max)     { nBeMin = min;   nBeMax = max;   }
   void SetPionPlusBeMomentumRange(G4double min, G4double max)    { pipBeMin = min; pipBeMax = max; }
   void SetPionMinusBeMomentumRange(G4double min, G4double max)   { pimBeMin = min; pimBeMax = max; }
-
+  void SetEtaBeMomentumRange(G4double min, G4double max)   { etaBeMin = min; etaBeMax = max; }
+  
   void SetProtonAlMomentumRange(G4double min, G4double max)       { pAlMin = min;   pAlMax = max;   }
   void SetNeutronAlMomentumRange(G4double min, G4double max)	  { nAlMin = min;   nAlMax = max;   }
   void SetPionPlusAlMomentumRange(G4double min, G4double max)	  { pipAlMin = min; pipAlMax = max; }
   void SetPionMinusAlMomentumRange(G4double min, G4double max)	  { pimAlMin = min; pimAlMax = max; }
-
+  void SetEtaAlMomentumRange(G4double min, G4double max)    { etaAlMin = min; etaAlMax = max; }
+  
   // modifiers for the cross sections
+
+  // eta-Be
+
+  void SetEtaBeTotParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)etaBeTotParameters.push_back(values[i]); }
+  void SetEtaBeQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)etaBeQelParameters.push_back(values[i]); }
+  void SetEtaBeIneParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)etaBeIneParameters.push_back(values[i]); }
+
+  // eta-Al
+
+  void SetEtaAlTotParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)etaAlTotParameters.push_back(values[i]); }
+  void SetEtaAlQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)etaAlQelParameters.push_back(values[i]); }
+  void SetEtaAlIneParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)etaAlIneParameters.push_back(values[i]); }
+  
   // proton-Be
   void SetpBeTotParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pBeTotParameters.push_back(values[i]); }
   void SetpBeQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pBeQelParameters.push_back(values[i]); }
@@ -157,7 +176,8 @@ private:
   G4double pBeMin,   pBeMax,   pAlMin,   pAlMax; 
   G4double nBeMin,   nBeMax,   nAlMin,   nAlMax; 
   G4double pipBeMin, pipBeMax, pipAlMin, pipAlMax; 
-  G4double pimBeMin, pimBeMax, pimAlMin, pimAlMax; 
+  G4double pimBeMin, pimBeMax, pimAlMin, pimAlMax;
+  G4double etaBeMin,   etaBeMax,   etaAlMin,   etaAlMax;
 
   // proton cross section parameters
   std::vector<G4double>  pBeTotParameters;
@@ -198,6 +218,15 @@ private:
   std::vector<G4double>  pimAlQelParameters;
   std::vector<G4double>  pimAlIneParameters;
 
+  // eta cross section parameters
+  std::vector<G4double>  etaBeTotParameters;
+  std::vector<G4double>  etaBeQelParameters;
+  std::vector<G4double>  etaBeIneParameters;
+
+  std::vector<G4double>  etaAlTotParameters;
+  std::vector<G4double>  etaAlQelParameters;
+  std::vector<G4double>  etaAlIneParameters;
+  
   static BooNEHadronCrossSections* theInstance;
   
   G4int verboseLevel;

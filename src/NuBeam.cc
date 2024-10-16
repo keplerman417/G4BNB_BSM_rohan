@@ -16,6 +16,8 @@
 #include "G4UImanager.hh"
 #include "G4UIterminal.hh"
 
+#include "G4PhysListFactory.hh"
+#include "G4VUserPhysicsList.hh"
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
 #endif
@@ -41,10 +43,14 @@ int main(int argc,char** argv)
   
   NuBeamOutput* myRecords = new NuBeamOutput();
   NuBeamRunManager *runManager = new NuBeamRunManager(myRecords); 
-       
+   
   // set mandatory initialization classes
   runManager->SetUserInitialization(new NuBeamGeometryConstruction());
   runManager->SetUserInitialization(new NuBeamPhysicsList());
+  //runManager->SetPhysicsListName("QGSP_BERT");
+  //G4PhysListFactory *physListFactory = new G4PhysListFactory();
+  //G4VUserPhysicsList *physicsList = physListFactory->GetReferencePhysList("QGSP_BERT");
+  //runManager->SetUserInitialization(physicsList);
   runManager->SetUserAction(new NuBeamRunAction());
   runManager->SetUserAction(new NuBeamPrimaryGeneratorAction());
   runManager->SetUserAction(new NuBeamEventAction());

@@ -122,7 +122,24 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   NeutronPhysicsModelCmd->SetDefaultValue("MARS");
   NeutronPhysicsModelCmd->SetCandidates("MARS GFLUKA G4DEFAULT");
   //
+  //eta physics model
+  EtaPhysicsModelCmd = new G4UIcmdWithAString("/boone/physics/etaModel",this);
+  EtaPhysicsModelCmd->SetGuidance("physics model for pi- production in p-Be interaction");
+  EtaPhysicsModelCmd->SetGuidance("Description:");
+  EtaPhysicsModelCmd->SetGuidance("MARS: eta production in p-target interactions according to MARS");
+  EtaPhysicsModelCmd->SetGuidance("GFLUKA: eta production in p-target interactions according to GFLUKA");
+  EtaPhysicsModelCmd->SetGuidance("ZGS: eta production in p-target interactions according to a Sanford-Wang parametrization of Argonne's ZGS data");
+  EtaPhysicsModelCmd->SetGuidance("SWPar: eta production in p-target interactions according to a Sanford-Wang parametrization, chosen by the user via the command SWEtaPar.");
+  EtaPhysicsModelCmd->SetGuidance("G4DEFALT: eta production in p-target interactions according to G4 default model");
+  EtaPhysicsModelCmd->SetParameterName("physics", true, false);
+  EtaPhysicsModelCmd->SetDefaultValue("SWPar");
+  EtaPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar G4DEFAULT");
+  //
 
+
+
+
+  
   // scaling option for scaling cross sections from Be to materials of atomic number A
   BeToAScalingCmd = new G4UIcmdWithABool("/boone/physics/BeToAScaling",this);
   BeToAScalingCmd->SetGuidance("Flag for using the Be to A scaling factor for the cross sections");
@@ -399,6 +416,48 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetDefaultValue(0.0);
   FSKaonZeroLongParCmd->SetParameter(param);
 
+  // eta
+  SWEtaParCmd = 
+    new G4UIcommand("/boone/physics/SWEtaPar",this);
+  SWEtaParCmd->SetGuidance("Set values of SW parameters for eta");
+  SWEtaParCmd->SetGuidance("Usage: /boone/physics/SWEtaPar c1 c2 c3 c4 c5 c6 c7 c8");
+  SWEtaParCmd->SetGuidance("Description: c1 through c8 are the real SW parameters for pi- production.");
+
+  param = new G4UIparameter("SWEtaPar1Value",'d',true);
+  param->SetParameterRange("SWEtaPar1Value>=0.");
+  param->SetDefaultValue(184.1);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar2Value",'d',true);
+  param->SetParameterRange("SWEtaPar2Value>=0.");
+  param->SetDefaultValue(1.052);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar3Value",'d',true);
+  param->SetParameterRange("SWEtaPar3Value>=0.");
+  param->SetDefaultValue(6.706);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar4Value",'d',true);
+  param->SetParameterRange("SWEtaPar4Value>=0.");
+  param->SetDefaultValue(1.275);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar5Value",'d',true);
+  param->SetParameterRange("SWEtaPar5Value>=0.");
+  param->SetDefaultValue(1.424);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar6Value",'d',true);
+  param->SetParameterRange("SWEtaPar6Value>=0.");
+  param->SetDefaultValue(5.225);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar7Value",'d',true);
+  param->SetParameterRange("SWEtaPar7Value>=0.");
+  param->SetDefaultValue(0.9439E-01);
+  SWEtaParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaPar8Value",'d',true);
+  param->SetParameterRange("SWEtaPar8Value>=0.");
+  param->SetDefaultValue(10.74);
+  SWEtaParCmd->SetParameter(param);
+
+
+  
   // Proton Reweighting Function Command
   ProtonRwgtFuncCmd = new G4UIcmdWithAString("/boone/physics/protonRwgtFunc",this);
   ProtonRwgtFuncCmd->SetGuidance("Controls the functional form of the proton cross-section reweighting function");
@@ -490,6 +549,22 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   KaonZeroLongRwgtFuncCmd->SetDefaultValue("NONE");
   KaonZeroLongRwgtFuncCmd->SetCandidates("NONE POLY EXP FLAT1 FLAT2");
 
+
+  // Eta Reweighting Function Command
+  EtaRwgtFuncCmd = new G4UIcmdWithAString("/boone/physics/etaRwgtFunc",this);
+  EtaRwgtFuncCmd->SetGuidance("Controls the functional form of the eta cross-section reweighting function");
+  EtaRwgtFuncCmd->SetGuidance("Options:");
+  EtaRwgtFuncCmd->SetGuidance("NONE  - no reweighting function is used");
+  EtaRwgtFuncCmd->SetGuidance("POLY  - reweighting is a polynomial function of the daughter's pz");
+  EtaRwgtFuncCmd->SetGuidance("EXP   - reweighting is an exponential function of the daughter's pz");
+  EtaRwgtFuncCmd->SetGuidance("FLAT1 - reweighting makes the daughter cross-section tables flat in p and theta");
+  EtaRwgtFuncCmd->SetGuidance("FLAT2 - reweighting makes the daughter cross-section tables flat in pt and pz");
+  EtaRwgtFuncCmd->SetParameterName("etarwgtfunc", true, false);
+  EtaRwgtFuncCmd->SetDefaultValue("NONE");
+  EtaRwgtFuncCmd->SetCandidates("NONE POLY EXP FLAT1 FLAT2");
+
+
+  
   // Proton Reweighting Parameters Command
   ProtonRwgtParamsCmd = 
     new G4UIcommand("/boone/physics/protonRwgtParams",this);
@@ -791,7 +866,51 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetDefaultValue(0.);
   KaonZeroLongRwgtParamsCmd->SetParameter(param);
 
+  // Eta Reweighting Parameters Command
+  EtaRwgtParamsCmd = 
+    new G4UIcommand("/boone/physics/etaRwgtParams",this);
+  EtaRwgtParamsCmd->SetGuidance("Set the parameters of the chosen cross-section reweighting function");
+  EtaRwgtParamsCmd->SetGuidance("NONE:  parameters will be ignored");
+  EtaRwgtParamsCmd->SetGuidance("POLY:  c0 + c1*pz + c2*pz^2 + ... + c9*pz^9");
+  EtaRwgtParamsCmd->SetGuidance("       Usage:  /boone/physics/etaRwgtParams c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  EtaRwgtParamsCmd->SetGuidance("EXP:   c0 + c1*exp(c2*(pz-c3))");
+  EtaRwgtParamsCmd->SetGuidance("       Usage:  /boone/physics/etaRwgtParams c0 c1 c2 c3");
+  EtaRwgtParamsCmd->SetGuidance("FLAT1: parameters will be ignored");
+  EtaRwgtParamsCmd->SetGuidance("FLAT2: parameters will be ignored");
 
+  param = new G4UIparameter("etaRwgtParam0",'d',true);
+  param->SetDefaultValue(1.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam1",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam2",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam3",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam4",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam5",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam6",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam7",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam8",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("etaRwgtParam9",'d',true);
+  param->SetDefaultValue(0.);
+  EtaRwgtParamsCmd->SetParameter(param);
+
+
+  
   // Quasi elastic scattering parameters:
   // Only protons at 8GeV use this in new MC, but keeping all QE parameters
   // for now
@@ -846,6 +965,19 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param = new G4UIparameter("pimQuasiElasticPar3",'d',true);  param->SetDefaultValue(  2.17844  ); pimQuasiElasticParCmd->SetParameter(param);
   param = new G4UIparameter("pimQuasiElasticPar4",'d',true);  param->SetDefaultValue(  1.07658  ); pimQuasiElasticParCmd->SetParameter(param);
   param = new G4UIparameter("pimQuasiElasticPar5",'d',true);  param->SetDefaultValue( -0.0891735); pimQuasiElasticParCmd->SetParameter(param);
+
+  etaQuasiElasticParCmd =  new G4UIcommand("/boone/physics/quasielastic/etaQuasiElasticPar",this);
+  etaQuasiElasticParCmd->SetGuidance("Set values of parameters for eta quasielastic");
+  etaQuasiElasticParCmd->SetGuidance("Usage: /boone/physics/quasielastic/etaQuasiElasticcPar c0 c1 c2 c3 c4 c5");
+  etaQuasiElasticParCmd->SetGuidance("Description: parametrization according to c0 * tanh((p-c1)*c2) + c3 Gauss(c4, c5)");
+
+  param = new G4UIparameter("etaQuasiElasticPar0",'d',true);  param->SetDefaultValue(  4.16121  ); etaQuasiElasticParCmd->SetParameter(param);
+  param = new G4UIparameter("etaQuasiElasticPar1",'d',true);  param->SetDefaultValue(  0.583495 ); etaQuasiElasticParCmd->SetParameter(param);
+  param = new G4UIparameter("etaQuasiElasticPar2",'d',true);  param->SetDefaultValue(  1.21394  ); etaQuasiElasticParCmd->SetParameter(param);
+  param = new G4UIparameter("etaQuasiElasticPar3",'d',true);  param->SetDefaultValue(  2.17844  ); etaQuasiElasticParCmd->SetParameter(param);
+  param = new G4UIparameter("etaQuasiElasticPar4",'d',true);  param->SetDefaultValue(  1.07658  ); etaQuasiElasticParCmd->SetParameter(param);
+  param = new G4UIparameter("etaQuasiElasticPar5",'d',true);  param->SetDefaultValue( -0.0891735); etaQuasiElasticParCmd->SetParameter(param);
+  
 }
 
 BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
@@ -858,6 +990,7 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete KaonZeroLongPhysicsModelCmd;
   delete ProtonPhysicsModelCmd;
   delete NeutronPhysicsModelCmd;
+  delete EtaPhysicsModelCmd;
   // delete randomSeedCmd;
   delete SWPiPlusParCmd;
   delete SWPiMinusParCmd;
@@ -869,7 +1002,8 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete BeToAScalingParCmd;
   delete PhysicsVerboseCmd;
   delete NoBeamPionsCmd;
-
+  delete SWEtaParCmd;
+  
   delete ProtonRwgtFuncCmd;
   delete NeutronRwgtFuncCmd;
   delete PionPlusRwgtFuncCmd;
@@ -877,7 +1011,8 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete KaonPlusRwgtFuncCmd;
   delete KaonMinusRwgtFuncCmd;
   delete KaonZeroLongRwgtFuncCmd;
-
+  delete EtaRwgtFuncCmd;
+  
   delete ProtonRwgtParamsCmd;
   delete NeutronRwgtParamsCmd;
   delete PionPlusRwgtParamsCmd;
@@ -885,7 +1020,8 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete KaonPlusRwgtParamsCmd;
   delete KaonMinusRwgtParamsCmd;
   delete KaonZeroLongRwgtParamsCmd;
-
+  delete EtaRwgtParamsCmd;
+  
 }
 
 void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String newValues)
@@ -919,6 +1055,11 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
   if(command == NeutronPhysicsModelCmd)
     BooNEProtonModel->SetNeutronPhysicsModel(newValues);
 
+  
+  if(command == EtaPhysicsModelCmd)
+    BooNEProtonModel->SetEtaPhysicsModel(newValues);
+
+  
   if (command == SWPiPlusParCmd) {
     G4Tokenizer next( newValues );
     fSWPiPlusPar1Value = StoD(next());
@@ -1025,6 +1166,25 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
 				     fFSKaonZeroLongPar7Value, fFSKaonZeroLongPar8Value);
   }
 
+
+  if (command == SWEtaParCmd) {
+    G4Tokenizer next( newValues );
+    fSWEtaPar1Value = StoD(next());
+    fSWEtaPar2Value = StoD(next());
+    fSWEtaPar3Value = StoD(next());
+    fSWEtaPar4Value = StoD(next());
+    fSWEtaPar5Value = StoD(next());
+    fSWEtaPar6Value = StoD(next());
+    fSWEtaPar7Value = StoD(next());
+    fSWEtaPar8Value = StoD(next());
+    BooNEProtonModel->SetSWEtaPar(
+				     fSWEtaPar1Value, fSWEtaPar2Value,
+				     fSWEtaPar3Value, fSWEtaPar4Value,
+				     fSWEtaPar5Value, fSWEtaPar6Value,
+				     fSWEtaPar7Value, fSWEtaPar8Value);
+  }
+
+  
   if(command == BeToAScalingCmd) {
     G4int vl;
     const char* t = newValues;
@@ -1091,6 +1251,15 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
     BooNEProtonModel->SetPionMinusQuasiElasticParameters(pimQuasiElasticPar, 6);
   }
 
+  
+  // eta
+  if (command == etaQuasiElasticParCmd){
+    G4Tokenizer next( newValues );
+    for(int i = 0; i < 6; i++)etaQuasiElasticPar[i] = StoD(next());
+    BooNEProtonModel->SetEtaQuasiElasticParameters(etaQuasiElasticPar, 6);
+  }
+
+  
   if(command == ProtonRwgtFuncCmd)
     BooNEProtonModel->SetProtonRwgtFunc(newValues);
 
@@ -1112,6 +1281,11 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
   if(command == KaonZeroLongRwgtFuncCmd)
     BooNEProtonModel->SetKaonZeroLongRwgtFunc(newValues);
 
+  
+  if(command == EtaRwgtFuncCmd)
+    BooNEProtonModel->SetEtaRwgtFunc(newValues);
+
+  
   if (command == ProtonRwgtParamsCmd) {
 
     G4Tokenizer next( newValues );
@@ -1301,5 +1475,35 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
 
   }
 
+
+  if (command == EtaRwgtParamsCmd) {
+
+    G4Tokenizer next( newValues );
+    G4double etaRwgtParam0 = StoD(next());
+    G4double etaRwgtParam1 = StoD(next());
+    G4double etaRwgtParam2 = StoD(next());
+    G4double etaRwgtParam3 = StoD(next());
+    G4double etaRwgtParam4 = StoD(next());
+    G4double etaRwgtParam5 = StoD(next());
+    G4double etaRwgtParam6 = StoD(next());
+    G4double etaRwgtParam7 = StoD(next());
+    G4double etaRwgtParam8 = StoD(next());
+    G4double etaRwgtParam9 = StoD(next());
+
+    BooNEProtonModel->SetEtaRwgtParams(etaRwgtParam0,
+					    etaRwgtParam1,
+					    etaRwgtParam2,
+					    etaRwgtParam3,
+					    etaRwgtParam4,
+					    etaRwgtParam5,
+					    etaRwgtParam6,
+					    etaRwgtParam7,
+					    etaRwgtParam8,
+					    etaRwgtParam9);
+
+  }
+
+
+  
 }
 

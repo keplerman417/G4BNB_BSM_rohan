@@ -182,7 +182,7 @@ G4double BooNEHadronQuasiElasticModel::Beta(const G4HadProjectile* theIncidentHa
     betaParameter = p0 + p1*p + p2*pow(p,2) + p3* pow(p,3) + p4 *pow(p,4) + p5 * pow(p,5);
   }
   else if( theIncidentHadron->GetDefinition() == G4PionPlus::PionPlus() ||
-	   theIncidentHadron->GetDefinition() == G4PionMinus::PionMinus() ){
+	   theIncidentHadron->GetDefinition() == G4PionMinus::PionMinus()){
     if(ran < 0.5){
       tNorm   = pionPlusBetaParameters[0];
       tOffset = pionPlusBetaParameters[1];

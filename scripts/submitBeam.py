@@ -30,8 +30,8 @@ parser.add_argument("-j", "--jobidoffset", type=int, dest="jobid",
                     default=0,
                     help="Id for running job. If submitting multiple jobs each one is offset by its process number (0..n)")
 parser.add_argument("-o", "--output-path", dest="outputpath",
-                    default="/pnfs/uboone/scratch/users/%s/beammc"%os.environ['USER'],
-                    help="Path where to copy final output. (default=/pnfs/uboone/scratch/users/%s/beammc)"%os.environ['USER'])
+                    default="/pnfs/sbnd/scratch/users/%s/beammc"%os.environ['USER'],
+                    help="Path where to copy final output. (default=/pnfs/sbnd/scratch/users/%s/beammc)"%os.environ['USER'])
 parser.add_argument("-gg", "--grid-group", dest="gridgroup",
                     default="sbnd",
                     help="The group to pass to jobsub_submit. Default: sbnd.")

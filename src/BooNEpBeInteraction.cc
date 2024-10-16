@@ -31,6 +31,7 @@ BooNEpBeInteraction::BooNEpBeInteraction()
   UI->ApplyCommand("/boone/physics/BooNEpBeModelEnergyRange");
   UI->ApplyCommand("/boone/physics/SWPiPlusPar");
   UI->ApplyCommand("/boone/physics/SWPiMinusPar");
+  UI->ApplyCommand("/boone/physics/SWEtaPar");
   UI->ApplyCommand("/boone/physics/SWKaonPlusPar");
   UI->ApplyCommand("/boone/physics/SWKaonZeroLongPar");
   UI->ApplyCommand("/boone/physics/FSKaonPlusPar");
@@ -40,6 +41,7 @@ BooNEpBeInteraction::BooNEpBeInteraction()
   UI->ApplyCommand("boone/physics/quasielastic/neuQuasiElasticPar");
   UI->ApplyCommand("boone/physics/quasielastic/pipQuasiElasticPar");
   UI->ApplyCommand("boone/physics/quasielastic/pimQuasiElasticPar");
+  UI->ApplyCommand("boone/physics/quasielastic/etaQuasiElasticPar");
 
   const NuBeamPrimaryGeneratorAction* nbpga=dynamic_cast<const NuBeamPrimaryGeneratorAction*> (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
   fPrimaryEnergy = nbpga->GetParticleGun()->GetParticleEnergy();  
@@ -116,6 +118,42 @@ G4double BooNEpBeInteraction::GetSWPiMinusPar(G4int parNo)
     return 0.;
   }
 }
+
+// ----------------------------------------
+
+
+void BooNEpBeInteraction::SetSWEtaPar(
+					 G4double val1, G4double val2,
+					 G4double val3, G4double val4,
+					 G4double val5, G4double val6,
+					 G4double val7, G4double val8)
+{
+  SWEtaPar1 = val1;
+  SWEtaPar2 = val2;
+  SWEtaPar3 = val3;
+  SWEtaPar4 = val4;
+  SWEtaPar5 = val5;
+  SWEtaPar6 = val6;
+  SWEtaPar7 = val7;
+  SWEtaPar8 = val8;
+}
+
+G4double BooNEpBeInteraction::GetSWEtaPar(G4int parNo)
+{
+  if (parNo == 1) return SWEtaPar1;
+  else if (parNo == 2) return SWEtaPar2;
+  else if (parNo == 3) return SWEtaPar3;
+  else if (parNo == 4) return SWEtaPar4;
+  else if (parNo == 5) return SWEtaPar5;
+  else if (parNo == 6) return SWEtaPar6;
+  else if (parNo == 7) return SWEtaPar7;
+  else if (parNo == 8) return SWEtaPar8;
+  else {
+    G4cout << "Problems" << G4endl;
+    return 0.;
+  }
+}
+
 
 // ----------------------------------------
 
@@ -462,6 +500,199 @@ BooNEpBeInteraction::SetPiPlusPhysicsModel(G4String val)
 
 // ------------------------------------------------------------------------
 
+// set eta production physics model
+
+void
+BooNEpBeInteraction::SetEtaPhysicsModel(G4String val)
+{
+
+  EtaPhysicsModel = val;
+
+  G4bool scale = GetUseBeToAScaling();
+  G4double c0=0, c1=0, c2=0, xFey=0;
+  if( scale )
+  {
+    c0 = GetBeToAScalingPar(0);
+    c1 = GetBeToAScalingPar(1);
+    c2 = GetBeToAScalingPar(2);
+    G4cout << "A scaling is active !!  ( c0, c1, c2 ) = ( " 
+	   << c0 << ", " 
+	   << c1 << ", "
+	   << c2 << " )" << G4endl;
+  }
+
+  G4double xSectRatio = 1.;
+  G4Material* targetMat = GetTargetMaterial();
+  const G4Element* ele = targetMat->GetElement(0);
+  G4double targetA = ele->GetN();
+  G4double BeA = 9.01218;
+  G4double ratioA = targetA / BeA;
+  if( scale )
+    G4cout << "                        ( A_targ / A_Be ) = " << targetA << " / " << BeA << " = " << ratioA << G4endl;
+
+
+  //--Retrieve the Primary Beam Energy and determine the momentum
+  G4double EKinetic = fPrimaryEnergy/CLHEP::GeV;
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  G4String particleName;
+  G4ParticleDefinition* particle = particleTable->FindParticle( particleName = "proton" );
+  G4double ProtonMass = particle->GetPDGMass()/CLHEP::GeV;
+  G4double ProtonMass2 = ProtonMass * ProtonMass;
+  G4double EtaMass = G4Eta::EtaDefinition()->GetPDGMass()/CLHEP::GeV;
+
+  G4double pbeam = sqrt( (EKinetic + ProtonMass)*(EKinetic + ProtonMass) - ProtonMass*ProtonMass );
+
+
+  // MARS physics 
+  if (EtaPhysicsModel == "MARS") 
+  {
+    G4cout << "Eta Physics Model is MARS" << G4endl;
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  if( scale )
+	  {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      EtaMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+	  xSectRatio *= GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV)
+	    / xSectpBeInel_MARS;
+	  EtaXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*EtaXSecArray_MARS[ipz][ipt];
+	  EtaXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(EtaXSecNoWgtArray,iprotonp,ipz,ipt,9);
+	}
+      }
+    }
+  }
+
+
+  // GFLUKA physics
+  else if (EtaPhysicsModel == "GFLUKA") 
+  {
+    G4cout << "EtaPhysics Model is GFLUKA" << G4endl;
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  if( scale )
+          {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      EtaMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+	  xSectRatio *= GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV)
+	    / xSectpBeInel_GFLUKA;
+	  EtaXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*EtaXSecArray_GFLUKA[ipz][ipt];
+	  EtaXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(EtaXSecNoWgtArray,iprotonp,ipz,ipt,9);
+	}
+      }
+    }
+  }
+
+
+  // ZGS physics 
+  else if (EtaPhysicsModel == "ZGS") 
+  {
+    G4cout << "Eta Physics Model is ZGS" << G4endl;
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  if( scale )
+          {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      EtaMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+	  EtaXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*EtaXSecArray_ZGS[ipz][ipt];
+	  EtaXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(EtaXSecNoWgtArray,iprotonp,ipz,ipt,9);
+	}
+      }
+    }
+  }
+
+
+  // SWPar model 
+  else if (EtaPhysicsModel == "SWPar") {
+    G4cout << "Eta Physics Model is SWPar, with the following choice of parameters:" << G4endl;
+    G4cout << "SWEtaPar[1-8] = " << 
+      SWEtaPar1 << ", " << SWEtaPar2 << ", " <<
+      SWEtaPar3 << ", " << SWEtaPar4 << ", " <<
+      SWEtaPar5 << ", " << SWEtaPar6 << ", " <<
+      SWEtaPar7 << ", " << SWEtaPar8 << G4endl;
+
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  EKinetic = sqrt (fProtonMomentumBins[iprotonp]*fProtonMomentumBins[iprotonp]
+			   + ProtonMass2) - ProtonMass;
+	  pbeam = fProtonMomentumBins[iprotonp];
+	  if( scale )
+	  {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      EtaMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+
+	  G4double p = sqrt(fPzVec[ipz]*fPzVec[ipz]+fPtVec[ipt]*fPtVec[ipt]);
+	  G4double theta = atan(fPtVec[ipt]/fPzVec[ipz]);
+	  G4double first = SWEtaPar1*(pow(p,SWEtaPar2))*
+	    (1.-(p/(pbeam-1.)));
+	  G4double arg1 = -1.*SWEtaPar3*(pow(p,SWEtaPar4))/
+	    pow(pbeam,SWEtaPar5);
+	  G4double arg2 = -1.*SWEtaPar6*theta*
+	    (p-SWEtaPar7*pbeam*(pow(cos(theta),SWEtaPar8)));
+	  G4double arg = arg1+arg2;
+	  G4double second = exp(arg);
+	  G4double jacobian = 2.*M_PI*fPtVec[ipt]/(p*p);
+	  G4double valXSec = jacobian * (first*second);
+	  if (valXSec >= 0.) {
+	    EtaXSecArray_SWPar[iprotonp][ipz][ipt] = valXSec;
+	  } else {
+	    EtaXSecArray_SWPar[iprotonp][ipz][ipt] = 0.;
+	  }
+	  EtaXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*EtaXSecArray_SWPar[iprotonp][ipz][ipt];
+	  EtaXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(EtaXSecNoWgtArray,iprotonp,ipz,ipt,9);
+	}
+      }
+    }
+  }
+  
+  // no Eta Physics model
+  else {
+    G4cout << "Eta Physics Model is not valid! Results are nonsense" <<
+      G4endl;
+  }
+}
+
+
+// -----------------------------------------------------------------------
 
 // set pi- production physics model
 
@@ -1517,6 +1748,7 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
   static G4double KPlusMaxXSec;
   static G4double KMinusMaxXSec;
   static G4double KZeroLongMaxXSec;
+  static G4double EtaMaxXSec;
 
   theParticleChange.Clear();
 
@@ -1529,6 +1761,7 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
     KPlusMaxXSec = GetMax( KPlusXSecArray );
     KMinusMaxXSec = GetMax( KMinusXSecArray );
     KZeroLongMaxXSec = GetMax( KZeroLongXSecArray );
+    EtaMaxXSec = GetMax( EtaXSecArray );
   }
 
   if (PhysicsVerbose) {
@@ -1570,6 +1803,7 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
   G4long nKPlus = 0;
   G4long nKMinus = 0;
   G4long nKZeroLong = 0;
+  G4long nEta = 0;
 
   // secondary Protons
   nProton = GetNumberOfProtons(aTrack);
@@ -1738,6 +1972,33 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
 	     << secondaryMomentum << G4endl;    
     }
   }
+
+  // secondary etas
+
+  nEta = GetNumberOfEtas(aTrack);
+  for(G4int iEta=0; iEta <  nEta; iEta++){
+    secondaryMomentum =
+      (GetMomentumOfSecondary(EtaXSecArray, EtaMaxXSec, aTrack));
+    // Add this Eta to the list of secondaries
+    aEta = new G4DynamicParticle;
+    aEta->SetDefinition(G4Eta::EtaDefinition());
+    aEta->SetMomentum(secondaryMomentum);
+    G4double invRwgtFactor
+      = GetInverseRwgtFactor(trackMom, (aEta->GetMomentum()).z(),
+			     (aEta->GetMomentum()).perp(), 16);
+    G4HadSecondary *aEtaSec
+      = new G4HadSecondary(aEta, invRwgtFactor);
+    theParticleChange.AddSecondary(aEtaSec->GetParticle());
+    theParticleChange.GetSecondary(theParticleChange.GetNumberOfSecondaries()-1)->SetWeight(invRwgtFactor);
+    //
+    if (PhysicsVerbose) {
+      G4cout << "Eta Number: " << iEta <<
+	", (px,py,pz) in projectile frame = "
+	     << secondaryMomentum << G4endl;    
+    }
+  }
+  
+
   
   theParticleChange.SetStatusChange( stopAndKill );
   
@@ -1904,7 +2165,12 @@ G4double BooNEpBeInteraction::GetInverseRwgtFactor(G4double protonMomentum,
 				     daughterPz, daughterPt);
     rwgtXSec = GetInterpolatedXSec(ProtonXSecArray, protonMomentum,
 				   daughterPz, daughterPt);
-  } else {
+  } else if (G3PartID == 16) {
+    noWgtXSec =  GetInterpolatedXSec(EtaXSecNoWgtArray, protonMomentum,
+				     daughterPz, daughterPt);
+    rwgtXSec = GetInterpolatedXSec(EtaXSecArray, protonMomentum,
+				   daughterPz, daughterPt);
+  }  else {
     noWgtXSec = 1.;
     rwgtXSec = 1.;
   }
@@ -2442,6 +2708,78 @@ G4long BooNEpBeInteraction::GetNumberOfKZeroLongs(const G4HadProjectile &aTrack)
 
 // -------------------------------------------------------------------------
 
+
+G4long BooNEpBeInteraction::GetNumberOfEtas(const G4HadProjectile &aTrack){
+
+  static G4double EtaAvMult[kNProtonMomentumBins];
+  static G4bool FirstTimeEta = true;
+
+  
+  if (FirstTimeEta) {
+
+    // longitudinal and transverse momentum bin widths, from tabulated data set
+    G4double Deltapz = (fPzVec[1]-fPzVec[0])*CLHEP::GeV;
+    G4double Deltapt = (fPtVec[1]-fPtVec[0])*CLHEP::GeV;
+
+    // Eta average multiplicity per inelastic collision
+    // If sigma_eta is the inclusive eta production xsect in p-Be
+    // interactions,
+    // and sigma_inel is the total p-Be inelastic cross-section,
+    // the average eta multiplicity per inelastic collision is
+    // sigma_eta/sigma_inel
+    for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+      EtaAvMult[iprotonp] = (GetTotalProductionXSect(EtaXSecArray,iprotonp))*
+	Deltapz*Deltapt / GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV);
+
+      if (PhysicsVerbose) {
+	G4cout << "Avg Eta Multiplicity at p(p) "
+	       << fProtonMomentumBins[iprotonp] << " GeV = "
+	       << EtaAvMult[iprotonp] 
+	       << "\t" <<iprotonp<<"\t"<<GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV)<<", "<<GetTotalProductionXSect(EtaXSecArray,iprotonp)<<
+	  G4endl;
+      }
+
+    }
+    FirstTimeEta = false;
+  }
+
+  // Find the proton momentum bin
+  G4double avMult;
+  if (kNProtonMomentumBins > 1) {
+    G4double protonMomentum = aTrack.GetTotalMomentum();
+    G4int jprotonp1 = 0;
+    G4int jprotonp2 = kNProtonMomentumBins - 1;
+    G4int midBin;
+    do {
+      midBin = (jprotonp1 + jprotonp2)/2;
+      if (protonMomentum/CLHEP::GeV < fProtonMomentumBins[midBin] )
+	jprotonp2 = midBin;
+      else
+	jprotonp1 = midBin;
+    } while (jprotonp2 - jprotonp1 > 1);
+
+    avMult = EtaAvMult[jprotonp1]
+      + (EtaAvMult[jprotonp2] - EtaAvMult[jprotonp1])
+      * (protonMomentum/CLHEP::GeV - fProtonMomentumBins[jprotonp1])
+      / (fProtonMomentumBins[jprotonp2] - fProtonMomentumBins[jprotonp1]);
+  } else {
+    avMult = EtaAvMult[0];
+  }
+
+  // The number of etas produced in this particular inelastic collision
+  // is determined by a Poisson distr., with mean given by EtaAvMult
+  G4long nEta = G4Poisson( avMult );
+
+  if (PhysicsVerbose) {
+    G4cout <<
+      "Eta Multiplicity in this interaction = " << nEta << G4endl;
+  }
+  return nEta;
+}
+
+
+// -------------------------------------------------------------------------
+
 G4double BooNEpBeInteraction::GetpBeInelasticCrossSection( G4double totalMomentum)
 {
   G4double xsec=0;
@@ -2762,6 +3100,29 @@ void BooNEpBeInteraction::SetKaonZeroLongRwgtFunc(G4String newValue)
 
 }
 
+
+void BooNEpBeInteraction::SetEtaRwgtFunc(G4String newValue) 
+{
+
+  G4cout << "Eta reweighting function set to " << newValue << G4endl;
+  if (newValue == "NONE") {
+    funcID[8] = 0;
+  } else if (newValue == "POLY") {
+    funcID[8] = 1;
+  } else if (newValue == "EXP") {
+    funcID[8] = 2;
+  } else if (newValue == "FLAT1") {
+    funcID[8] = 3;
+  } else if (newValue == "FLAT2") {
+    funcID[8] = 4;
+  } else {
+    funcID[8] = 0;
+    G4cout << "ERROR:  unknown eta reweighting function option: "
+	   << newValue << G4endl;
+  }
+}
+
+
 void BooNEpBeInteraction::SetProtonRwgtParams(G4double val0, G4double val1,
 					      G4double val2, G4double val3,
 					      G4double val4, G4double val5,
@@ -2979,6 +3340,40 @@ void BooNEpBeInteraction::SetKaonZeroLongRwgtParams(G4double val0, G4double val1
   rwgtParams[10][9] = val9;
 
   G4cout << "KaonZeroLong reweighting parameters set to: "
+	 << val0 << " "
+	 << val1 << " "
+	 << val2 << " "
+	 << val3 << " "
+	 << val4 << " "
+	 << val5 << " "
+	 << val6 << " "
+	 << val7 << " "
+	 << val8 << " "
+	 << val9 << " "
+	 << G4endl;
+
+}
+
+
+void BooNEpBeInteraction::SetEtaRwgtParams(G4double val0, G4double val1,
+						G4double val2, G4double val3,
+						G4double val4, G4double val5,
+						G4double val6, G4double val7,
+						G4double val8, G4double val9)
+{
+
+  rwgtParams[8][0] = val0;
+  rwgtParams[8][1] = val1;
+  rwgtParams[8][2] = val2;
+  rwgtParams[8][3] = val3;
+  rwgtParams[8][4] = val4;
+  rwgtParams[8][5] = val5;
+  rwgtParams[8][6] = val6;
+  rwgtParams[8][7] = val7;
+  rwgtParams[8][8] = val8;
+  rwgtParams[8][9] = val9;
+
+  G4cout << "Eta reweighting parameters set to: "
 	 << val0 << " "
 	 << val1 << " "
 	 << val2 << " "

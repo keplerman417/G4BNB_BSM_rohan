@@ -37,6 +37,10 @@ public:
   void SetPionMinusBetaParameters(G4double* values, G4int nvars)
                                { for(int i = 0; i < nvars; i++)pionMinusBetaParameters.push_back(values[i]); }
 
+  void SetEtaBetaParameters(G4double* values, G4int nvars)
+                               { for(int i = 0; i < nvars; i++)etaBetaParameters.push_back(values[i]); }
+
+
   G4double TanhWithGaussian(G4double p,
 			    G4double tNorm, G4double tOffset, G4double tSlope, 
 			    G4double gNorm, G4double gMean,   G4double gWidth);
@@ -49,6 +53,7 @@ private:
   std::vector<G4double>  neutronBetaParameters;
   std::vector<G4double>  pionPlusBetaParameters;
   std::vector<G4double>  pionMinusBetaParameters;
+  std::vector<G4double>  etaBetaParameters;
   
   // function that actually returns beta
   G4double Beta(const G4HadProjectile* aTrack);

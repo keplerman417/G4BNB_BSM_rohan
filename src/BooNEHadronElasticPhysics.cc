@@ -64,7 +64,8 @@ void BooNEHadronElasticPhysics::ConstructProcess()
        pname == "xi-"       || 
        pname == "alpha"     ||
        pname == "deuteron"  ||
-       pname == "triton"   
+       pname == "triton"    //||
+       //pname == "eta"
        ) {
       pManager = particle->GetProcessManager();
       pManager->AddDiscreteProcess(&fBooNEHadronElasticProcess);
