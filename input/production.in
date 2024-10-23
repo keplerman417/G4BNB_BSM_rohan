@@ -141,8 +141,8 @@
 #
 # pi+
 # Options: GFLUKA, MARS, ZGS, SWPar
-/boone/physics/SWPiPlusPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
-/boone/physics/piPlusModel SWPar
+#/boone/physics/SWPiPlusPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
+#/boone/physics/piPlusModel SWPar
 # pi-
 # Options: GFLUKA, MARS, ZGS, SWPar
 #following parameters reproduce the multiplicity table in MB flux paper (Table X) 
@@ -152,32 +152,40 @@
 #following parameters are in MB flux paper Table VI. These were used to generate 
 #MiniBooNE anti-neutrino flux histograms (december2007_baseline) and for neutrino 
 #mode analysis using subsequent reweighting as mentioned abouve
-/boone/physics/SWPiMinusPar 213.66 0.93785 5.4537 1.2096 1.2836 4.7807 0.073383 8.3294
-/boone/physics/piMinusModel SWPar
+#/boone/physics/SWPiMinusPar 213.66 0.93785 5.4537 1.2096 1.2836 4.7807 0.073383 8.3294
+#/boone/physics/piMinusModel SWPar
 # K+
 # Options: GFLUKA, MARS, SWPar
-/boone/physics/SWKaonPlusPar 6.083 1.468 10.04 3.086 3.356 5.718 0.1274 10.36 0.0
-/boone/physics/FSKaonPlusPar 11.70 0.88 4.77 1.51 2.21 2.17 1.51 0.0
-/boone/physics/kaonPlusModel FScal
+#/boone/physics/SWKaonPlusPar 6.083 1.468 10.04 3.086 3.356 5.718 0.1274 10.36 0.0
+#/boone/physics/FSKaonPlusPar 11.70 0.88 4.77 1.51 2.21 2.17 1.51 0.0
+#/boone/physics/kaonPlusModel FScal
 # K-
 # Options: GFLUKA, MARS
-/boone/physics/kaonMinusModel MARS
+#/boone/physics/kaonMinusModel MARS
 # K0L
 # Options: GFLUKA, MARS, SWPar
-/boone/physics/SWKaonZeroLongPar 15.13 1.975 4.084 0.9277 0.7306 4.362 0.04789 13.3 1.278
-/boone/physics/FSKaonZeroLongPar 11.70 0.88 4.77 1.51 2.21 2.17 1.51 0.0
-/boone/physics/kaonZeroLongModel SWPar
+#/boone/physics/SWKaonZeroLongPar 15.13 1.975 4.084 0.9277 0.7306 4.362 0.04789 13.3 1.278
+#/boone/physics/FSKaonZeroLongPar 11.70 0.88 4.77 1.51 2.21 2.17 1.51 0.0
+#/boone/physics/kaonZeroLongModel SWPar
 # Secondary protons
 # Options: GFLUKA, MARS
-/boone/physics/protonModel MARS
+#/boone/physics/protonModel MARS
 # neutrons
 # Options: GFLUKA, MARS
-/boone/physics/neutronModel MARS
+#/boone/physics/neutronModel MARS
 
 # etas
 # Cross section parameters need to be correct, these are temporary (ported from pi+)
-/boone/physics/SWEtaPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
-/boone/physics/etaModel SWPar
+#/boone/physics/SWEtaPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
+#/boone/physics/etaModel SWPar
+
+
+# eta primes
+# Cross section parameters need to be correct, these are temporary (ported from K+)
+/boone/physics/SWEtapPar 6.083 1.468 10.04 3.086 3.356 5.718 0.1274 10.36 0.0
+/boone/physics/etapModel SWPar
+
+
 
 #
 # define horn current

@@ -17,6 +17,7 @@
 #include "G4KaonMinus.hh"
 #include "G4KaonZeroLong.hh"
 #include "G4Eta.hh"
+#include "G4EtaPrime.hh"
 #include "G4PhaseSpaceDecayChannel.hh"
 #include "G4KL3DecayChannel.hh"
 
@@ -110,6 +111,12 @@ void BooNEDecayPhysics::CorrectDecayTables()
   // add eta
   G4DecayTable* pEtaDecayTable = G4Eta::Eta()->GetDecayTable();
   pEtaDecayTable->DumpInfo();
+
+
+  // add eta prime
+  G4DecayTable* pEtapDecayTable = G4EtaPrime::EtaPrime()->GetDecayTable();
+  pEtapDecayTable->DumpInfo();
+
 
   // Redefinition of KaonPlus branching ratios (numbers from PDG 2016).
   G4DecayTable* pKaonPlusDecayTable = new G4DecayTable();

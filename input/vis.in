@@ -23,6 +23,7 @@
 /boone/crosssections/pionminus/pimBeMomentumRange 0.5 11.0
 /boone/crosssections/pionminus/pimAlMomentumRange 0.5 11.0
 
+
 # now the cross sections parametrizations parameters for the BooNE model
 # proton cross sections
 /boone/crosssections/proton/totProBeXsecPar   307.8    0.897   0.000304  -2.598  -4.973
@@ -174,6 +175,10 @@
 # Options: GFLUKA, MARS
 /boone/physics/neutronModel MARS
 
+
+# Eta
+/boone/physics/SWEtaPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
+/boone/physics/EtaModel SWPar
 
 #
 # define horn current

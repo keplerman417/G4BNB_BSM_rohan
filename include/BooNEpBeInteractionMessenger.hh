@@ -32,13 +32,15 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcommand*   pipQuasiElasticParCmd;
   G4UIcommand*   pimQuasiElasticParCmd;
   G4UIcommand*   etaQuasiElasticParCmd;
-  
+  G4UIcommand*   etapQuasiElasticParCmd;
+
   G4double proQuasiElasticPar[6];
   G4double neuQuasiElasticPar[6];
   G4double pipQuasiElasticPar[6];
   G4double pimQuasiElasticPar[6];
   G4double etaQuasiElasticPar[6];
-  
+  G4double etapQuasiElasticPar[6];
+
   G4UIcommand*fModelEnergyRangeCmd;
 
   G4UIcmdWithAString* PiPlusPhysicsModelCmd;
@@ -49,7 +51,8 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcmdWithAString* ProtonPhysicsModelCmd;
   G4UIcmdWithAString* NeutronPhysicsModelCmd;
   G4UIcmdWithAString* EtaPhysicsModelCmd;
-  
+  G4UIcmdWithAString* EtapPhysicsModelCmd;
+
   G4UIcmdWithAnInteger* randomSeedCmd;
 
   G4UIcommand* SWPiPlusParCmd;
@@ -59,7 +62,8 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcommand* FSKaonPlusParCmd;
   G4UIcommand* FSKaonZeroLongParCmd;
   G4UIcommand* SWEtaParCmd;
-  
+  G4UIcommand* SWEtapParCmd;
+
   G4UIcmdWithABool* BeToAScalingCmd;
   G4UIcommand* BeToAScalingParCmd;
 
@@ -74,6 +78,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcmdWithAString* ProtonRwgtFuncCmd;
   G4UIcmdWithAString* NeutronRwgtFuncCmd;
   G4UIcmdWithAString* EtaRwgtFuncCmd;
+  G4UIcmdWithAString* EtapRwgtFuncCmd;
   
   G4UIcommand* PionPlusRwgtParamsCmd;
   G4UIcommand* PionMinusRwgtParamsCmd;
@@ -83,7 +88,8 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcommand* ProtonRwgtParamsCmd;
   G4UIcommand* NeutronRwgtParamsCmd;
   G4UIcommand* EtaRwgtParamsCmd;
-  
+  G4UIcommand* EtapRwgtParamsCmd;
+
   G4int iRandomSeed;
 
   G4double fSWPiPlusPar1Value;
@@ -151,6 +157,16 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4double fSWEtaPar6Value;
   G4double fSWEtaPar7Value;
   G4double fSWEtaPar8Value;
+
+
+  G4double fSWEtapPar1Value;
+  G4double fSWEtapPar2Value;
+  G4double fSWEtapPar3Value;
+  G4double fSWEtapPar4Value;
+  G4double fSWEtapPar5Value;
+  G4double fSWEtapPar6Value;
+  G4double fSWEtapPar7Value;
+  G4double fSWEtapPar8Value;
 
   
   G4double fBeToAScalingPar0Value;

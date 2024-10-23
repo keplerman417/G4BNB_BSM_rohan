@@ -86,7 +86,9 @@ void BooNEHadronInelasticDataSet::DumpPhysicsTable2()
 	 << "pi+ (mb)   "  
 	 << "pi- Valid  "  
 	 << "pi-        " 
-	 << "eta        "  << G4endl; 
+	 << "eta        "  
+	 << "eta_prime  "
+	 << G4endl; 
 
     
   for(int i = 1; i < 100; i++){

@@ -7,6 +7,7 @@
 #include "G4PionPlus.hh"
 #include "G4PionMinus.hh"
 #include "G4Eta.hh"
+#include "G4EtaPrime.hh"
 #include "G4KaonPlus.hh"
 #include "G4KaonMinus.hh"
 #include "G4KaonZeroLong.hh"
@@ -79,10 +80,14 @@ public:
                                       { fQuasiElasticModel.SetPionMinusBetaParameters(par , npar); }
   void SetEtaQuasiElasticParameters(G4double* par, G4int npar)
                                       { fQuasiElasticModel.SetEtaBetaParameters(par , npar); }
+  void SetEtapQuasiElasticParameters(G4double* par, G4int npar)
+                                      { fQuasiElasticModel.SetEtapBetaParameters(par , npar); }
   
+
   void SetPiPlusPhysicsModel(G4String val);
   void SetPiMinusPhysicsModel(G4String val);
   void SetEtaPhysicsModel(G4String val);
+  void SetEtapPhysicsModel(G4String val);
   void SetKaonPlusPhysicsModel(G4String val);
   void SetKaonMinusPhysicsModel(G4String val);
   void SetKaonZeroLongPhysicsModel(G4String val);
@@ -102,6 +107,7 @@ public:
   G4String GetPiPlusPhysicsModel() { return PiPlusPhysicsModel;};
   G4String GetPiMinusPhysicsModel() { return PiMinusPhysicsModel;};
   G4String GetEtaPhysicsModel() { return EtaPhysicsModel;};
+  G4String GetEtapPhysicsModel() { return EtapPhysicsModel;};
   G4String GetKaonPlusPhysicsModel() { return KaonPlusPhysicsModel;};
   G4String GetKaonMinusPhysicsModel() { return KaonMinusPhysicsModel;};
   G4String GetKaonZeroLongPhysicsModel() { return KaonZeroLongPhysicsModel;};
@@ -125,6 +131,14 @@ public:
 		      G4double val4,G4double val5, G4double val6,
 		      G4double val7, G4double val8);
   G4double GetSWEtaPar(G4int iParNo);
+
+
+  void SetSWEtapPar(
+		      G4double val1, G4double val2, G4double val3,
+		      G4double val4,G4double val5, G4double val6,
+		      G4double val7, G4double val8);
+  G4double GetSWEtapPar(G4int iParNo);
+
 
   void SetSWKaonPlusPar(
 		      G4double val1, G4double val2, G4double val3,
@@ -172,6 +186,7 @@ public:
   G4long GetNumberOfPiPluses(const G4HadProjectile &aTrack);
   G4long GetNumberOfPiMinuses(const G4HadProjectile &aTrack);
   G4long GetNumberOfEtas(const G4HadProjectile &aTrack);
+  G4long GetNumberOfEtaps(const G4HadProjectile &aTrack);
   G4long GetNumberOfKPluses(const G4HadProjectile &aTrack);
   G4long GetNumberOfKMinuses(const G4HadProjectile &aTrack);
   G4long GetNumberOfKZeroLongs(const G4HadProjectile &aTrack);
@@ -202,7 +217,7 @@ public:
   void SetKaonMinusRwgtFunc(G4String newValue);
   void SetKaonZeroLongRwgtFunc(G4String newValue);
   void SetEtaRwgtFunc(G4String newValue);
-  
+  void SetEtapRwgtFunc(G4String newValue);
   void SetProtonRwgtParams(G4double val0, G4double val1,
 			   G4double val2, G4double val3,
 			   G4double val4, G4double val5,
@@ -243,6 +258,11 @@ public:
 			      G4double val4, G4double val5,
 			      G4double val6, G4double val7,
 			      G4double val8, G4double val9);
+  void SetEtapRwgtParams(G4double val0, G4double val1,
+			      G4double val2, G4double val3,
+			      G4double val4, G4double val5,
+			      G4double val6, G4double val7,
+			      G4double val8, G4double val9);
 
   
 private:
@@ -270,7 +290,8 @@ private:
   G4double KMinusXSecArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double KZeroLongXSecArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double EtaXSecArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
-  
+  G4double EtapXSecArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
+
   G4double ProtonXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double NeutronXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double PiPlusXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
@@ -279,7 +300,8 @@ private:
   G4double KMinusXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double KZeroLongXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double EtaXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
-  
+  G4double EtapXSecNoWgtArray[kNProtonMomentumBins][kNPzBins][kNPtBins];
+
   G4double fPrimaryEnergy;
 
   //  G4int protonpBins;
@@ -301,6 +323,7 @@ private:
   static G4double KPlusXSecArray_MARS[kNPzBins][kNPtBins];
   static G4double KMinusXSecArray_MARS[kNPzBins][kNPtBins];
   G4double EtaXSecArray_MARS[kNPzBins][kNPtBins];
+  G4double EtapXSecArray_MARS[kNPzBins][kNPtBins];
   // GFLUKA
   G4double xSectpBeInel_GFLUKA;
   static G4double totalxSectpBeInel_GFLUKA[kNEBins];
@@ -315,11 +338,13 @@ private:
   static G4double KMinusXSecArray_GFLUKA[kNPzBins][kNPtBins];
   static G4double KZeroLongXSecArray_GFLUKA[kNPzBins][kNPtBins];
   G4double EtaXSecArray_GFLUKA[kNPzBins][kNPtBins];
+  G4double EtapXSecArray_GFLUKA[kNPzBins][kNPtBins];
   // ZGS
   G4double xSectpBeInel_ZGS;
   static G4double PiPlusXSecArray_ZGS[kNPzBins][kNPtBins];
   static G4double PiMinusXSecArray_ZGS[kNPzBins][kNPtBins];
   G4double EtaXSecArray_ZGS[kNPzBins][kNPtBins];
+  G4double EtapXSecArray_ZGS[kNPzBins][kNPtBins];
   // SWPar
   G4double xSectpBeInel_SWPar;
   G4double PiPlusXSecArray_SWPar[kNProtonMomentumBins][kNPzBins][kNPtBins];
@@ -329,7 +354,7 @@ private:
   G4double KPlusXSecArray_FSPar[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double KZeroLongXSecArray_FSPar[kNProtonMomentumBins][kNPzBins][kNPtBins];
   G4double EtaXSecArray_SWPar[kNProtonMomentumBins][kNPzBins][kNPtBins];
-  
+  G4double EtapXSecArray_SWPar[kNProtonMomentumBins][kNPzBins][kNPtBins];
   // G4DEFAULT
   G4double xSectpBeInel_G4DEFAULT;
   static G4double ProtonXSecArray_G4DEFAULT[kNPzBins][kNPtBins];
@@ -340,6 +365,7 @@ private:
   static G4double KMinusXSecArray_G4DEFAULT[kNPzBins][kNPtBins];
   static G4double KZeroLongXSecArray_G4DEFAULT[kNPzBins][kNPtBins];
   static G4double EtaXSecArray_G4DEFAULT[kNPzBins][kNPtBins];
+  static G4double EtapXSecArray_G4DEFAULT[kNPzBins][kNPtBins];
 
   G4ThreeVector secondaryMomentum;
   G4bool acceptSecondaryMomentum;
@@ -353,6 +379,7 @@ private:
   G4DynamicParticle* aKMinus;
   G4DynamicParticle* aKZeroLong;
   G4DynamicParticle* aEta;
+  G4DynamicParticle* aEtap;
   //
 
   G4String PiPlusPhysicsModel, PiMinusPhysicsModel;
@@ -360,7 +387,8 @@ private:
   G4String KaonZeroLongPhysicsModel, ProtonPhysicsModel;
   G4String NeutronPhysicsModel;
   G4String EtaPhysicsModel;
-  
+  G4String EtapPhysicsModel;
+
   G4bool NoBeamPions;
 
   G4double SWPiPlusPar1; G4double SWPiPlusPar2; G4double SWPiPlusPar3;
@@ -378,6 +406,9 @@ private:
   G4double SWEtaPar1; G4double SWEtaPar2; G4double SWEtaPar3;
   G4double SWEtaPar4; G4double SWEtaPar5; G4double SWEtaPar6;
   G4double SWEtaPar7; G4double SWEtaPar8;
+  G4double SWEtapPar1; G4double SWEtapPar2; G4double SWEtapPar3;
+  G4double SWEtapPar4; G4double SWEtapPar5; G4double SWEtapPar6;
+  G4double SWEtapPar7; G4double SWEtapPar8;
   
 
   G4double FSKaonPlusPar1; G4double FSKaonPlusPar2; G4double FSKaonPlusPar3;

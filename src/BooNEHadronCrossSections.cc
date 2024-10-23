@@ -33,6 +33,7 @@ BooNEHadronCrossSections::IsApplicable(const G4DynamicParticle* aParticle,
   if(aParticleDef == G4PionPlus::PionPlus()   && isBe)return (momentum > pipBeMin && momentum < pipBeMax);
   if(aParticleDef == G4PionMinus::PionMinus() && isBe)return (momentum > pimBeMin && momentum < pimBeMax);
   if(aParticleDef == G4Eta::Eta() && isBe)return (momentum > etaBeMin && momentum < etaBeMax);
+  if(aParticleDef == G4EtaPrime::EtaPrime() && isBe)return (momentum > etapBeMin && momentum < etapBeMax);
 
   // Aluminum
   if(aParticleDef == G4Proton::Proton()       && isAl)return (momentum > pAlMin   && momentum < pAlMax  );
@@ -40,7 +41,7 @@ BooNEHadronCrossSections::IsApplicable(const G4DynamicParticle* aParticle,
   if(aParticleDef == G4PionPlus::PionPlus()   && isAl)return (momentum > pipAlMin && momentum < pipAlMax);
   if(aParticleDef == G4PionMinus::PionMinus() && isAl)return (momentum > pimAlMin && momentum < pimAlMax);
   if(aParticleDef == G4Eta::Eta() && isAl)return (momentum > etaAlMin && momentum < etaAlMax);
-
+  if(aParticleDef == G4EtaPrime::EtaPrime() && isAl)return (momentum > etapAlMin && momentum < etapAlMax);
   // if we're here, we ain't got it
   return false;
 
@@ -198,7 +199,39 @@ BooNEHadronCrossSections::GetTotalCrossSection(const G4DynamicParticle* aParticl
       D     = etaAlTotParameters[7];
     }
     if( theMomentum < tr)
-      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV);
+      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4Eta::Eta()->GetPDGMass()/CLHEP::GeV);
+    else
+      theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+  }
+  else if(aParticle->GetDefinition() == G4EtaPrime::EtaPrime()){
+
+    // eta prime total invovles a Caroll et al.Breit Wigner and a Regge parametrization with threshold
+    // however, instead of summing the two parts, we have a transition parameter that switches
+    // between the two functional forms. We'll call it tr
+    G4double tr, p0, s, A, B, C, n, D;
+    
+    if( ZNucleus == 4 && ANucleus == 9){
+      tr = etapBeTotParameters[0];
+      p0 = etapBeTotParameters[1];
+      s  = etapBeTotParameters[2];
+      A  = etapBeTotParameters[3];
+      B  = etapBeTotParameters[4];
+      C  = etapBeTotParameters[5];
+      n  = etapBeTotParameters[6];
+      D  = etapBeTotParameters[7];
+    }
+    else if( ZNucleus == 13 && ANucleus == 27){
+      tr    = etapAlTotParameters[0];
+      p0    = etapAlTotParameters[1];
+      s     = etapAlTotParameters[2];
+      A     = etapAlTotParameters[3];
+      B     = etapAlTotParameters[4];
+      C     = etapAlTotParameters[5];
+      n     = etapAlTotParameters[6];
+      D     = etapAlTotParameters[7];
+    }
+    if( theMomentum < tr)
+      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4EtaPrime::EtaPrime()->GetPDGMass()/CLHEP::GeV);
     else
       theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
   }
@@ -388,6 +421,44 @@ BooNEHadronCrossSections::GetQuasiElasticCrossSection(const G4DynamicParticle* a
 
 
   }
+
+  else if(aParticle->GetDefinition() == G4EtaPrime::EtaPrime()){
+    // eta prime quasi-elastic invovles a Breit Wigner and a Regge parametrization with threshold
+    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+    if( ZNucleus == 4 && ANucleus == 9){
+      N     = etapBeQelParameters[0];
+      M0    = etapBeQelParameters[1];
+      Gamma = etapBeQelParameters[2];
+      p0    = etapBeQelParameters[3];
+      s     = etapBeQelParameters[4];
+      A     = etapBeQelParameters[5];
+      B     = etapBeQelParameters[6];
+      C     = etapBeQelParameters[7];
+      n     = etapBeQelParameters[8];
+      D     = etapBeQelParameters[9];
+    }
+    else if( ZNucleus == 13 && ANucleus == 27){
+      N     = etapAlQelParameters[0];
+      M0    = etapAlQelParameters[1];
+      Gamma = etapAlQelParameters[2];
+      p0    = etapAlQelParameters[3];
+      s     = etapAlQelParameters[4];
+      A     = etapAlQelParameters[5];
+      B     = etapAlQelParameters[6];
+      C     = etapAlQelParameters[7];
+      n     = etapAlQelParameters[8];
+      D     = etapAlQelParameters[9];
+    }
+    theCrossSection =  BreitWigner(theMomentum,
+                                   G4EtaPrime::EtaPrime()->GetPDGMass()/CLHEP::GeV,
+                                   G4Proton::Proton()->GetPDGMass()/CLHEP::GeV,
+                                   N, M0, Gamma) +
+      ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+
+
+  }
+
+
   // add units
   return theCrossSection * CLHEP::millibarn;
 }
@@ -565,6 +636,45 @@ BooNEHadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* aPar
 
 
   }
+
+  else if(aParticle->GetDefinition() == G4EtaPrime::EtaPrime()){
+    // etap inelastic invovles a Breit Wigner and a Regge parametrization with threshold
+    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+    if( ZNucleus == 4 && ANucleus == 9){
+      N     = etapBeIneParameters[0];
+      M0    = etapBeIneParameters[1];
+      Gamma = etapBeIneParameters[2];
+      p0    = etapBeIneParameters[3];
+      s     = etapBeIneParameters[4];
+      A     = etapBeIneParameters[5];
+      B     = etapBeIneParameters[6];
+      C     = etapBeIneParameters[7];
+      n     = etapBeIneParameters[8];
+      D     = etapBeIneParameters[9];
+    }
+    else if( ZNucleus == 13 && ANucleus == 27){
+      N     = etapAlIneParameters[0];
+      M0    = etapAlIneParameters[1];
+      Gamma = etapAlIneParameters[2];
+      p0    = etapAlIneParameters[3];
+      s     = etapAlIneParameters[4];
+      A     = etapAlIneParameters[5];
+      B     = etapAlIneParameters[6];
+      C     = etapAlIneParameters[7];
+      n     = etapAlIneParameters[8];
+      D     = etapAlIneParameters[9];
+    }
+
+
+    theCrossSection =  BreitWigner(theMomentum,
+                                   G4EtaPrime::EtaPrime()->GetPDGMass()/CLHEP::GeV,
+                                   G4Proton::Proton()->GetPDGMass()/CLHEP::GeV,
+                                   N, M0, Gamma) +
+      ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+
+
+  }
+
 
   // add units
   return theCrossSection * CLHEP::millibarn;// - theQuasiElasticCrossSection;

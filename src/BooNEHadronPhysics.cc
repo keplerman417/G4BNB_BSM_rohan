@@ -83,6 +83,7 @@ void BooNEHadronPhysics::ConstructProcess()
        pname == "pi+"   ||
        pname == "pi-" ||
        pname == "eta" ||
+       pname == "eta_prime" ||
        pname == "kaon+"   ||
        pname == "kaon-"   ||
        pname == "kaon0L"   ||

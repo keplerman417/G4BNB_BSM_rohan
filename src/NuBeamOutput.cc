@@ -650,6 +650,8 @@ G4int NuBeamOutput::GetDecayCode(const G4Track* nuTrack)
 
   switch (parentTraj->GetPDGEncoding()) {
   case 221:
+  case 331:
+  case 111:
   case 130:
   case 311:
     switch (nuTrack->GetParticleDefinition()->GetPDGEncoding()) {
