@@ -31,6 +31,7 @@ BooNEpBeInteraction::BooNEpBeInteraction()
   UI->ApplyCommand("/boone/physics/BooNEpBeModelEnergyRange");
   UI->ApplyCommand("/boone/physics/SWPiPlusPar");
   UI->ApplyCommand("/boone/physics/SWPiMinusPar");
+  UI->ApplyCommand("/boone/physics/SWPiZeroPar");
   UI->ApplyCommand("/boone/physics/SWEtaPar");
   UI->ApplyCommand("/boone/physics/SWEtapPar");
   UI->ApplyCommand("/boone/physics/SWKaonPlusPar");
@@ -42,6 +43,7 @@ BooNEpBeInteraction::BooNEpBeInteraction()
   UI->ApplyCommand("boone/physics/quasielastic/neuQuasiElasticPar");
   UI->ApplyCommand("boone/physics/quasielastic/pipQuasiElasticPar");
   UI->ApplyCommand("boone/physics/quasielastic/pimQuasiElasticPar");
+  UI->ApplyCommand("boone/physics/quasielastic/pizeroQuasiElasticPar");
   UI->ApplyCommand("boone/physics/quasielastic/etaQuasiElasticPar");
   UI->ApplyCommand("boone/physics/quasielastic/etapQuasiElasticPar");
 
@@ -123,6 +125,43 @@ G4double BooNEpBeInteraction::GetSWPiMinusPar(G4int parNo)
 
 // ----------------------------------------
 
+
+
+void BooNEpBeInteraction::SetSWPiZeroPar(
+					 G4double val1, G4double val2,
+					 G4double val3, G4double val4,
+					 G4double val5, G4double val6,
+					 G4double val7, G4double val8)
+{
+  SWPiZeroPar1 = val1;
+  SWPiZeroPar2 = val2;
+  SWPiZeroPar3 = val3;
+  SWPiZeroPar4 = val4;
+  SWPiZeroPar5 = val5;
+  SWPiZeroPar6 = val6;
+  SWPiZeroPar7 = val7;
+  SWPiZeroPar8 = val8;
+}
+
+G4double BooNEpBeInteraction::GetSWPiZeroPar(G4int parNo)
+{
+  if (parNo == 1) return SWPiZeroPar1;
+  else if (parNo == 2) return SWPiZeroPar2;
+  else if (parNo == 3) return SWPiZeroPar3;
+  else if (parNo == 4) return SWPiZeroPar4;
+  else if (parNo == 5) return SWPiZeroPar5;
+  else if (parNo == 6) return SWPiZeroPar6;
+  else if (parNo == 7) return SWPiZeroPar7;
+  else if (parNo == 8) return SWPiZeroPar8;
+  else {
+    G4cout << "Problems" << G4endl;
+    return 0.;
+  }
+}
+
+
+
+// ----------------------------------------
 
 void BooNEpBeInteraction::SetSWEtaPar(
 					 G4double val1, G4double val2,
@@ -537,6 +576,209 @@ BooNEpBeInteraction::SetPiPlusPhysicsModel(G4String val)
       G4endl;
   }
 }
+
+// -----------------------------------------------------------------------
+
+// set pi0 production physics model
+
+void
+BooNEpBeInteraction::SetPiZeroPhysicsModel(G4String val)
+{
+
+  PiZeroPhysicsModel = val;
+
+  G4bool scale = GetUseBeToAScaling();
+  G4double c0=0, c1=0, c2=0, xFey=0;
+  if( scale )
+  {
+    c0 = GetBeToAScalingPar(0);
+    c1 = GetBeToAScalingPar(1);
+    c2 = GetBeToAScalingPar(2);
+    G4cout << "A scaling is active !!  ( c0, c1, c2 ) = ( " 
+	   << c0 << ", " 
+	   << c1 << ", "
+	   << c2 << " )" << G4endl;
+  }
+
+  G4double xSectRatio = 1.;
+  G4Material* targetMat = GetTargetMaterial();
+  const G4Element* ele = targetMat->GetElement(0);
+  G4double targetA = ele->GetN();
+  G4double BeA = 9.01218;
+  G4double ratioA = targetA / BeA;
+  if( scale )
+    G4cout << "                        ( A_targ / A_Be ) = " << targetA << " / " << BeA << " = " << ratioA << G4endl;
+
+
+  //--Retrieve the Primary Beam Energy and determine the momentum
+  G4double EKinetic = fPrimaryEnergy/CLHEP::GeV;
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  G4String particleName;
+  G4ParticleDefinition* particle = particleTable->FindParticle( particleName = "proton" );
+  G4double ProtonMass = particle->GetPDGMass()/CLHEP::GeV;
+  G4double ProtonMass2 = ProtonMass * ProtonMass;
+  G4double PionMass = G4PionZero::PionZeroDefinition()->GetPDGMass()/CLHEP::GeV;
+  
+  G4double pbeam = sqrt( (EKinetic + ProtonMass)*(EKinetic + ProtonMass) - ProtonMass*ProtonMass );
+
+  // MARS physics
+  if (PiZeroPhysicsModel == "MARS") 
+  {
+    G4cout << "PiZero Physics Model is MARS" << G4endl;
+    // Note: to get the correct MARS multiplicity for pi+, need to scale by the
+    // ratio of specfied inelastic cross-section divided by the MARS inelastic
+    // cross-section
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  if( scale )
+	  {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      PionMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+	  xSectRatio *= GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV)
+	    / xSectpBeInel_MARS;
+	  PiZeroXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*PiZeroXSecArray_MARS[ipz][ipt];
+	  PiZeroXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(PiZeroXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	}
+      }
+    }
+  }
+
+  // GFLUKA physics
+  else if (PiZeroPhysicsModel == "GFLUKA") 
+  {
+    G4cout << "PiZeroPhysics Model is GFLUKA" << G4endl;
+    // Note: to get the correct GFLUKA multiplicity for pi+, need to scale by the
+    // ratio of specfied inelastic cross-section divided by the GFLUKA inelastic
+    // cross-section
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  if( scale )
+	  {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      PionMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+	  xSectRatio *= GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV)
+	    / xSectpBeInel_GFLUKA;
+	  PiZeroXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*PiZeroXSecArray_GFLUKA[ipz][ipt];
+	  PiZeroXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(PiZeroXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	}
+      }
+    }
+  }
+
+  // ZGS physics 
+  else if (PiZeroPhysicsModel == "ZGS") 
+  {
+    G4cout << "PiZero Physics Model is ZGS" << G4endl;
+    // Note: to get the correct ZGS multiplicity for pi+, need to scale by the
+    // ratio of specfied inelastic cross-section divided by the ZGS inelastic
+    // cross-section
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    { 
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  if( scale )
+	  {
+	    xFey = fabs( GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					   + fPtVec[ipt]*fPtVec[ipt]),
+				      atan(fPtVec[ipt]/fPzVec[ipz]),
+				      PionMass, pbeam, ProtonMass ) );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+	  PiZeroXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*PiZeroXSecArray_ZGS[ipz][ipt];
+	  PiZeroXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(PiZeroXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	}
+      }
+    }
+  }
+
+  // SWPar model 
+  else if (PiZeroPhysicsModel == "SWPar") 
+  {    
+    G4cout << "PiZero Physics Model is SWPar, with the following choice of parameters:" << G4endl;
+    G4cout << "SWPiZeroPar[1-8] = " << 
+      SWPiZeroPar1 << ", " << SWPiZeroPar2 << ", " <<
+      SWPiZeroPar3 << ", " << SWPiZeroPar4 << ", " <<
+      SWPiZeroPar5 << ", " << SWPiZeroPar6 << ", " <<
+      SWPiZeroPar7 << ", " << SWPiZeroPar8 << G4endl;
+    for (G4int ipz=0; ipz<kNPzBins; ipz++)
+    {
+      for (G4int ipt=0; ipt<kNPtBins; ipt++)
+      {
+	for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+	  xSectRatio = 1.;
+	  EKinetic = sqrt (fProtonMomentumBins[iprotonp]*fProtonMomentumBins[iprotonp]
+			   + ProtonMass2) - ProtonMass;
+	  pbeam = fProtonMomentumBins[iprotonp];
+	  if( scale )
+	  {
+	    xFey = GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+				     + fPtVec[ipt]*fPtVec[ipt]),
+				atan(fPtVec[ipt]/fPzVec[ipz]),
+				PionMass, pbeam, ProtonMass );
+	    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+	  }
+
+	  G4double p = sqrt(fPzVec[ipz]*fPzVec[ipz]+fPtVec[ipt]*fPtVec[ipt]);
+	  G4double theta = atan(fPtVec[ipt]/fPzVec[ipz]);
+	  G4double first = SWPiZeroPar1*(pow(p,SWPiZeroPar2))*
+	    (1.-(p/(pbeam-1.)));
+	  G4double arg1 = -1.*SWPiZeroPar3*(pow(p,SWPiZeroPar4))/
+	    pow(pbeam,SWPiZeroPar5);
+	  G4double arg2 = -1.*SWPiZeroPar6*theta*
+	    (p-SWPiZeroPar7*pbeam*(pow(cos(theta),SWPiZeroPar8)));
+	  G4double arg = arg1+arg2;
+	  G4double second = exp(arg);
+	  G4double jacobian = 2.*M_PI*fPtVec[ipt]/(p*p);
+	  G4double valXSec = jacobian * (first*second);
+	  if (valXSec >= 0.) {
+	    PiZeroXSecArray_SWPar[iprotonp][ipz][ipt] = valXSec;
+	  } else {
+	    PiZeroXSecArray_SWPar[iprotonp][ipz][ipt] = 0.;
+	  }
+	  PiZeroXSecNoWgtArray[iprotonp][ipz][ipt]
+	    = xSectRatio*PiZeroXSecArray_SWPar[iprotonp][ipz][ipt];
+	  PiZeroXSecArray[iprotonp][ipz][ipt]
+	    = GetRwgtXSec(PiZeroXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	}
+      }
+    }
+  }
+
+
+  // no PiZero Physics model
+  else {
+    G4cout << "PiZero Physics Model is not valid! Results are nonsense" <<
+      G4endl;
+  }
+}
+
+
+
+
 
 
 // ------------------------------------------------------------------------
@@ -1992,6 +2234,7 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
   static G4double KZeroLongMaxXSec;
   static G4double EtaMaxXSec;
   static G4double EtapMaxXSec;
+  static G4double PiZeroMaxXSec;
 
   theParticleChange.Clear();
 
@@ -2006,6 +2249,7 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
     KZeroLongMaxXSec = GetMax( KZeroLongXSecArray );
     EtaMaxXSec = GetMax( EtaXSecArray );
     EtapMaxXSec = GetMax( EtapXSecArray );
+    PiZeroMaxXSec = GetMax( PiZeroXSecArray );
   }
 
   if (PhysicsVerbose) {
@@ -2049,6 +2293,8 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
   G4long nKZeroLong = 0;
   G4long nEta = 0;
   G4long nEtap = 0;
+  G4long nPiZero = 0;
+
 
   // secondary Protons
   nProton = GetNumberOfProtons(aTrack);
@@ -2243,6 +2489,33 @@ BooNEpBeInteraction::ApplyYourself( const G4HadProjectile &aTrack,
 	     << secondaryMomentum << G4endl;    
     }
   }
+  
+  // secondary pi zero
+
+  nPiZero = GetNumberOfPiZeros(aTrack);
+  for(G4int iPiZero=0; iPiZero <  nPiZero; iPiZero++){
+    secondaryMomentum =
+      (GetMomentumOfSecondary(PiZeroXSecArray, PiZeroMaxXSec, aTrack));
+    // Add this PiZero to the list of secondaries
+    aPiZero = new G4DynamicParticle;
+    aPiZero->SetDefinition(G4PionZero::PionZeroDefinition());
+    aPiZero->SetMomentum(secondaryMomentum);
+    G4double invRwgtFactor
+      = GetInverseRwgtFactor(trackMom, (aPiZero->GetMomentum()).z(),
+			     (aPiZero->GetMomentum()).perp(), 16);
+    G4HadSecondary *aPiZeroSec
+      = new G4HadSecondary(aPiZero, invRwgtFactor);
+    theParticleChange.AddSecondary(aPiZeroSec->GetParticle());
+    theParticleChange.GetSecondary(theParticleChange.GetNumberOfSecondaries()-1)->SetWeight(invRwgtFactor);
+    //
+    if (PhysicsVerbose) {
+      G4cout << "PiZero Number: " << iPiZero <<
+	", (px,py,pz) in projectile frame = "
+	     << secondaryMomentum << G4endl;    
+    }
+  }
+
+
 
   //secondary eta primes
   nEtap = GetNumberOfEtaps(aTrack);
@@ -2440,7 +2713,12 @@ G4double BooNEpBeInteraction::GetInverseRwgtFactor(G4double protonMomentum,
 				     daughterPz, daughterPt);
     rwgtXSec = GetInterpolatedXSec(EtapXSecArray, protonMomentum,
 				   daughterPz, daughterPt);
-  }  else {
+  } else if (G3PartID == 17) {
+    noWgtXSec = GetInterpolatedXSec(PiZeroXSecNoWgtArray, protonMomentum,
+				    daughterPz, daughterPt);
+    rwgtXSec = GetInterpolatedXSec(PiZeroXSecArray, protonMomentum,
+				   daughterPz, daughterPt);
+  } else {
     noWgtXSec = 1.;
     rwgtXSec = 1.;
   }
@@ -2976,6 +3254,76 @@ G4long BooNEpBeInteraction::GetNumberOfKZeroLongs(const G4HadProjectile &aTrack)
   return nKZeroLong;
 }
 
+
+// -------------------------------------------------------------------------
+
+G4long BooNEpBeInteraction::GetNumberOfPiZeros(const G4HadProjectile &aTrack){
+
+  static G4double PiZeroAvMult[kNProtonMomentumBins];
+  static G4bool FirstTimePiZero = true;
+
+  if (FirstTimePiZero) {
+
+    // longitudinal and transverse momentum bin widths, from tabulated data set
+    G4double Deltapz = (fPzVec[1]-fPzVec[0])*CLHEP::GeV;
+    G4double Deltapt = (fPtVec[1]-fPtVec[0])*CLHEP::GeV;
+
+    // PiZero average multiplicity per inelastic collision
+    // If sigma_piminus is the inclusive pion production xsect in p-Be
+    // interactions,
+    // and sigma_inel is the total p-Be inelastic cross-section,
+    // the average piminus multiplicity per inelastic collision is
+    // sigma_piminus/sigma_inel
+    for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+      PiZeroAvMult[iprotonp] = (GetTotalProductionXSect(PiZeroXSecArray,iprotonp))*
+	Deltapz*Deltapt / GetpBeInelasticCrossSection(fProtonMomentumBins[iprotonp]*CLHEP::GeV);
+
+      if (PhysicsVerbose) {
+	G4cout << "Average PiZero Multiplicity at proton momentum "
+	       << fProtonMomentumBins[iprotonp] << " GeV = "
+	       << PiZeroAvMult[iprotonp] << G4endl;
+      }
+
+    }
+
+    FirstTimePiZero = false;
+  }
+
+  // Find the proton momentum bin
+  G4double avMult;
+  if (kNProtonMomentumBins > 1) {
+    G4double protonMomentum = aTrack.GetTotalMomentum();
+    G4int jprotonp1 = 0;
+    G4int jprotonp2 = kNProtonMomentumBins - 1;
+    G4int midBin;
+    do {
+      midBin = (jprotonp1 + jprotonp2)/2;
+      if (protonMomentum/CLHEP::GeV < fProtonMomentumBins[midBin] )
+	jprotonp2 = midBin;
+      else
+	jprotonp1 = midBin;
+    } while (jprotonp2 - jprotonp1 > 1);
+
+    avMult = PiZeroAvMult[jprotonp1]
+      + (PiZeroAvMult[jprotonp2] - PiZeroAvMult[jprotonp1])
+      * (protonMomentum/CLHEP::GeV - fProtonMomentumBins[jprotonp1])
+      / (fProtonMomentumBins[jprotonp2] - fProtonMomentumBins[jprotonp1]);
+  } else {
+    avMult = PiZeroAvMult[0];
+  }
+
+  // The number of piminuses produced in this particular inelastic collision
+  // is determined by a Poisson distr., with mean given by PiZeroAvMult
+  G4long nPiZero = G4Poisson( avMult );
+  if (PhysicsVerbose) {
+    G4cout <<
+      "PiZero Multiplicity in this interaction = " << nPiZero << G4endl;
+  }
+  return nPiZero;
+}
+
+
+
 // -------------------------------------------------------------------------
 
 
@@ -3446,6 +3794,29 @@ void BooNEpBeInteraction::SetKaonZeroLongRwgtFunc(G4String newValue)
 }
 
 
+void BooNEpBeInteraction::SetPionZeroRwgtFunc(G4String newValue) 
+{
+
+  G4cout << "PionZero reweighting function set to " << newValue << G4endl;
+  if (newValue == "NONE") {
+    funcID[8] = 0;
+  } else if (newValue == "POLY") {
+    funcID[8] = 1;
+  } else if (newValue == "EXP") {
+    funcID[8] = 2;
+  } else if (newValue == "FLAT1") {
+    funcID[8] = 3;
+  } else if (newValue == "FLAT2") {
+    funcID[8] = 4;
+  } else {
+    funcID[8] = 0;
+    G4cout << "ERROR:  unknown pionZero reweighting function option: "
+	   << newValue << G4endl;
+  }
+}
+
+
+
 void BooNEpBeInteraction::SetEtaRwgtFunc(G4String newValue) 
 {
 
@@ -3722,6 +4093,41 @@ void BooNEpBeInteraction::SetKaonZeroLongRwgtParams(G4double val0, G4double val1
 	 << G4endl;
 
 }
+
+
+void BooNEpBeInteraction::SetPionZeroRwgtParams(G4double val0, G4double val1,
+						G4double val2, G4double val3,
+						G4double val4, G4double val5,
+						G4double val6, G4double val7,
+						G4double val8, G4double val9)
+{
+
+  rwgtParams[8][0] = val0;
+  rwgtParams[8][1] = val1;
+  rwgtParams[8][2] = val2;
+  rwgtParams[8][3] = val3;
+  rwgtParams[8][4] = val4;
+  rwgtParams[8][5] = val5;
+  rwgtParams[8][6] = val6;
+  rwgtParams[8][7] = val7;
+  rwgtParams[8][8] = val8;
+  rwgtParams[8][9] = val9;
+
+  G4cout << "PionZero reweighting parameters set to: "
+	 << val0 << " "
+	 << val1 << " "
+	 << val2 << " "
+	 << val3 << " "
+	 << val4 << " "
+	 << val5 << " "
+	 << val6 << " "
+	 << val7 << " "
+	 << val8 << " "
+	 << val9 << " "
+	 << G4endl;
+
+}
+
 
 
 void BooNEpBeInteraction::SetEtaRwgtParams(G4double val0, G4double val1,

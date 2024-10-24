@@ -31,7 +31,8 @@ private:
   G4UIdirectory*  boonePionMinusCrossSectionsDirectory;
   G4UIdirectory*  booneEtaCrossSectionsDirectory;
   G4UIdirectory*  booneEtapCrossSectionsDirectory;
-
+  G4UIdirectory*  boonePionZeroCrossSectionsDirectory;
+  
   G4UIcommand*  proBeMomentumRangeCmd;
   G4UIcommand*  proAlMomentumRangeCmd;
   G4UIcommand*  neuBeMomentumRangeCmd;
@@ -44,7 +45,9 @@ private:
   G4UIcommand*  etaAlMomentumRangeCmd;
   G4UIcommand*  etapBeMomentumRangeCmd;
   G4UIcommand*  etapAlMomentumRangeCmd;
-  
+  G4UIcommand*  pizeroBeMomentumRangeCmd;
+  G4UIcommand*  pizeroAlMomentumRangeCmd;
+
   G4UIcommand* totProBeXsecParCmd;
   G4UIcommand* ineProBeXsecParCmd;
   G4UIcommand* qelProBeXsecParCmd;
@@ -65,7 +68,7 @@ private:
   G4UIcommand* totPipAlXsecParCmd;
   G4UIcommand* inePipAlXsecParCmd;
   G4UIcommand* qelPipAlXsecParCmd;
-               
+
   G4UIcommand* totPimBeXsecParCmd;
   G4UIcommand* inePimBeXsecParCmd;
   G4UIcommand* qelPimBeXsecParCmd;
@@ -73,6 +76,13 @@ private:
   G4UIcommand* inePimAlXsecParCmd;
   G4UIcommand* qelPimAlXsecParCmd;
 
+  
+  G4UIcommand* totPiZeroBeXsecParCmd;
+  G4UIcommand* inePiZeroBeXsecParCmd;
+  G4UIcommand* qelPiZeroBeXsecParCmd;
+  G4UIcommand* totPiZeroAlXsecParCmd;
+  G4UIcommand* inePiZeroAlXsecParCmd;
+  G4UIcommand* qelPiZeroAlXsecParCmd;
   
   G4UIcommand* totEtaBeXsecParCmd;
   G4UIcommand* ineEtaBeXsecParCmd;
@@ -104,7 +114,8 @@ private:
   G4double totEtaAlXsecPar[8], ineEtaAlXsecPar[10], qelEtaAlXsecPar[10];
   G4double totEtapBeXsecPar[8], ineEtapBeXsecPar[10], qelEtapBeXsecPar[10];
   G4double totEtapAlXsecPar[8], ineEtapAlXsecPar[10], qelEtapAlXsecPar[10];
-
+  G4double totPiZeroBeXsecPar[8], inePiZeroBeXsecPar[10], qelPiZeroBeXsecPar[10];
+  G4double totPiZeroAlXsecPar[8], inePiZeroAlXsecPar[10], qelPiZeroAlXsecPar[10];
   
 };
 

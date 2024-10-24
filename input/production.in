@@ -176,14 +176,21 @@
 
 # etas
 # Cross section parameters need to be correct, these are temporary (ported from pi+)
-#/boone/physics/SWEtaPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
-#/boone/physics/etaModel SWPar
+/boone/physics/SWEtaPar 220.7 1.080 1.000 1.978 1.32 5.572 0.08678 9.686
+/boone/physics/etaModel SWPar
 
 
 # eta primes
 # Cross section parameters need to be correct, these are temporary (ported from K+)
 /boone/physics/SWEtapPar 6.083 1.468 10.04 3.086 3.356 5.718 0.1274 10.36 0.0
-/boone/physics/etapModel SWPar
+/boone/physics/pizeroModel SWPar
+
+
+
+# pi zero
+# Cross section parameters need to be correct, these are temporary (ported from K+)
+/boone/physics/SWPiZeroPar 6.083 1.468 10.04 3.086 3.356 5.718 0.1274 10.36 0.0
+/boone/physics/pizeroModel SWPar
 
 
 

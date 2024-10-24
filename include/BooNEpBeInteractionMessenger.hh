@@ -33,6 +33,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcommand*   pimQuasiElasticParCmd;
   G4UIcommand*   etaQuasiElasticParCmd;
   G4UIcommand*   etapQuasiElasticParCmd;
+  G4UIcommand*   pizeroQuasiElasticParCmd;
 
   G4double proQuasiElasticPar[6];
   G4double neuQuasiElasticPar[6];
@@ -40,6 +41,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4double pimQuasiElasticPar[6];
   G4double etaQuasiElasticPar[6];
   G4double etapQuasiElasticPar[6];
+  G4double pizeroQuasiElasticPar[6];
 
   G4UIcommand*fModelEnergyRangeCmd;
 
@@ -50,6 +52,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcmdWithAString* KaonZeroLongPhysicsModelCmd;
   G4UIcmdWithAString* ProtonPhysicsModelCmd;
   G4UIcmdWithAString* NeutronPhysicsModelCmd;
+  G4UIcmdWithAString* PiZeroPhysicsModelCmd;
   G4UIcmdWithAString* EtaPhysicsModelCmd;
   G4UIcmdWithAString* EtapPhysicsModelCmd;
 
@@ -61,6 +64,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcommand* SWKaonZeroLongParCmd;
   G4UIcommand* FSKaonPlusParCmd;
   G4UIcommand* FSKaonZeroLongParCmd;
+  G4UIcommand* SWPiZeroParCmd;
   G4UIcommand* SWEtaParCmd;
   G4UIcommand* SWEtapParCmd;
 
@@ -79,6 +83,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcmdWithAString* NeutronRwgtFuncCmd;
   G4UIcmdWithAString* EtaRwgtFuncCmd;
   G4UIcmdWithAString* EtapRwgtFuncCmd;
+  G4UIcmdWithAString* PionZeroRwgtFuncCmd;
   
   G4UIcommand* PionPlusRwgtParamsCmd;
   G4UIcommand* PionMinusRwgtParamsCmd;
@@ -89,6 +94,7 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcommand* NeutronRwgtParamsCmd;
   G4UIcommand* EtaRwgtParamsCmd;
   G4UIcommand* EtapRwgtParamsCmd;
+  G4UIcommand* PionZeroRwgtParamsCmd;
 
   G4int iRandomSeed;
 
@@ -147,6 +153,16 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4double fFSKaonZeroLongPar6Value;
   G4double fFSKaonZeroLongPar7Value;
   G4double fFSKaonZeroLongPar8Value;
+
+
+  G4double fSWPiZeroPar1Value;
+  G4double fSWPiZeroPar2Value;
+  G4double fSWPiZeroPar3Value;
+  G4double fSWPiZeroPar4Value;
+  G4double fSWPiZeroPar5Value;
+  G4double fSWPiZeroPar6Value;
+  G4double fSWPiZeroPar7Value;
+  G4double fSWPiZeroPar8Value;
 
 
   G4double fSWEtaPar1Value;

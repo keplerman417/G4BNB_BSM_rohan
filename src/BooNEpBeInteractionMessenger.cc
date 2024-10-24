@@ -123,6 +123,22 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   NeutronPhysicsModelCmd->SetCandidates("MARS GFLUKA G4DEFAULT");
   //
 
+
+  //pi0 physics model
+  PiZeroPhysicsModelCmd = new G4UIcmdWithAString("/boone/physics/pizeroModel",this);
+  PiZeroPhysicsModelCmd->SetGuidance("physics model for pi0 production in p-Be interaction");
+  PiZeroPhysicsModelCmd->SetGuidance("Description:");
+  PiZeroPhysicsModelCmd->SetGuidance("MARS: pi0 production in p-target interactions according to MARS ( http://waldo.fnal.gov/MARS/ )");
+  PiZeroPhysicsModelCmd->SetGuidance("GFLUKA: pi0 production in p-target interactions according to GFLUKA ( http://alisoft.cern.ch/offline/geant3.html )");
+  PiZeroPhysicsModelCmd->SetGuidance("ZGS: pi0 production in p-target interactions according to a Sanford-Wang parametrization of Argonne's ZGS data ( http://cornell.mirror.aps.org/abstract/PRD/v4/i7/p1967_1 )");
+  PiZeroPhysicsModelCmd->SetGuidance("SWPar: pi0 production in p-target interactions according to a Sanford-Wang parametrization, chosen by the user via the command SWPiZeroPar.");
+  PiZeroPhysicsModelCmd->SetGuidance("G4DEFAULT: pi0 production in p-target interactions according to G4 Default model");
+  PiZeroPhysicsModelCmd->SetParameterName("physics", true, false);
+  PiZeroPhysicsModelCmd->SetDefaultValue("SWPar");
+  PiZeroPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar G4DEFAULT");
+  //
+
+
   //eta physics model
   EtaPhysicsModelCmd = new G4UIcmdWithAString("/boone/physics/etaModel",this);
   EtaPhysicsModelCmd->SetGuidance("physics model for eta production in p-Be interaction");
@@ -430,6 +446,48 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetDefaultValue(0.0);
   FSKaonZeroLongParCmd->SetParameter(param);
 
+  // pi0
+  SWPiZeroParCmd = 
+    new G4UIcommand("/boone/physics/SWPiZeroPar",this);
+  SWPiZeroParCmd->SetGuidance("Set values of SW parameters for pi0");
+  SWPiZeroParCmd->SetGuidance("Usage: /boone/physics/SWPiZeroPar c1 c2 c3 c4 c5 c6 c7 c8");
+  SWPiZeroParCmd->SetGuidance("Description: c1 through c8 are the real SW parameters for pi0 production (see http://cornell.mirror.aps.org/abstract/PRD/v4/i7/p1967_1 )");
+
+  param = new G4UIparameter("SWPiZeroPar1Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar1Value>=0.");
+  param->SetDefaultValue(206.4);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar2Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar2Value>=0.");
+  param->SetDefaultValue(1.030);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar3Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar3Value>=0.");
+  param->SetDefaultValue(5.902);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar4Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar4Value>=0.");
+  param->SetDefaultValue(2.012);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar5Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar5Value>=0.");
+  param->SetDefaultValue(2.127);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar6Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar6Value>=0.");
+  param->SetDefaultValue(5.510);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar7Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar7Value>=0.");
+  param->SetDefaultValue(0.9958E-01);
+  SWPiZeroParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroPar8Value",'d',true);
+  param->SetParameterRange("SWPiZeroPar8Value>=0.");
+  param->SetDefaultValue(12.03);
+  SWPiZeroParCmd->SetParameter(param);
+
+
+
   // eta
   SWEtaParCmd = 
     new G4UIcommand("/boone/physics/SWEtaPar",this);
@@ -603,6 +661,22 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   KaonZeroLongRwgtFuncCmd->SetParameterName("klrwgtfunc", true, false);
   KaonZeroLongRwgtFuncCmd->SetDefaultValue("NONE");
   KaonZeroLongRwgtFuncCmd->SetCandidates("NONE POLY EXP FLAT1 FLAT2");
+
+  // PionZero Reweighting Function Command
+
+  PionZeroRwgtFuncCmd = new G4UIcmdWithAString("/boone/physics/pionzeroRwgtFunc",this);
+  PionZeroRwgtFuncCmd->SetGuidance("Controls the functional form of the pionZero cross-section reweighting function");
+  PionZeroRwgtFuncCmd->SetGuidance("Options:");
+  PionZeroRwgtFuncCmd->SetGuidance("NONE  - no reweighting function is used");
+  PionZeroRwgtFuncCmd->SetGuidance("POLY  - reweighting is a polynomial function of the daughter's pz");
+  PionZeroRwgtFuncCmd->SetGuidance("EXP   - reweighting is an exponential function of the daughter's pz");
+  PionZeroRwgtFuncCmd->SetGuidance("FLAT1 - reweighting makes the daughter cross-section tables flat in p and theta");
+  PionZeroRwgtFuncCmd->SetGuidance("FLAT2 - reweighting makes the daughter cross-section tables flat in pt and pz");
+  PionZeroRwgtFuncCmd->SetParameterName("piplrwgtfunc", true, false);
+  PionZeroRwgtFuncCmd->SetDefaultValue("NONE");
+  PionZeroRwgtFuncCmd->SetCandidates("NONE POLY EXP FLAT1 FLAT2");
+
+
 
 
   // Eta Reweighting Function Command
@@ -937,6 +1011,54 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetDefaultValue(0.);
   KaonZeroLongRwgtParamsCmd->SetParameter(param);
 
+  // PionZero Reweighting Parameters Command
+
+  PionZeroRwgtParamsCmd = 
+    new G4UIcommand("/boone/physics/pionzeroRwgtParams",this);
+  PionZeroRwgtParamsCmd->SetGuidance("Set the parameters of the chosen cross-section reweighting function");
+  PionZeroRwgtParamsCmd->SetGuidance("NONE:  parameters will be ignored");
+  PionZeroRwgtParamsCmd->SetGuidance("POLY:  c0 + c1*pz + c2*pz^2 + ... + c9*pz^9");
+  PionZeroRwgtParamsCmd->SetGuidance("       Usage:  /boone/physics/pionzeroRwgtParams c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  PionZeroRwgtParamsCmd->SetGuidance("EXP:   c0 + c1*exp(c2*(pz-c3))");
+  PionZeroRwgtParamsCmd->SetGuidance("       Usage:  /boone/physics/pionzeroRwgtParams c0 c1 c2 c3");
+  PionZeroRwgtParamsCmd->SetGuidance("FLAT1: parameters will be ignored");
+  PionZeroRwgtParamsCmd->SetGuidance("FLAT2: parameters will be ignored");
+
+  param = new G4UIparameter("pionzeroRwgtParam0",'d',true);
+  param->SetDefaultValue(1.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam1",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam2",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam3",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam4",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam5",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam6",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam7",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam8",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+  param = new G4UIparameter("pionzeroRwgtParam9",'d',true);
+  param->SetDefaultValue(0.);
+  PionZeroRwgtParamsCmd->SetParameter(param);
+
+
+
+
+
   // Eta Reweighting Parameters Command
   EtaRwgtParamsCmd = 
     new G4UIcommand("/boone/physics/etaRwgtParams",this);
@@ -1126,6 +1248,8 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete NeutronPhysicsModelCmd;
   delete EtaPhysicsModelCmd;
   delete EtapPhysicsModelCmd;
+  delete PiZeroPhysicsModelCmd;
+
   // delete randomSeedCmd;
   delete SWPiPlusParCmd;
   delete SWPiMinusParCmd;
@@ -1139,6 +1263,7 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete NoBeamPionsCmd;
   delete SWEtaParCmd;
   delete SWEtapParCmd;
+  delete SWPiZeroParCmd;
 
   delete ProtonRwgtFuncCmd;
   delete NeutronRwgtFuncCmd;
@@ -1149,6 +1274,7 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete KaonZeroLongRwgtFuncCmd;
   delete EtaRwgtFuncCmd;
   delete EtapRwgtFuncCmd;
+  delete PionZeroRwgtFuncCmd;
 
   delete ProtonRwgtParamsCmd;
   delete NeutronRwgtParamsCmd;
@@ -1159,6 +1285,7 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete KaonZeroLongRwgtParamsCmd;
   delete EtaRwgtParamsCmd;
   delete EtapRwgtParamsCmd;
+  delete PionZeroRwgtParamsCmd;
 
 }
 
@@ -1192,6 +1319,9 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
 
   if(command == NeutronPhysicsModelCmd)
     BooNEProtonModel->SetNeutronPhysicsModel(newValues);
+
+  if(command == PiZeroPhysicsModelCmd)
+    BooNEProtonModel->SetPiZeroPhysicsModel(newValues);
 
   
   if(command == EtaPhysicsModelCmd)
@@ -1309,6 +1439,24 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
   }
 
 
+  if (command == SWPiZeroParCmd) {
+    G4Tokenizer next( newValues );
+    fSWPiZeroPar1Value = StoD(next());
+    fSWPiZeroPar2Value = StoD(next());
+    fSWPiZeroPar3Value = StoD(next());
+    fSWPiZeroPar4Value = StoD(next());
+    fSWPiZeroPar5Value = StoD(next());
+    fSWPiZeroPar6Value = StoD(next());
+    fSWPiZeroPar7Value = StoD(next());
+    fSWPiZeroPar8Value = StoD(next());
+    BooNEProtonModel->SetSWPiZeroPar(
+				     fSWPiZeroPar1Value, fSWPiZeroPar2Value,
+				     fSWPiZeroPar3Value, fSWPiZeroPar4Value,
+				     fSWPiZeroPar5Value, fSWPiZeroPar6Value,
+				     fSWPiZeroPar7Value, fSWPiZeroPar8Value);
+  }
+
+
   if (command == SWEtaParCmd) {
     G4Tokenizer next( newValues );
     fSWEtaPar1Value = StoD(next());
@@ -1412,6 +1560,15 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
     BooNEProtonModel->SetPionMinusQuasiElasticParameters(pimQuasiElasticPar, 6);
   }
 
+
+  // pion minus
+  if (command == pizeroQuasiElasticParCmd){
+    G4Tokenizer next( newValues );
+    for(int i = 0; i < 6; i++)pizeroQuasiElasticPar[i] = StoD(next());
+    BooNEProtonModel->SetPionZeroQuasiElasticParameters(pizeroQuasiElasticPar, 6);
+  }
+
+
   
   // eta
   if (command == etaQuasiElasticParCmd){
@@ -1458,6 +1615,11 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
   
   if(command == EtapRwgtFuncCmd)
     BooNEProtonModel->SetEtapRwgtFunc(newValues);
+
+
+  if(command == PionZeroRwgtFuncCmd)
+    BooNEProtonModel->SetPionZeroRwgtFunc(newValues);
+
 
   
   if (command == ProtonRwgtParamsCmd) {
@@ -1648,6 +1810,35 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
 						kaonZeroLongRwgtParam9);
 
   }
+
+
+  if (command == PionZeroRwgtParamsCmd) {
+
+    G4Tokenizer next( newValues );
+    G4double pionzeroRwgtParam0 = StoD(next());
+    G4double pionzeroRwgtParam1 = StoD(next());
+    G4double pionzeroRwgtParam2 = StoD(next());
+    G4double pionzeroRwgtParam3 = StoD(next());
+    G4double pionzeroRwgtParam4 = StoD(next());
+    G4double pionzeroRwgtParam5 = StoD(next());
+    G4double pionzeroRwgtParam6 = StoD(next());
+    G4double pionzeroRwgtParam7 = StoD(next());
+    G4double pionzeroRwgtParam8 = StoD(next());
+    G4double pionzeroRwgtParam9 = StoD(next());
+
+    BooNEProtonModel->SetPionZeroRwgtParams(pionzeroRwgtParam0,
+					    pionzeroRwgtParam1,
+					    pionzeroRwgtParam2,
+					    pionzeroRwgtParam3,
+					    pionzeroRwgtParam4,
+					    pionzeroRwgtParam5,
+					    pionzeroRwgtParam6,
+					    pionzeroRwgtParam7,
+					    pionzeroRwgtParam8,
+					    pionzeroRwgtParam9);
+
+  }
+
 
 
   if (command == EtaRwgtParamsCmd) {
