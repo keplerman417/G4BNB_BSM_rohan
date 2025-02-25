@@ -73,7 +73,7 @@ public:
   void RecordEndOfTrack(const G4Track*);
   void RecordStep(const G4Step*);
   void RecordNeutrino(const G4Track*);
-
+  void RecordNeutral(const G4Track*);
   void RecordpBeInteraction(G4HadFinalState* aParticleChange);
     
   void SetOutputFileName (G4String val) { fOutputFileName = val;};

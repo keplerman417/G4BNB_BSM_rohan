@@ -132,10 +132,11 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   PiZeroPhysicsModelCmd->SetGuidance("GFLUKA: pi0 production in p-target interactions according to GFLUKA ( http://alisoft.cern.ch/offline/geant3.html )");
   PiZeroPhysicsModelCmd->SetGuidance("ZGS: pi0 production in p-target interactions according to a Sanford-Wang parametrization of Argonne's ZGS data ( http://cornell.mirror.aps.org/abstract/PRD/v4/i7/p1967_1 )");
   PiZeroPhysicsModelCmd->SetGuidance("SWPar: pi0 production in p-target interactions according to a Sanford-Wang parametrization, chosen by the user via the command SWPiZeroPar.");
+  PiZeroPhysicsModelCmd->SetGuidance("MSWPar: pi0 production in p-target interactions according to a Empirical Sanford-Wang parametrization, chosen by the user via the command SWPiZeroEJPPar.");
   PiZeroPhysicsModelCmd->SetGuidance("G4DEFAULT: pi0 production in p-target interactions according to G4 Default model");
   PiZeroPhysicsModelCmd->SetParameterName("physics", true, false);
-  PiZeroPhysicsModelCmd->SetDefaultValue("SWPar");
-  PiZeroPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar G4DEFAULT");
+  PiZeroPhysicsModelCmd->SetDefaultValue("MSWPar");
+  PiZeroPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar MSWPar G4DEFAULT");
   //
 
 
@@ -148,9 +149,10 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   EtaPhysicsModelCmd->SetGuidance("ZGS: eta production in p-target interactions according to a Sanford-Wang parametrization of Argonne's ZGS data");
   EtaPhysicsModelCmd->SetGuidance("SWPar: eta production in p-target interactions according to a Sanford-Wang parametrization, chosen by the user via the command SWEtaPar.");
   EtaPhysicsModelCmd->SetGuidance("G4DEFALT: eta production in p-target interactions according to G4 default model");
+  EtaPhysicsModelCmd->SetGuidance("MSWPar: eta production in p-target interactions according to a Empirical Sanford-Wang parametrization, chosen by the user via the command SWEtaEJPPar.");
   EtaPhysicsModelCmd->SetParameterName("physics", true, false);
-  EtaPhysicsModelCmd->SetDefaultValue("SWPar");
-  EtaPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar G4DEFAULT");
+  EtaPhysicsModelCmd->SetDefaultValue("MSWPar");
+  EtaPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar MSWPar G4DEFAULT");
   //
   //eta prime physics model
   EtapPhysicsModelCmd = new G4UIcmdWithAString("/boone/physics/etapModel",this);
@@ -160,10 +162,11 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   EtapPhysicsModelCmd->SetGuidance("GFLUKA: etap production in p-target interactions according to GFLUKA");
   EtapPhysicsModelCmd->SetGuidance("ZGS: etap production in p-target interactions according to a Sanford-Wang parametrization of Argonne's ZGS data");
   EtapPhysicsModelCmd->SetGuidance("SWPar: etap production in p-target interactions according to a Sanford-Wang parametrization, chosen by the user via the command SWEtappPar.");
+  EtapPhysicsModelCmd->SetGuidance("MSWPar: eta prime production in p-target interactions according to a Empirical Sanford-Wang parametrization, chosen by the user via the command SWEtapEJPPar.");
   EtapPhysicsModelCmd->SetGuidance("G4DEFALT: etap production in p-target interactions according to G4 default model");
   EtapPhysicsModelCmd->SetParameterName("physics", true, false);
-  EtapPhysicsModelCmd->SetDefaultValue("SWPar");
-  EtapPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar G4DEFAULT");
+  EtapPhysicsModelCmd->SetDefaultValue("MSWPar");
+  EtapPhysicsModelCmd->SetCandidates("MARS GFLUKA ZGS SWPar MSWPar G4DEFAULT");
   //
 
 
@@ -450,7 +453,7 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   SWPiZeroParCmd = 
     new G4UIcommand("/boone/physics/SWPiZeroPar",this);
   SWPiZeroParCmd->SetGuidance("Set values of SW parameters for pi0");
-  SWPiZeroParCmd->SetGuidance("Usage: /boone/physics/SWPiZeroPar c1 c2 c3 c4 c5 c6 c7 c8");
+  SWPiZeroParCmd->SetGuidance("Usage: /boone/physics/SWPiZeroPar c1 c2 c3 c4 c5 c6 c7 c8 c8");
   SWPiZeroParCmd->SetGuidance("Description: c1 through c8 are the real SW parameters for pi0 production (see http://cornell.mirror.aps.org/abstract/PRD/v4/i7/p1967_1 )");
 
   param = new G4UIparameter("SWPiZeroPar1Value",'d',true);
@@ -486,7 +489,50 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetDefaultValue(12.03);
   SWPiZeroParCmd->SetParameter(param);
 
+  //pi0 esw
 
+  SWPiZeroEJPParCmd =
+    new G4UIcommand("/boone/physics/SWPiZeroEJPPar",this);
+  SWPiZeroEJPParCmd->SetGuidance("Set values of modified SW parameters for pi0");
+  SWPiZeroEJPParCmd->SetGuidance("Usage: /boone/physics/SWPiZeroEJPPar c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  SWPiZeroEJPParCmd->SetGuidance("Description: c1 through c9 are the real SW parameters for pi- production (see  )");
+  param = new G4UIparameter("SWPiZeroEJPPar1Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar1Value>=0.");
+  param->SetDefaultValue(35.68);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar2Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar2Value>=0.");
+  param->SetDefaultValue(4.876);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar3Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar3Value>=0.");
+  param->SetDefaultValue(42.49);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar4Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar4Value>=0.");
+  param->SetDefaultValue(0.1479);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar5Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar5Value>=0.");
+  param->SetDefaultValue(0.1479);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar6Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar6Value>=0.");
+  param->SetDefaultValue(2.304);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar7Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar7Value>=0.");
+  param->SetDefaultValue(1.804E-01);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar8Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar8Value>=0.");
+  param->SetDefaultValue(24.82);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWPiZeroEJPPar9Value",'d',true);
+  param->SetParameterRange("SWPiZeroEJPPar9Value>=0.");
+  param->SetDefaultValue(-12.19);
+  SWPiZeroEJPParCmd->SetParameter(param);
+  
 
   // eta
   SWEtaParCmd = 
@@ -528,6 +574,51 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetDefaultValue(10.74);
   SWEtaParCmd->SetParameter(param);
 
+  // eta esw
+
+  SWEtaEJPParCmd =
+    new G4UIcommand("/boone/physics/SWEtaEJPPar",this);
+  SWEtaEJPParCmd->SetGuidance("Set values of modified SW parameters for eta");
+  SWEtaEJPParCmd->SetGuidance("Usage: /boone/physics/SWEtaEJPPar c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  SWEtaEJPParCmd->SetGuidance("Description: c1 through c9 are the real SW parameters for pi- production (see  )");
+  param = new G4UIparameter("SWEtaEJPPar1Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar1Value>=0.");
+  param->SetDefaultValue(35.68);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar2Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar2Value>=0.");
+  param->SetDefaultValue(4.876);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar3Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar3Value>=0.");
+  param->SetDefaultValue(42.49);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar4Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar4Value>=0.");
+  param->SetDefaultValue(0.1479);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar5Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar5Value>=0.");
+  param->SetDefaultValue(0.1479);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar6Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar6Value>=0.");
+  param->SetDefaultValue(2.304);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar7Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar7Value>=0.");
+  param->SetDefaultValue(1.804E-01);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar8Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar8Value>=0.");
+  param->SetDefaultValue(24.82);
+  SWEtaEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtaEJPPar9Value",'d',true);
+  param->SetParameterRange("SWEtaEJPPar9Value>=0.");
+  param->SetDefaultValue(-12.19);
+  SWEtaEJPParCmd->SetParameter(param);
+  
+
   // eta prime
 
   SWEtapParCmd = 
@@ -568,6 +659,51 @@ BooNEpBeInteractionMessenger::BooNEpBeInteractionMessenger(BooNEpBeInteraction* 
   param->SetParameterRange("SWEtapPar8Value>=0.");
   param->SetDefaultValue(10.74);
   SWEtapParCmd->SetParameter(param);
+
+  // eta prime esw
+
+  SWEtapEJPParCmd =
+    new G4UIcommand("/boone/physics/SWEtapEJPPar",this);
+  SWEtapEJPParCmd->SetGuidance("Set values of modified SW parameters for eta prime");
+  SWEtapEJPParCmd->SetGuidance("Usage: /boone/physics/SWEtapEJPPar c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  SWEtapEJPParCmd->SetGuidance("Description: c1 through c9 are the real SW parameters for pi- production (see  )");
+  param = new G4UIparameter("SWEtapEJPPar1Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar1Value>=0.");
+  param->SetDefaultValue(35.68);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar2Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar2Value>=0.");
+  param->SetDefaultValue(4.876);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar3Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar3Value>=0.");
+  param->SetDefaultValue(42.49);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar4Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar4Value>=0.");
+  param->SetDefaultValue(0.1479);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar5Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar5Value>=0.");
+  param->SetDefaultValue(0.1479);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar6Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar6Value>=0.");
+  param->SetDefaultValue(2.304);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar7Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar7Value>=0.");
+  param->SetDefaultValue(1.804E-01);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar8Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar8Value>=0.");
+  param->SetDefaultValue(24.82);
+  SWEtapEJPParCmd->SetParameter(param);
+  param = new G4UIparameter("SWEtapEJPPar9Value",'d',true);
+  param->SetParameterRange("SWEtapEJPPar9Value>=0.");
+  param->SetDefaultValue(-12.19);
+  SWEtapEJPParCmd->SetParameter(param);
+
 
 
   
@@ -1252,6 +1388,7 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
 
   // delete randomSeedCmd;
   delete SWPiPlusParCmd;
+  delete SWPiZeroEJPParCmd;
   delete SWPiMinusParCmd;
   delete SWKaonPlusParCmd;
   delete SWKaonZeroLongParCmd;
@@ -1262,7 +1399,9 @@ BooNEpBeInteractionMessenger::~BooNEpBeInteractionMessenger()
   delete PhysicsVerboseCmd;
   delete NoBeamPionsCmd;
   delete SWEtaParCmd;
+  delete SWEtaEJPParCmd;
   delete SWEtapParCmd;
+  delete SWEtapEJPParCmd;
   delete SWPiZeroParCmd;
 
   delete ProtonRwgtFuncCmd;
@@ -1331,7 +1470,70 @@ void BooNEpBeInteractionMessenger::SetNewValue(G4UIcommand * command,G4String ne
   if(command == EtapPhysicsModelCmd)
     BooNEProtonModel->SetEtapPhysicsModel(newValues);
 
+
+  if (command == SWEtaEJPParCmd) {
+    G4Tokenizer next( newValues );
+    fSWEtaEJPPar1Value = StoD(next());
+    fSWEtaEJPPar2Value = StoD(next());
+    fSWEtaEJPPar3Value = StoD(next());
+    fSWEtaEJPPar4Value = StoD(next());
+    fSWEtaEJPPar5Value = StoD(next());
+    fSWEtaEJPPar6Value = StoD(next());
+    fSWEtaEJPPar7Value = StoD(next());
+    fSWEtaEJPPar8Value = StoD(next());
+    fSWEtaEJPPar9Value = StoD(next());
+    BooNEProtonModel->SetSWEtaEJPPar(
+					fSWEtaEJPPar1Value, fSWEtaEJPPar2Value,
+					fSWEtaEJPPar3Value, fSWEtaEJPPar4Value,
+					fSWEtaEJPPar5Value, fSWEtaEJPPar6Value,
+					fSWEtaEJPPar7Value, fSWEtaEJPPar8Value,
+					fSWEtaEJPPar9Value);
+  }
+
+
+
   
+  if (command == SWEtapEJPParCmd) {
+    G4Tokenizer next( newValues );
+    fSWEtapEJPPar1Value = StoD(next());
+    fSWEtapEJPPar2Value = StoD(next());
+    fSWEtapEJPPar3Value = StoD(next());
+    fSWEtapEJPPar4Value = StoD(next());
+    fSWEtapEJPPar5Value = StoD(next());
+    fSWEtapEJPPar6Value = StoD(next());
+    fSWEtapEJPPar7Value = StoD(next());
+    fSWEtapEJPPar8Value = StoD(next());
+    fSWEtapEJPPar9Value = StoD(next());
+    BooNEProtonModel->SetSWEtapEJPPar(
+					fSWEtapEJPPar1Value, fSWEtapEJPPar2Value,
+					fSWEtapEJPPar3Value, fSWEtapEJPPar4Value,
+					fSWEtapEJPPar5Value, fSWEtapEJPPar6Value,
+					fSWEtapEJPPar7Value, fSWEtapEJPPar8Value,
+					fSWEtapEJPPar9Value);
+  }
+
+
+
+  if (command == SWPiZeroEJPParCmd) {
+    G4Tokenizer next( newValues );
+    fSWPiZeroEJPPar1Value = StoD(next());
+    fSWPiZeroEJPPar2Value = StoD(next());
+    fSWPiZeroEJPPar3Value = StoD(next());
+    fSWPiZeroEJPPar4Value = StoD(next());
+    fSWPiZeroEJPPar5Value = StoD(next());
+    fSWPiZeroEJPPar6Value = StoD(next());
+    fSWPiZeroEJPPar7Value = StoD(next());
+    fSWPiZeroEJPPar8Value = StoD(next());
+    fSWPiZeroEJPPar9Value = StoD(next());
+    BooNEProtonModel->SetSWPiZeroEJPPar(
+					fSWPiZeroEJPPar1Value, fSWPiZeroEJPPar2Value,
+					fSWPiZeroEJPPar3Value, fSWPiZeroEJPPar4Value,
+					fSWPiZeroEJPPar5Value, fSWPiZeroEJPPar6Value,
+					fSWPiZeroEJPPar7Value, fSWPiZeroEJPPar8Value,
+					fSWPiZeroEJPPar9Value);
+  }
+
+
   if (command == SWPiPlusParCmd) {
     G4Tokenizer next( newValues );
     fSWPiPlusPar1Value = StoD(next());

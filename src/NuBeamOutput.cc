@@ -259,6 +259,7 @@ void NuBeamOutput::RecordBeginOfTrack(const G4Track*)
 {
 }
 
+
 void NuBeamOutput::RecordNeutrino(const G4Track* track)
 {
   ///
@@ -424,6 +425,240 @@ void NuBeamOutput::RecordNeutrino(const G4Track* track)
   fOutTreeDk2Nu->Fill(); 
 }
 
+void NuBeamOutput::RecordNeutral(const G4Track* track)
+{
+  NuBeamRunManager *pRunManager=
+    reinterpret_cast<NuBeamRunManager*>(G4RunManager::GetRunManager());
+  
+  G4ThreeVector pos = track->GetPosition()/CLHEP::mm; 
+  const double x = pos.x();
+  const double y = pos.y();
+  const double z = pos.z();
+  G4ThreeVector NuMomentum = track->GetMomentum();
+  G4int parentID           = track->GetParentID();
+  
+  NuBeamTrajectory* NuParentTrack   = GetTrajectory(parentID);
+  G4ThreeVector ParentMomentumFinal = NuParentTrack->GetFinalMomentum();
+  G4ThreeVector vertex_r            = NuParentTrack->GetFinalPosition(); //Should be the same as Neutrino vertex
+  G4double Parent_mass              = NuParentTrack->GetMass();
+  G4double gamma                    = sqrt(ParentMomentumFinal*ParentMomentumFinal+Parent_mass*Parent_mass)/Parent_mass; 
+  G4double Parent_energy            = gamma*Parent_mass;
+  G4ThreeVector beta_vec            = ParentMomentumFinal/Parent_energy;
+  G4double partial                  = gamma*(beta_vec*NuMomentum);
+  G4double enuzr                    = gamma*(track->GetTotalEnergy())-partial; //neutrino energy in parent rest frame
+  G4double enuzrInGeV               = enuzr/CLHEP::GeV; //neutrino energy in parent rest frame, in GeV 
+  G4String parent_name              = NuParentTrack->GetParticleName();
+  
+  G4int Norig = 2;
+  if ((parent_name=="mu+") || (parent_name=="mu-")) Norig = 3;
+  G4String firstvolname = NuParentTrack->GetInitialVolumeName();
+  if (firstvolname.contains("TARG")) Norig = 1;
+  //
+  // Dk2Nu filling per se 
+  // 
+  fDk2Nu->nuray.clear();
+  fDk2Nu->ancestor.clear();
+  fDk2Nu->job = pRunManager->GetCurrentRun()->GetRunID();
+  fDk2Nu->potnum = G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID();
+  
+  bsim::NuRay myNu(NuMomentum[0]/CLHEP::GeV, NuMomentum[1]/CLHEP::GeV, NuMomentum[2]/CLHEP::GeV, track->GetTotalEnergy()/CLHEP::GeV, 1); // Sept 24, we do not place the importance weight here.. 
+  fDk2Nu->nuray.push_back(myNu);
+  fDk2Nu->decay.norig=Norig; // Same convention as in G4BNB old Ntuple, i..e, as above
+  fDk2Nu->decay.ntype=track->GetDefinition()->GetPDGEncoding();
+  fDk2Nu->decay.ndecay = GetDecayCode(track);
+  fDk2Nu->decay.vx = x/CLHEP::cm;
+  fDk2Nu->decay.vy = y/CLHEP::cm;
+  fDk2Nu->decay.vz = z/CLHEP::cm;
+  fDk2Nu->decay.pdpx = ParentMomentumFinal[0]/CLHEP::GeV;
+  fDk2Nu->decay.pdpy = ParentMomentumFinal[1]/CLHEP::GeV;
+  fDk2Nu->decay.pdpz = ParentMomentumFinal[2]/CLHEP::GeV;
+  G4ThreeVector ParentMomentumProduction = NuParentTrack->GetInitialMomentum();
+  fDk2Nu->decay.ppdxdz = ParentMomentumProduction[0]/ParentMomentumProduction[2];
+  fDk2Nu->decay.ppdydz = ParentMomentumProduction[1]/ParentMomentumProduction[2];
+  fDk2Nu->decay.pppz   = ParentMomentumProduction[2]/CLHEP::GeV; 
+  G4double parentp = sqrt(ParentMomentumProduction*ParentMomentumProduction);   
+  fDk2Nu->decay.ppenergy = sqrt((parentp*parentp+Parent_mass*Parent_mass))/CLHEP::GeV;
+  fDk2Nu->decay.ppmedium = NuParentTrack->GetInitialMaterialNumber();
+  fDk2Nu->decay.ptype = NuParentTrack->GetPDGEncoding();
+   
+  // We now look for the grand-parent of the neutrino.
+  // Use the trajectory info this time. 
+  G4int parID = NuParentTrack->GetParentID();
+  NuBeamTrajectory *trajGrandParent = GetTrajectory(parID);
+  
+  fDk2Nu->decay.necm = enuzrInGeV; // Now in GeV... 
+  fDk2Nu->decay.nimpwt = track->GetWeight();
+  
+  std::vector<NuBeamTrajectory *> trajs;
+  G4int trackIDTmp = track->GetParentID();
+  while (trackIDTmp > 0) {
+    NuBeamTrajectory *tmpTraj = GetTrajectory(trackIDTmp);    
+    trajs.push_back(tmpTraj);
+    trackIDTmp = tmpTraj->GetParentID();
+    if(trackIDTmp > 0) tmpTraj = GetTrajectory(trackIDTmp);  
+  }
+  std::reverse(trajs.begin(), trajs.end());
+
+  //add neutrino track info to ancestor since it is not in trajectory container yet
+  G4String creatorProc=track->GetCreatorProcess()->GetProcessName()+":"+
+    ((NuBeamTrackInformation*)track->GetUserInformation())->GetCreatorModelName();
+  NuBeamTrajectory* nutraj=new NuBeamTrajectory(track);
+  nutraj->AddTrajectoryPoint(track,creatorProc);
+  nutraj->AddTrajectoryPoint(track,creatorProc);
+  trajs.push_back(nutraj);
+
+  fDk2Nu->ancestor.clear();
+  fDk2Nu->vint.clear();
+
+  // Now fill ancestry info. 
+  for (auto t: trajs) {
+    fDk2Nu->vint.push_back(t->GetTrackID());
+    std::vector<NuBeamTrajectory::trajPoint_t> trajPoints=t->GetTrajectoryPoints();
+    //hadron elastic scatterings are added as additional points in trajectory
+    for (size_t iTP=0; iTP<trajPoints.size();iTP+=2) {
+      bsim::Ancestor a;
+      a.pdg     = t->GetPDGEncoding();
+      a.startx  = trajPoints[iTP].fPosition[0]/CLHEP::cm;
+      a.starty  = trajPoints[iTP].fPosition[1]/CLHEP::cm;
+      a.startz  = trajPoints[iTP].fPosition[2]/CLHEP::cm;
+      a.startt  = trajPoints[iTP].fTime;
+      a.startpx = trajPoints[iTP].fMomentum[0]/CLHEP::GeV;
+      a.startpy = trajPoints[iTP].fMomentum[1]/CLHEP::GeV;
+      a.startpz = trajPoints[iTP].fMomentum[2]/CLHEP::GeV;
+      a.stoppx  = trajPoints[iTP+1].fMomentum[0]/CLHEP::GeV;
+      a.stoppy  = trajPoints[iTP+1].fMomentum[1]/CLHEP::GeV;
+      a.stoppz  = trajPoints[iTP+1].fMomentum[2]/CLHEP::GeV;
+      a.polx    = trajPoints[iTP].fPolarization[0];
+      a.poly    = trajPoints[iTP].fPolarization[1];
+      a.polz    = trajPoints[iTP].fPolarization[2];
+      a.pprodpx = 0; //not filled, same as startp* for previous anc
+      a.pprodpy = 0;
+      a.pprodpz = 0;
+      a.nucleus = 0; //need to add this
+      a.proc    = trajPoints[iTP].fCreatorProcessName;
+      a.ivol    = trajPoints[iTP].fVolumeName;
+      a.imat    = trajPoints[iTP].fMaterialName;
+      fDk2Nu->ancestor.push_back(a);
+    }
+  }
+  
+  if (fDk2Nu->ancestor.size() == 1) { 
+    std::cerr << " Incorrect ancestry...  Final number of ancestor at evt " << fDk2Nu->potnum 
+	      << " is " << fDk2Nu->ancestor.size() << " num Inel " << trajs.size() << std::endl;
+    std::cerr << " Single PDG ancestor " << fDk2Nu->ancestor[0].pdg << "  Start position " 
+	      << fDk2Nu->ancestor[0].startx << " / " << fDk2Nu->ancestor[0].starty 
+	      << " / " << fDk2Nu->ancestor[0].startz  << std::endl;
+    std::cerr << " .. start momentum " << fDk2Nu->ancestor[0].startpx << " / " 
+	      << fDk2Nu->ancestor[0].startpy << " / " << fDk2Nu->ancestor[0].startpz << std::endl;   
+  }       
+  fDk2Nu->traj.clear();
+  // 
+  // Last step : compute the so-called "location weights" for 3 detectors. 
+  //
+  bsim::calcLocationWeights(fDkMeta, fDk2Nu); 
+  fOutTreeDk2Nu->Fill(); 
+}
+
+/*
+void NuBeamOutput::RecordNeutral(const G4Track* track)
+{
+  ///
+  // This must be a pi0!... See clause Tracking action call to this.
+  //
+  NuBeamRunManager *pRunManager=
+    reinterpret_cast<NuBeamRunManager*>(G4RunManager::GetRunManager());
+  
+  G4ThreeVector pos = track->GetPosition() / CLHEP::mm; 
+  const double x = pos.x();
+  const double y = pos.y();
+  const double z = pos.z();
+  G4ThreeVector pi0Momentum = track->GetMomentum();
+  G4int parentID = track->GetParentID();
+  
+  NuBeamTrajectory* pi0ParentTrack = GetTrajectory(parentID);
+  G4ThreeVector ParentMomentumFinal = pi0ParentTrack->GetFinalMomentum();
+  G4ThreeVector vertex_r = pi0ParentTrack->GetFinalPosition(); 
+  G4double Parent_mass = pi0ParentTrack->GetMass();
+  G4double gamma = sqrt(ParentMomentumFinal * ParentMomentumFinal + Parent_mass * Parent_mass) / Parent_mass; 
+  G4double Parent_energy = gamma * Parent_mass;
+  G4ThreeVector beta_vec = ParentMomentumFinal / Parent_energy;
+
+  G4String parent_name = pi0ParentTrack->GetParticleName();
+
+  // Ensure we are processing pi0 only
+  if (track->GetDefinition()->GetParticleName() != "pi0") return;
+
+  // Clear nuray container
+  fDk2Nu->nuray.clear();
+  fDk2Nu->ancestor.clear();
+  
+  fDk2Nu->job = pRunManager->GetCurrentRun()->GetRunID();
+  fDk2Nu->potnum = G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID();
+  
+  // Add pi0 to nuray container
+  bsim::NuRay myPi0(
+		    pi0Momentum[0] / CLHEP::GeV, 
+		    pi0Momentum[1] / CLHEP::GeV, 
+		    pi0Momentum[2] / CLHEP::GeV, 
+		    track->GetTotalEnergy() / CLHEP::GeV, 
+		    0  // Importance weight set to 0 for pi0
+		    );
+  fDk2Nu->nuray.push_back(myPi0);
+
+  // Fill ancestry information
+  std::vector<NuBeamTrajectory*> trajs;
+  G4int trackIDTmp = track->GetParentID();
+  while (trackIDTmp > 0) {
+    NuBeamTrajectory* tmpTraj = GetTrajectory(trackIDTmp);    
+    trajs.push_back(tmpTraj);
+    trackIDTmp = tmpTraj->GetParentID();
+    if (trackIDTmp > 0) tmpTraj = GetTrajectory(trackIDTmp);  
+  }
+  std::reverse(trajs.begin(), trajs.end());
+
+  // Add pi0 track info to ancestor since it is not in trajectory container yet
+  G4String creatorProc = track->GetCreatorProcess()->GetProcessName() + ":" +
+    ((NuBeamTrackInformation*)track->GetUserInformation())->GetCreatorModelName();
+  NuBeamTrajectory* pi0traj = new NuBeamTrajectory(track);
+  pi0traj->AddTrajectoryPoint(track, creatorProc);
+  trajs.push_back(pi0traj);
+
+  fDk2Nu->ancestor.clear();
+
+  // Fill ancestry info
+  for (auto t: trajs) {
+    std::vector<NuBeamTrajectory::trajPoint_t> trajPoints = t->GetTrajectoryPoints();
+    for (size_t iTP = 0; iTP < trajPoints.size(); iTP += 2) {
+      bsim::Ancestor a;
+      a.pdg     = t->GetPDGEncoding();
+      a.startx  = trajPoints[iTP].fPosition[0] / CLHEP::cm;
+      a.starty  = trajPoints[iTP].fPosition[1] / CLHEP::cm;
+      a.startz  = trajPoints[iTP].fPosition[2] / CLHEP::cm;
+      a.startt  = trajPoints[iTP].fTime;
+      a.startpx = trajPoints[iTP].fMomentum[0] / CLHEP::GeV;
+      a.startpy = trajPoints[iTP].fMomentum[1] / CLHEP::GeV;
+      a.startpz = trajPoints[iTP].fMomentum[2] / CLHEP::GeV;
+      a.stoppx  = trajPoints[iTP + 1].fMomentum[0] / CLHEP::GeV;
+      a.stoppy  = trajPoints[iTP + 1].fMomentum[1] / CLHEP::GeV;
+      a.stoppz  = trajPoints[iTP + 1].fMomentum[2] / CLHEP::GeV;
+      a.polx    = trajPoints[iTP].fPolarization[0];
+      a.poly    = trajPoints[iTP].fPolarization[1];
+      a.polz    = trajPoints[iTP].fPolarization[2];
+      a.pprodpx = 0;
+      a.pprodpy = 0;
+      a.pprodpz = 0;
+      a.nucleus = 0;
+      a.proc    = trajPoints[iTP].fCreatorProcessName;
+      a.ivol    = trajPoints[iTP].fVolumeName;
+      a.imat    = trajPoints[iTP].fMaterialName;
+      fDk2Nu->ancestor.push_back(a);
+    }
+  }
+
+  // Write pi0 information to the output file
+  fOutTreeDk2Nu->Fill();
+}
+*/
 
 void NuBeamOutput::RecordEndOfTrack(const G4Track*) 
 {

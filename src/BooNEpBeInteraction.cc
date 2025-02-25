@@ -18,6 +18,7 @@
 #include "GFLUKAData.hh"
 #include "ZGSData.hh"
 #include "SWParData.hh"
+#include "SWEJPParData.hh"
 
 // include math package
 #include <math.h>
@@ -32,8 +33,11 @@ BooNEpBeInteraction::BooNEpBeInteraction()
   UI->ApplyCommand("/boone/physics/SWPiPlusPar");
   UI->ApplyCommand("/boone/physics/SWPiMinusPar");
   UI->ApplyCommand("/boone/physics/SWPiZeroPar");
+  UI->ApplyCommand("/boone/physics/SWPiZeroEJPPar");
   UI->ApplyCommand("/boone/physics/SWEtaPar");
+  UI->ApplyCommand("/boone/physics/SWEtaEJPPar");
   UI->ApplyCommand("/boone/physics/SWEtapPar");
+  UI->ApplyCommand("/boone/physics/SWEtapEJPPar");
   UI->ApplyCommand("/boone/physics/SWKaonPlusPar");
   UI->ApplyCommand("/boone/physics/SWKaonZeroLongPar");
   UI->ApplyCommand("/boone/physics/FSKaonPlusPar");
@@ -55,6 +59,54 @@ BooNEpBeInteraction::BooNEpBeInteraction()
 BooNEpBeInteraction::~BooNEpBeInteraction()
 {
 }
+
+// -----------------------------
+// ============ESW Model============
+
+
+// ------------------------------- parameters from the EJP model ---- Athula                           
+void BooNEpBeInteraction::SetSWPiZeroEJPPar(
+					     G4double val1, G4double val2,
+					     G4double val3, G4double val4,
+					     G4double val5, G4double val6,
+					     G4double val7, G4double val8,
+					     G4double val9 )
+{
+  SWPiZeroEJPPar1 = val1;
+  SWPiZeroEJPPar2 = val2;
+  SWPiZeroEJPPar3 = val3;
+  SWPiZeroEJPPar4 = val4;
+  SWPiZeroEJPPar5 = val5;
+  SWPiZeroEJPPar6 = val6;
+  SWPiZeroEJPPar7 = val7;
+  SWPiZeroEJPPar8 = val8;
+  SWPiZeroEJPPar9 = val9;
+  G4cout<<"======================= set par sw EJP===================================="<<G4endl;
+}
+
+
+
+G4double BooNEpBeInteraction::GetSWPiZeroEJPPar(G4int parNo)
+{
+  G4cout<<"======================= get par sw EJP===================================="<<G4endl;
+  if (parNo == 1) return SWPiZeroEJPPar1;
+  else if (parNo == 2) return SWPiZeroEJPPar2;
+  else if (parNo == 3) return SWPiZeroEJPPar3;
+  else if (parNo == 4) return SWPiZeroEJPPar4;
+  else if (parNo == 5) return SWPiZeroEJPPar5;
+  else if (parNo == 6) return SWPiZeroEJPPar6;
+  else if (parNo == 7) return SWPiZeroEJPPar7;
+  else if (parNo == 8) return SWPiZeroEJPPar8;
+  else if (parNo == 9) return SWPiZeroEJPPar9;
+  else {
+    G4cout << "Problems" << G4endl;
+    return 0.;
+  }
+}
+
+
+// -----------------------------
+
 
 void BooNEpBeInteraction::SetSWPiPlusPar(
 					 G4double val1, G4double val2,
@@ -160,8 +212,52 @@ G4double BooNEpBeInteraction::GetSWPiZeroPar(G4int parNo)
 }
 
 
-
 // ----------------------------------------
+
+
+// ------------------------------- parameters from the EJP model ---- Athula                           
+void BooNEpBeInteraction::SetSWEtaEJPPar(
+					     G4double val1, G4double val2,
+					     G4double val3, G4double val4,
+					     G4double val5, G4double val6,
+					     G4double val7, G4double val8,
+					     G4double val9 )
+{
+  SWEtaEJPPar1 = val1;
+  SWEtaEJPPar2 = val2;
+  SWEtaEJPPar3 = val3;
+  SWEtaEJPPar4 = val4;
+  SWEtaEJPPar5 = val5;
+  SWEtaEJPPar6 = val6;
+  SWEtaEJPPar7 = val7;
+  SWEtaEJPPar8 = val8;
+  SWEtaEJPPar9 = val9;
+  G4cout<<"======================= set par sw EJP===================================="<<G4endl;
+}
+
+
+
+G4double BooNEpBeInteraction::GetSWEtaEJPPar(G4int parNo)
+{
+  G4cout<<"======================= get par sw EJP===================================="<<G4endl;
+  if (parNo == 1) return SWEtaEJPPar1;
+  else if (parNo == 2) return SWEtaEJPPar2;
+  else if (parNo == 3) return SWEtaEJPPar3;
+  else if (parNo == 4) return SWEtaEJPPar4;
+  else if (parNo == 5) return SWEtaEJPPar5;
+  else if (parNo == 6) return SWEtaEJPPar6;
+  else if (parNo == 7) return SWEtaEJPPar7;
+  else if (parNo == 8) return SWEtaEJPPar8;
+  else if (parNo == 9) return SWEtaEJPPar9;
+  else {
+    G4cout << "Problems" << G4endl;
+    return 0.;
+  }
+}
+
+
+
+
 
 void BooNEpBeInteraction::SetSWEtaPar(
 					 G4double val1, G4double val2,
@@ -196,6 +292,50 @@ G4double BooNEpBeInteraction::GetSWEtaPar(G4int parNo)
 }
 
 // ---------------------------------------
+
+
+// ------------------------------- parameters from the EJP model ---- Athula                           
+void BooNEpBeInteraction::SetSWEtapEJPPar(
+					     G4double val1, G4double val2,
+					     G4double val3, G4double val4,
+					     G4double val5, G4double val6,
+					     G4double val7, G4double val8,
+					     G4double val9 )
+{
+  SWEtapEJPPar1 = val1;
+  SWEtapEJPPar2 = val2;
+  SWEtapEJPPar3 = val3;
+  SWEtapEJPPar4 = val4;
+  SWEtapEJPPar5 = val5;
+  SWEtapEJPPar6 = val6;
+  SWEtapEJPPar7 = val7;
+  SWEtapEJPPar8 = val8;
+  SWEtapEJPPar9 = val9;
+  G4cout<<"======================= set par sw EJP===================================="<<G4endl;
+}
+
+
+
+G4double BooNEpBeInteraction::GetSWEtapEJPPar(G4int parNo)
+{
+  G4cout<<"======================= get par sw EJP===================================="<<G4endl;
+  if (parNo == 1) return SWEtapEJPPar1;
+  else if (parNo == 2) return SWEtapEJPPar2;
+  else if (parNo == 3) return SWEtapEJPPar3;
+  else if (parNo == 4) return SWEtapEJPPar4;
+  else if (parNo == 5) return SWEtapEJPPar5;
+  else if (parNo == 6) return SWEtapEJPPar6;
+  else if (parNo == 7) return SWEtapEJPPar7;
+  else if (parNo == 8) return SWEtapEJPPar8;
+  else if (parNo == 9) return SWEtapEJPPar9;
+  else {
+    G4cout << "Problems" << G4endl;
+    return 0.;
+  }
+}
+
+
+
 
 
 void BooNEpBeInteraction::SetSWEtapPar(
@@ -714,7 +854,7 @@ BooNEpBeInteraction::SetPiZeroPhysicsModel(G4String val)
       }
     }
   }
-
+  /*
   // SWPar model 
   else if (PiZeroPhysicsModel == "SWPar") 
   {    
@@ -768,16 +908,71 @@ BooNEpBeInteraction::SetPiZeroPhysicsModel(G4String val)
     }
   }
 
+  */
+  else if (PiZeroPhysicsModel == "MSWPar") 
+    {
+      G4cout << "PiZero Physics Model is MSWPar(modified SW model), with the following choice of parameters:" << G4endl;
+      G4cout << "SWPiZeroEJPPar[1-9] = " << 
+	SWPiZeroEJPPar1 << ", " << SWPiZeroEJPPar2 << ", " <<
+	SWPiZeroEJPPar3 << ", " << SWPiZeroEJPPar4 << ", " <<
+	SWPiZeroEJPPar5 << ", " << SWPiZeroEJPPar6 << ", " <<
+	SWPiZeroEJPPar7 << ", " << SWPiZeroEJPPar8 << ", " <<
+	SWPiZeroEJPPar9 << G4endl;
 
+      for (G4int ipz=0; ipz<kNPzBins; ipz++)
+	{
+	  for (G4int ipt=0; ipt<kNPtBins; ipt++)
+	    {
+	      for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+		xSectRatio = 1.;
+		EKinetic = sqrt (fProtonMomentumBins[iprotonp]*fProtonMomentumBins[iprotonp]
+				 + ProtonMass2) - ProtonMass;
+		pbeam = fProtonMomentumBins[iprotonp];
+		if( scale )
+		  {
+		    xFey = GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					     + fPtVec[ipt]*fPtVec[ipt]),
+					atan(fPtVec[ipt]/fPzVec[ipz]),
+					PionMass, pbeam, ProtonMass );
+		    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+		  }
+		G4double p = sqrt(fPzVec[ipz]*fPzVec[ipz]+fPtVec[ipt]*fPtVec[ipt]);
+		G4double theta = atan(fPtVec[ipt]/fPzVec[ipz]);
+		  
+		G4double arg1 = SWPiZeroEJPPar1 - SWPiZeroEJPPar3*pow(p,SWPiZeroEJPPar4)/pow(pbeam,SWPiZeroEJPPar5);
+		G4double arg2 = -SWPiZeroEJPPar6*theta*(p - SWPiZeroEJPPar7*pbeam*pow(cos(theta),SWPiZeroEJPPar8));
+		G4double argA = arg1 + arg2;
+
+		G4double arg3 = pow(p,SWPiZeroEJPPar2)*(1 - p/pbeam);
+		G4double arg4 = SWPiZeroEJPPar9*theta*(p-SWPiZeroEJPPar7*pbeam*pow(cos(theta),SWPiZeroEJPPar8));
+         
+		G4double argB = arg3*pow((1+p/pbeam),arg4);
+
+		G4double arg = exp(argA)*argB;
+		G4double jacobian = 2.*M_PI*fPtVec[ipt]/(p*p);
+		G4double valXSec = jacobian*(arg);
+		if (valXSec >= 0.) {
+		  PiZeroXSecArray_SWPar[iprotonp][ipz][ipt] = valXSec;
+		} else {
+		  PiZeroXSecArray_SWPar[iprotonp][ipz][ipt] = 0.;
+		}
+		//G4cout<<valXSec<<G4endl;
+		PiZeroXSecNoWgtArray[iprotonp][ipz][ipt]
+		  = xSectRatio*PiZeroXSecArray_SWPar[iprotonp][ipz][ipt];
+		PiZeroXSecArray[iprotonp][ipz][ipt]
+		  = GetRwgtXSec(PiZeroXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	      }
+	    }
+	}
+    }
+
+  
   // no PiZero Physics model
   else {
     G4cout << "PiZero Physics Model is not valid! Results are nonsense" <<
       G4endl;
   }
 }
-
-
-
 
 
 
@@ -966,6 +1161,69 @@ BooNEpBeInteraction::SetEtaPhysicsModel(G4String val)
       }
     }
   }
+  //ESW
+  else if (EtaPhysicsModel == "MSWPar") 
+    {
+      G4cout << "Eta Physics Model is MSWPar(modified SW model), with the following choice of parameters:" << G4endl;
+      G4cout << "SWEtaEJPPar[1-9] = " << 
+	SWEtaEJPPar1 << ", " << SWEtaEJPPar2 << ", " <<
+	SWEtaEJPPar3 << ", " << SWEtaEJPPar4 << ", " <<
+	SWEtaEJPPar5 << ", " << SWEtaEJPPar6 << ", " <<
+	SWEtaEJPPar7 << ", " << SWEtaEJPPar8 << ", " <<
+	SWEtaEJPPar9 << G4endl;
+
+      for (G4int ipz=0; ipz<kNPzBins; ipz++)
+	{
+	  for (G4int ipt=0; ipt<kNPtBins; ipt++)
+	    {
+	      for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+		xSectRatio = 1.;
+		EKinetic = sqrt (fProtonMomentumBins[iprotonp]*fProtonMomentumBins[iprotonp]
+				 + ProtonMass2) - ProtonMass;
+		pbeam = fProtonMomentumBins[iprotonp];
+		if( scale )
+		  {
+		    xFey = GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					     + fPtVec[ipt]*fPtVec[ipt]),
+					atan(fPtVec[ipt]/fPzVec[ipz]),
+					EtaMass, pbeam, ProtonMass );
+		    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+		  }
+		G4double p = sqrt(fPzVec[ipz]*fPzVec[ipz]+fPtVec[ipt]*fPtVec[ipt]);
+		G4double theta = atan(fPtVec[ipt]/fPzVec[ipz]);
+		  
+		G4double arg1 = SWEtaEJPPar1 - SWEtaEJPPar3*pow(p,SWEtaEJPPar4)/pow(pbeam,SWEtaEJPPar5);
+		G4double arg2 = -SWEtaEJPPar6*theta*(p - SWEtaEJPPar7*pbeam*pow(cos(theta),SWEtaEJPPar8));
+		G4double argA = arg1 + arg2;
+
+		G4double arg3 = pow(p,SWEtaEJPPar2)*(1 - p/pbeam);
+		G4double arg4 = SWEtaEJPPar9*theta*(p-SWEtaEJPPar7*pbeam*pow(cos(theta),SWEtaEJPPar8));
+         
+		G4double argB = arg3*pow((1+p/pbeam),arg4);
+
+		G4double arg = exp(argA)*argB;
+		G4double jacobian = 2.*M_PI*fPtVec[ipt]/(p*p);
+		G4double valXSec = jacobian*(arg);
+		if (valXSec >= 0.) {
+		  EtaXSecArray_SWPar[iprotonp][ipz][ipt] = valXSec;
+		} else {
+		  EtaXSecArray_SWPar[iprotonp][ipz][ipt] = 0.;
+		}
+		//G4cout<<valXSec<<G4endl;
+		EtaXSecNoWgtArray[iprotonp][ipz][ipt]
+		  = xSectRatio*EtaXSecArray_SWPar[iprotonp][ipz][ipt];
+		EtaXSecArray[iprotonp][ipz][ipt]
+		  = GetRwgtXSec(EtaXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	      }
+	    }
+	}
+    }
+  
+  
+
+
+
+
   
   // no Eta Physics model
   else {
@@ -1159,7 +1417,70 @@ BooNEpBeInteraction::SetEtapPhysicsModel(G4String val)
       }
     }
   }
+ 
+  //ESW Model
+  else if (EtapPhysicsModel == "MSWPar") 
+    {
+      G4cout << "Etap Physics Model is MSWPar(modified SW model), with the following choice of parameters:" << G4endl;
+      G4cout << "SWEtapEJPPar[1-9] = " << 
+	SWEtapEJPPar1 << ", " << SWEtapEJPPar2 << ", " <<
+	SWEtapEJPPar3 << ", " << SWEtapEJPPar4 << ", " <<
+	SWEtapEJPPar5 << ", " << SWEtapEJPPar6 << ", " <<
+	SWEtapEJPPar7 << ", " << SWEtapEJPPar8 << ", " <<
+	SWEtapEJPPar9 << G4endl;
+
+      for (G4int ipz=0; ipz<kNPzBins; ipz++)
+	{
+	  for (G4int ipt=0; ipt<kNPtBins; ipt++)
+	    {
+	      for (G4int iprotonp=0; iprotonp<kNProtonMomentumBins; iprotonp++) {
+		xSectRatio = 1.;
+		EKinetic = sqrt (fProtonMomentumBins[iprotonp]*fProtonMomentumBins[iprotonp]
+				 + ProtonMass2) - ProtonMass;
+		pbeam = fProtonMomentumBins[iprotonp];
+		if( scale )
+		  {
+		    xFey = GetFeynmanX( sqrt(fPzVec[ipz]*fPzVec[ipz]
+					     + fPtVec[ipt]*fPtVec[ipt]),
+					atan(fPtVec[ipt]/fPzVec[ipz]),
+					EtapMass, pbeam, ProtonMass );
+		    xSectRatio *= pow( ratioA, c0 + c1*xFey + c2*xFey*xFey );
+		  }
+		G4double p = sqrt(fPzVec[ipz]*fPzVec[ipz]+fPtVec[ipt]*fPtVec[ipt]);
+		G4double theta = atan(fPtVec[ipt]/fPzVec[ipz]);
+		  
+		G4double arg1 = SWEtapEJPPar1 - SWEtapEJPPar3*pow(p,SWEtapEJPPar4)/pow(pbeam,SWEtapEJPPar5);
+		G4double arg2 = -SWEtapEJPPar6*theta*(p - SWEtapEJPPar7*pbeam*pow(cos(theta),SWEtapEJPPar8));
+		G4double argA = arg1 + arg2;
+
+		G4double arg3 = pow(p,SWEtapEJPPar2)*(1 - p/pbeam);
+		G4double arg4 = SWEtapEJPPar9*theta*(p-SWEtapEJPPar7*pbeam*pow(cos(theta),SWEtapEJPPar8));
+         
+		G4double argB = arg3*pow((1+p/pbeam),arg4);
+
+		G4double arg = exp(argA)*argB;
+		G4double jacobian = 2.*M_PI*fPtVec[ipt]/(p*p);
+		G4double valXSec = jacobian*(arg);
+		if (valXSec >= 0.) {
+		  EtapXSecArray_SWPar[iprotonp][ipz][ipt] = valXSec;
+		} else {
+		  EtapXSecArray_SWPar[iprotonp][ipz][ipt] = 0.;
+		}
+		//G4cout<<valXSec<<G4endl;
+		EtapXSecNoWgtArray[iprotonp][ipz][ipt]
+		  = xSectRatio*EtapXSecArray_SWPar[iprotonp][ipz][ipt];
+		EtapXSecArray[iprotonp][ipz][ipt]
+		  = GetRwgtXSec(EtapXSecNoWgtArray,iprotonp,ipz,ipt,8);
+	      }
+	    }
+	}
+    }
+
   
+
+
+
+ 
   // no Etap Physics model
   else {
     G4cout << "Etap Physics Model is not valid! Results are nonsense" <<

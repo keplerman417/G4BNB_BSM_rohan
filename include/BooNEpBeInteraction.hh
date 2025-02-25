@@ -119,6 +119,27 @@ public:
   G4String GetProtonPhysicsModel() { return ProtonPhysicsModel;};
   G4String GetNeutronPhysicsModel() { return NeutronPhysicsModel;};
 
+  void SetSWPiZeroEJPPar(
+			 G4double val1, G4double val2, G4double val3,
+			 G4double val4,G4double val5, G4double val6,
+			 G4double val7, G4double val8, G4double val9);
+  G4double GetSWPiZeroEJPPar(G4int iParNo);
+
+
+  void SetSWEtaEJPPar(
+			 G4double val1, G4double val2, G4double val3,
+			 G4double val4,G4double val5, G4double val6,
+			 G4double val7, G4double val8, G4double val9);
+  G4double GetSWEtaEJPPar(G4int iParNo);
+
+
+  void SetSWEtapEJPPar(
+			 G4double val1, G4double val2, G4double val3,
+			 G4double val4,G4double val5, G4double val6,
+			 G4double val7, G4double val8, G4double val9);
+  G4double GetSWEtapEJPPar(G4int iParNo);
+
+
   void SetSWPiPlusPar(
 		      G4double val1, G4double val2, G4double val3,
 		      G4double val4,G4double val5, G4double val6,
@@ -428,6 +449,15 @@ private:
   G4double SWPiZeroPar1; G4double SWPiZeroPar2; G4double SWPiZeroPar3;
   G4double SWPiZeroPar4; G4double SWPiZeroPar5; G4double SWPiZeroPar6;
   G4double SWPiZeroPar7; G4double SWPiZeroPar8;
+  G4double SWPiZeroEJPPar1; G4double SWPiZeroEJPPar2; G4double SWPiZeroEJPPar3;
+  G4double SWPiZeroEJPPar4; G4double SWPiZeroEJPPar5; G4double SWPiZeroEJPPar6;
+  G4double SWPiZeroEJPPar7; G4double SWPiZeroEJPPar8; G4double SWPiZeroEJPPar9;
+  G4double SWEtaEJPPar1; G4double SWEtaEJPPar2; G4double SWEtaEJPPar3;
+  G4double SWEtaEJPPar4; G4double SWEtaEJPPar5; G4double SWEtaEJPPar6;
+  G4double SWEtaEJPPar7; G4double SWEtaEJPPar8; G4double SWEtaEJPPar9;
+  G4double SWEtapEJPPar1; G4double SWEtapEJPPar2; G4double SWEtapEJPPar3;
+  G4double SWEtapEJPPar4; G4double SWEtapEJPPar5; G4double SWEtapEJPPar6;
+  G4double SWEtapEJPPar7; G4double SWEtapEJPPar8; G4double SWEtapEJPPar9;
   G4double SWKaonPlusPar1; G4double SWKaonPlusPar2; G4double SWKaonPlusPar3;
   G4double SWKaonPlusPar4; G4double SWKaonPlusPar5; G4double SWKaonPlusPar6;
   G4double SWKaonPlusPar7; G4double SWKaonPlusPar8; G4double SWKaonPlusPar9;

@@ -57,7 +57,9 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4UIcmdWithAString* EtapPhysicsModelCmd;
 
   G4UIcmdWithAnInteger* randomSeedCmd;
-
+  G4UIcommand* SWPiZeroEJPParCmd;
+  G4UIcommand* SWEtaEJPParCmd;
+  G4UIcommand* SWEtapEJPParCmd;
   G4UIcommand* SWPiPlusParCmd;
   G4UIcommand* SWPiMinusParCmd;
   G4UIcommand* SWKaonPlusParCmd;
@@ -163,6 +165,38 @@ class BooNEpBeInteractionMessenger: public G4UImessenger
   G4double fSWPiZeroPar6Value;
   G4double fSWPiZeroPar7Value;
   G4double fSWPiZeroPar8Value;
+
+  G4double fSWPiZeroEJPPar1Value;
+  G4double fSWPiZeroEJPPar2Value;
+  G4double fSWPiZeroEJPPar3Value;
+  G4double fSWPiZeroEJPPar4Value;
+  G4double fSWPiZeroEJPPar5Value;
+  G4double fSWPiZeroEJPPar6Value;
+  G4double fSWPiZeroEJPPar7Value;
+  G4double fSWPiZeroEJPPar8Value;
+  G4double fSWPiZeroEJPPar9Value;
+
+
+  G4double fSWEtaEJPPar1Value;
+  G4double fSWEtaEJPPar2Value;
+  G4double fSWEtaEJPPar3Value;
+  G4double fSWEtaEJPPar4Value;
+  G4double fSWEtaEJPPar5Value;
+  G4double fSWEtaEJPPar6Value;
+  G4double fSWEtaEJPPar7Value;
+  G4double fSWEtaEJPPar8Value;
+  G4double fSWEtaEJPPar9Value;
+
+
+  G4double fSWEtapEJPPar1Value;
+  G4double fSWEtapEJPPar2Value;
+  G4double fSWEtapEJPPar3Value;
+  G4double fSWEtapEJPPar4Value;
+  G4double fSWEtapEJPPar5Value;
+  G4double fSWEtapEJPPar6Value;
+  G4double fSWEtapEJPPar7Value;
+  G4double fSWEtapEJPPar8Value;
+  G4double fSWEtapEJPPar9Value;
 
 
   G4double fSWEtaPar1Value;

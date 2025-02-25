@@ -26,7 +26,7 @@ void BooNEHadronInelasticDataSet::DumpPhysicsTable2()
 	 << "pi- Valid  "  
 	 << "pi-        " 
     //	 << "eta        "  
-	 << "pi0        "
+    //	 << "pi0        "
 	 << G4endl; 
 
     
@@ -107,21 +107,21 @@ void BooNEHadronInelasticDataSet::DumpPhysicsTable2()
     G4double pionPlusEnergy  = sqrt(momentum*momentum + pionPlusMass*pionPlusMass  );
     G4double pionMinusEnergy = sqrt(momentum*momentum + pionMinusMass*pionMinusMass);
     //G4double etaEnergy = sqrt(momentum*momentum + etaMass*etaMass);
-    G4double pionzeroEnergy  = sqrt(momentum*momentum + pionzeroMass*pionzeroMass  );
+    //G4double pionzeroEnergy  = sqrt(momentum*momentum + pionzeroMass*pionzeroMass  );
 
     G4LorentzVector pProton   (0, 0, momentum, protonEnergy   );
     G4LorentzVector pNeutron  (0, 0, momentum, neutronEnergy  );
     G4LorentzVector pPionPlus (0, 0, momentum, pionPlusEnergy );
     G4LorentzVector pPionMinus(0, 0, momentum, pionMinusEnergy);
     //G4LorentzVector pEta(0, 0, momentum, etaEnergy);
-    G4LorentzVector pPionZero (0, 0, momentum, pionzeroEnergy );
+    //G4LorentzVector pPionZero (0, 0, momentum, pionzeroEnergy );
 
     G4DynamicParticle *aProton    =   new G4DynamicParticle(G4Proton::Proton(),       pProton);
     G4DynamicParticle *aNeutron   =   new G4DynamicParticle(G4Neutron::Neutron(),     pNeutron);
     G4DynamicParticle *aPionPlus  =   new G4DynamicParticle(G4PionPlus::PionPlus(),   pPionPlus);
     G4DynamicParticle *aPionMinus =   new G4DynamicParticle(G4PionMinus::PionMinus(), pPionMinus);
     //G4DynamicParticle *aEta =   new G4DynamicParticle(G4Eta::Eta(), pEta);
-    G4DynamicParticle *aPionZero  =   new G4DynamicParticle(G4PionZero::PionZero(),   pPionZero);
+    //G4DynamicParticle *aPionZero  =   new G4DynamicParticle(G4PionZero::PionZero(),   pPionZero);
 
     G4cout << momentum/CLHEP::GeV                                        << "\t" 
 	   << this->IsIsoApplicable(aProton, ZAl, AAl, NULL,NULL)        << "\t" 
@@ -134,8 +134,8 @@ void BooNEHadronInelasticDataSet::DumpPhysicsTable2()
 	   << this->GetCrossSection(aPionMinus, Al, 0)/CLHEP::millibarn  << "\t"
       //<< this->IsIsoApplicable(aEta, ZAl, AAl, NULL,NULL)     << "\t"
       //<< this->GetCrossSection(aEta, Al, 0)/CLHEP::millibarn  << "\t"
-	   << this->IsIsoApplicable(aPionZero, ZAl, AAl, NULL,NULL)      << "\t"  
-	   << this->GetCrossSection(aPionZero, Al, 0)/CLHEP::millibarn   << "\t" 
+      //	   << this->IsIsoApplicable(aPionZero, ZAl, AAl, NULL,NULL)      << "\t"  
+      //   << this->GetCrossSection(aPionZero, Al, 0)/CLHEP::millibarn   << "\t" 
       
 	   << G4endl;
 
@@ -144,7 +144,7 @@ void BooNEHadronInelasticDataSet::DumpPhysicsTable2()
     delete aPionPlus;  aPionPlus  = 0;
     delete aPionMinus; aPionMinus = 0;
     //delete aEta; aEta = 0;
-    delete aPionZero;  aPionZero  = 0;
+    //delete aPionZero;  aPionZero  = 0;
 
   }
 

@@ -36,8 +36,97 @@ struct histpackage_t
   double POT;
 };
 
+
+int calcMesonWgt(const bsim::Decay& decay, const TVector3& xyz,
+                       double& enu, double& wgt_xy)
+{
+  // Neutral Meson Energy and Weight at arbitrary point
+  // This function is adapted from calcEnuWgt to work for neutral mesons
+  // Arguments:
+  //    decay    :: contains current decay information
+  //    xyz      :: 3-vector of position to evaluate
+  //                in *beam* frame coordinates (cm units)
+  //    enu      :: resulting energy
+  //    wgt_xy   :: resulting weight
+  // Return:
+  //    (int)    :: error code
+
+  const double kPi0Mass = 0.1349768;     // Neutral pion mass (GeV/c^2)
+  const double kEtaMass = 0.547862;      // Eta meson mass (GeV/c^2)
+  const double kEtaPrimeMass = 0.95778;  // Eta prime mass (GeV/c^2)
+  const double kRDET = 100.0;            // Set to flux per 100 cm radius
+  
+  double xpos = xyz.X();
+  double ypos = xyz.Y();
+  double zpos = xyz.Z();
+  enu = 0.0;  // Initialize energy
+  wgt_xy = 0.0;  // Initialize weight
+
+  // Determine the parent meson type and mass
+  double parent_mass = kPi0Mass;
+  if(decay.ptype == 2212){
+    switch (decay.ntype)
+      {
+      case 111:  // pi0
+	parent_mass = kPi0Mass;
+	break;
+      case 221:  // eta
+	parent_mass = kEtaMass;
+	break;
+      case 331:  // eta'
+	parent_mass = kEtaPrimeMass;
+	break;
+      default:
+	std::cerr << "bsim::calcMesonWgt unknown meson type " << decay.ptype
+		  << std::endl;
+	enu = 0.0;
+	wgt_xy = 0.0;
+	return 1;  // Unknown particle type
+      }
+  }
+  double parentp2 = decay.pdpx * decay.pdpx + decay.pdpy * decay.pdpy + decay.pdpz * decay.pdpz;
+  double parent_energy = TMath::Sqrt(parentp2 + parent_mass * parent_mass);
+  double parentp = TMath::Sqrt(parentp2);
+  double gamma = parent_energy / parent_mass;
+  double gamma_sqr = gamma * gamma;
+  double beta_mag = TMath::Sqrt((gamma_sqr - 1.0) / gamma_sqr);
+
+  // Calculate the energy in the lab frame
+  double enuzr = decay.necm;  // Energy in the center of mass frame
+  double rad = TMath::Sqrt((xpos - decay.vx) * (xpos - decay.vx) +
+                           (ypos - decay.vy) * (ypos - decay.vy) +
+                           (zpos - decay.vz) * (zpos - decay.vz));
+  double emrat = 1.0;
+  double costh_pardet = -999., theta_pardet = -999.;
+  if (parentp > 0.0)
+    {
+      costh_pardet = (decay.pdpx * (xpos - decay.vx) +
+			     decay.pdpy * (ypos - decay.vy) +
+			     decay.pdpz * (zpos - decay.vz)) /
+	(parentp * rad);
+      if ( costh_pardet >  1.0 ) costh_pardet =  1.0;
+      if ( costh_pardet < -1.0 ) costh_pardet = -1.0;
+      theta_pardet = TMath::ACos(costh_pardet);
+      //emrat = 1.0 / (gamma * (1.0 - beta_mag * costh_pardet));
+    }
+  enu = emrat * enuzr;
+
+  // Calculate the solid angle weight
+  double sanddetcomp = TMath::Sqrt((xpos - decay.vx) * (xpos - decay.vx) +
+                                   (ypos - decay.vy) * (ypos - decay.vy) +
+                                   (zpos - decay.vz) * (zpos - decay.vz));
+  double sangdet = (1.0 - TMath::Cos(TMath::ATan(kRDET / sanddetcomp))) / 2.0;
+
+  // Weight for solid angle and Lorentz boost
+  wgt_xy = sangdet * (emrat * emrat);
+
+  return 0;  // Success
+}
+
+
 //thread function (has to be void* since root uses this to determine if it is detached or non-detached thread)  
 void* FillHist(void* hp);
+
 
 int main(int ac, char* av[])
 {
@@ -56,7 +145,7 @@ int main(int ac, char* av[])
     ("output",value<string>(&outputfn)->default_value("hist.root"),"Output file name.")
     ("pot",value<double>(&userPOT),"POT used for normalization (overides counting using info in meta tree and speeds up process). \nTotal POT should be given (number of files X POT per file).")
     ("nredecays",value<int>(&NREDECAY)->default_value(1.),"Number of redecays.")
-    ("detector-radius",value<double>(&RDet)->default_value(0.),"Detector radius (in cm).")
+    ("detector-radius",value<double>(&RDet)->default_value(100.),"Detector radius (in cm).")
     ("detector-position",value<vector<double> >(&detpos)->multitoken(),"Detector position (in cm).")
     ("thread",value<int>(&nthread)->default_value(1),"Number of threads to run. (max set to 8)");
     
@@ -78,7 +167,7 @@ int main(int ac, char* av[])
       //assume it is uboone
       detpos[0]=0;
       detpos[1]=0;
-      detpos[2]=47000.;
+      detpos[2]=0;
     }
   } catch (error& e) {
     cerr << e.what()<<endl<<endl;
@@ -179,16 +268,16 @@ int main(int ac, char* av[])
 
   //write histograms to file
   TFile fout(outputfn.c_str(),"RECREATE");
-  hp[0]->hxye->Write();
+  //hp[0]->hxye->Write();
   for (int inu=0;inu<4;inu++) {
     hp[0]->hFlux[inu]->Write();
     for (int ipar=0;ipar<4;ipar++) {
-      hp[0]->hparent[inu][ipar]->Write();
+      //hp[0]->hparent[inu][ipar]->Write();
     }
   }  
   for (int inu=0;inu<4;inu++) {
     hp[0]->hFlux[inu]->Write(Form("h70%i",inu+1)); //same as h50x, keeping copy 
-                                          //to be consistent with MB files
+    //to be consistent with MB files
     for (int isec=0;isec<5;isec++) {
       hp[0]->hsec[inu][isec]->Write();
     } 
@@ -229,9 +318,9 @@ void* FillHist(void* hpvoid)
   }
   hp->POT*=hp->NREDECAY;
 
-  string nutype[]={    "nue",        "nuebar",      "numu",         "numubar"};
-  string nultx[] ={"#nu_{e}", "#bar{#nu}_{e}", "#nu_{#mu}", "#bar{#nu}_{#mu}"};
-  int pdgcode[]  ={       12,             -12,          14,               -14};
+  string nutype[]={    "pi0",        "eta",      "etaprime",         "numubar"};
+  string nultx[] ={"#pi_{0}", "#eta", "#eta_{prime}", "#bar{#nu}_{#mu}"};
+  int pdgcode[]  ={       111,             221,         331,               -14};
   string pltx[]  ={"#mu^{#pm}","#pi^{#pm}","K^{0}_{L}","K^{#pm}"};
   string secltx[]  ={"pBe->#pi^{#pm}->...->#mu^{#pm}",
 		     "pBe->#pi^{#pm}->..(not #mu^{#pm})..",
@@ -256,14 +345,14 @@ void* FillHist(void* hpvoid)
   for (int inu=0;inu<4;inu++) {
     for (int ipar=0;ipar<4;ipar++) {
       hp->hparent[inu][ipar]=new TH1F(Form("h5%i%i%s",ipar+1,inu+1,suffix.c_str()),
-				  Form("...->%s->%s;Energy %s (GeV);#phi(%s)/50MeV/POT",pltx[ipar].c_str(),nultx[inu].c_str(),nultx[inu].c_str(),nultx[inu].c_str()),
-				  200,0,10);
+				      Form("...->%s->%s;Energy %s (GeV);#phi(%s)/50MeV/POT",pltx[ipar].c_str(),nultx[inu].c_str(),nultx[inu].c_str(),nultx[inu].c_str()),
+				      200,0,10);
       hp->hparent[inu][ipar]->Sumw2();
     }
     for (int isec=0;isec<5;isec++) {
       hp->hsec[inu][isec]=new TH1F(Form("h7%i%i%s",isec+1,inu+1,suffix.c_str()),
-			       Form("%s->%s;Energy %s (GeV);#phi(%s)/50MeV/POT",secltx[isec].c_str(),nultx[inu].c_str(),nultx[inu].c_str(),nultx[inu].c_str()),
-			       200,0,10);
+				   Form("%s->%s;Energy %s (GeV);#phi(%s)/50MeV/POT",secltx[isec].c_str(),nultx[inu].c_str(),nultx[inu].c_str(),nultx[inu].c_str()),
+				   200,0,10);
       hp->hsec[inu][isec]->Sumw2();
     }
   }
@@ -284,13 +373,41 @@ void* FillHist(void* hpvoid)
 	  yy=rndmno.Uniform(-hp->RDet,hp->RDet);
 	}
 	TVector3 xyz(xx+hp->detpos[0],yy+hp->detpos[1],hp->detpos[2]);
-	bsim::calcEnuWgt(dk2nu,xyz,enu,wgt_xy);
+	calcMesonWgt(dk2nu->decay,xyz,enu,wgt_xy);
+	
 	//to compare with FluxForNuance output (MiniBooNE files)
 	//normalize through whole detector area in m2
-	double totwgh=wgt_xy*dk2nu->decay.nimpwt/3.14159*hp->RDet*hp->RDet*3.14159*1e-4;
+	double totwgh=/*wgt_xy*/dk2nu->decay.nimpwt;//*3.14159*hp->RDet*hp->RDet*3.14159*1e-4;
+	/*double px_temp = dk2nu->ancestor.startpx;
+	double py_temp = dk2nu->ancestor.startpy;
+	double pz_temp = dk2nu->ancestor.startpz;
+	double p2_temp = px_temp * px_temp + py_temp * py_temp + pz_temp * pz_temp;
+	double kPi0Mass2 = 0.1349768 * 0.1349768;     // Pi0 mass (GeV/c^2)
+	double kEtaMass2 = 0.547862 * 0.547862;      // Eta  mass (GeV/c^2)
+	double kEtaPrimeMass2 = 0.95778 * 0.95778; // Eta prime mass (GeV/c^2)
+	double e_temp = 0;
+	if (ipdg == 0){
+	  e_temp = TMath::Sqrt(p2_temp+kPi0Mass2);
+	}
+	else if (ipdg == 1){
+	  e_temp = TMath::Sqrt(p2_temp+kEtaMass2);
+	}
+	else if (ipdg == 2){
+	  e_temp = TMath::Sqrt(p2_temp+kEtaPrimeMass2);
+	  }*/
+	/*
+	if(ipdg==0){
+	  cout<<"enu: "<<enu<<endl;
+	  cout<<"totwgh: "<<totwgh<<endl;
+	  cout<<"nimpwt: "<<dk2nu->decay.nimpwt<<endl;
+	  cout<<"rdet: "<<hp->RDet<<endl;
+	  cout<<"======"<<endl;
+	}
+	*/
 	hp->hxye->Fill(xx,yy,enu,totwgh);
+	//if(enu>=0.1349768){
 	hp->hFlux[ipdg]->Fill(enu,totwgh);
-	
+	  //}
 	if (dk2nu->decay.ptype==13 || dk2nu->decay.ptype==-13) //mu+-
 	  hp->hparent[ipdg][0]->Fill(enu,totwgh);
 	else if (dk2nu->decay.ptype==211 || dk2nu->decay.ptype==-211) //pi+-
